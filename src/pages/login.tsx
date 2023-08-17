@@ -22,7 +22,7 @@ export default function Login() {
       console.log("res", data.status);
 
       if (!data.status) {
-        router.push("/onboarding");
+        router.push("/signUp");
       }
     } catch (error) {
       console.error(error);
