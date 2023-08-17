@@ -1,5 +1,7 @@
 import React from "react";
 
-export const onboarding = () => {
+function onboarding() {
   return <div>onboarding</div>;
-};
+}
+
+export default onboarding;
