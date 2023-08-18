@@ -9,9 +9,16 @@ import { FcGoogle } from "react-icons/fc";
 
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useUserStore } from "@/store/store";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
-export default function Login() {
+export default function Login({
+  repo,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log("repo", repo);
+
   const router = useRouter();
+
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
     const {
@@ -22,7 +29,9 @@ export default function Login() {
       console.log("res", data.status);
 
       if (!data.status) {
-        router.push("/signUp");
+        router.push("/signUp ");
+      } else {
+        router.push("/");
       }
     } catch (error) {
       console.error(error);
@@ -50,3 +59,22 @@ export default function Login() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{ repo: string }> = async (
+  context
+) => {
+  // if (!data) {
+  //   return {
+  //     redirect: {
+  //       destination: '/',
+  //       permanent: false,
+  //     },
+  //   }
+  // }
+  //
+  return {
+    props: {
+      repo: "cvz",
+    },
+  };
+};
