@@ -42,14 +42,19 @@ interface IUser {
     sentMessages: IMessage[];
     recievedMessages: IMessage[];
   };
+  newUserImgSrc: string;
   newUser: boolean;
   currentChatUser: any;
   onlineUsers: any[];
+  setNewImgSrc: (src: string) => void;
 }
 
 export const useUserStore = create<IUser>((set, get) => ({
+  newUserImgSrc: "/default_avatar.png",
   userInfo: undefined,
   newUser: false,
   currentChatUser: undefined,
   onlineUsers: [],
+
+  setNewImgSrc: (src: string) => set({ newUserImgSrc: src }),
 }));
