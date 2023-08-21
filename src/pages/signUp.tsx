@@ -9,10 +9,42 @@ import AvatarPhoto from "@/components/common/AvatarPhoto";
 import { useUserStore } from "@/store/store";
 import { SIZE } from "@/constant/size";
 import ContextMenu from "@/components/common/ContextMenu";
+import PhotoPicker from "@/components/common/PhotoPicker";
+import PhotoLibrary from "@/components/common/PhotoLibrary";
 
 function SignUp() {
-  const avatarDOMRef = useRef(null);
+  const contextMenuOptions = [
+    {
+      name: "Take Photo",
+      callBack: () => {
+        setIsContextMenuVisible(false);
+        setShowCapturePhoto(true);
+      },
+    },
+    {
+      name: "Choose from Library",
+      callBack: () => {
+        setIsContextMenuVisible(false);
+        setShowPhotoLibrary(true);
+      },
+    },
+    {
+      name: "Upload Photo",
+      callBack: () => {
+        setIsContextMenuVisible(false);
+        $photoPicker.current?.click();
+      },
+    },
+    {
+      name: "Remove Photo",
+      callBack: () => {
+        setIsContextMenuVisible(false);
+        setNewImgSrc("/default_avatar.png");
+      },
+    },
+  ];
 
+  const $photoPicker = useRef<HTMLInputElement>(null);
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
@@ -25,7 +57,8 @@ function SignUp() {
   const [grabImage, setGrabImage] = useState(false);
   const [showCapturePhoto, setShowCapturePhoto] = useState(false);
 
-  const imgSrc = useUserStore((set) => set.newUserImgSrc);
+  const avatarImgSrc = useUserStore((set) => set.newUserImgSrc);
+  const setNewImgSrc = useUserStore((set) => set.setNewImgSrc);
 
   const onCreateUser = () => {};
 
@@ -37,6 +70,7 @@ function SignUp() {
           alt="whatsapp-gif"
           height={300}
           width={300}
+          priority
         />
         <span className="text-7xl">WhatsApp</span>
       </div>
@@ -59,19 +93,21 @@ function SignUp() {
         <div>
           <AvatarPhoto
             size={SIZE.XL}
-            img={imgSrc}
+            img={avatarImgSrc}
             setContextMenuCoord={setContextMenuCordinates}
             setContextMenuVisible={setIsContextMenuVisible}
           />
 
           {isContextMenuVisible && (
             <ContextMenu
+              contextMenuOptions={contextMenuOptions}
               position={contextMenuCordinates}
               setContextMenuVisible={setIsContextMenuVisible}
-              setShowPhotoLibrary={setShowPhotoLibrary}
-              setGrabImage={setGrabImage}
-              setShowCapturePhoto={setShowCapturePhoto}
             />
+          )}
+          <PhotoPicker ref={$photoPicker} />
+          {showPhotoLibrary && (
+            <PhotoLibrary setShowPhotoLibrary={setShowPhotoLibrary} />
           )}
         </div>
       </div>
