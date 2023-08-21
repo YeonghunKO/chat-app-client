@@ -1,5 +1,5 @@
 import { SIZE } from "@/constant/size";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 import { FaCamera } from "react-icons/fa";
 
@@ -41,11 +41,7 @@ const AvatarPhoto = ({
             </span>
           </div>
           <div className="flex items-center justify-center">
-            <img
-              src={img}
-              alt="avatar"
-              className={`h-60 w-60 rounded-full object-cover `}
-            />
+            <img src={img} alt="avatar" className="h-60 w-60 rounded-full" />
           </div>
         </div>
       )}
