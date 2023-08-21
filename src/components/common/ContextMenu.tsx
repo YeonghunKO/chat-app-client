@@ -1,3 +1,4 @@
+import useUnmountIfClickedOutside from "@/hooks/useUnmountIfClickedOutside";
 import { useUserStore } from "@/store/store";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 
@@ -17,6 +18,11 @@ const ContextMenu = ({
   setShowCapturePhoto,
 }: IContextMenu) => {
   const contextMenuRef = useRef(null);
+
+  useUnmountIfClickedOutside({
+    ref: contextMenuRef,
+    callback: () => setContextMenuVisible(false),
+  });
 
   const setImage = useUserStore((set) => set.setNewImgSrc);
 
