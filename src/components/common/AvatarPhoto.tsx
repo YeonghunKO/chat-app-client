@@ -33,7 +33,6 @@ const AvatarPhoto = ({
         <div className="relative cursor-pointer z-0">
           <div
             className="bg-photopicker-overlay-background h-60 w-60 absolute top-0 left-0 rounded-full flex items-center justify-center flex-col text-center gap-2 opacity-0 hover:opacity-100 transition-opacity duration-[300]"
-            id="context-opener"
             onClick={showContextMenu}
           >
             <FaCamera className="text-2xl" />
