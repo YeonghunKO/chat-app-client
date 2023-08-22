@@ -11,6 +11,30 @@ const config: Config = {
       backgroundImage: {
         "chat-background": "url('/chat-bg.png')",
       },
+      animation: {
+        "fade-in-bottom": "fade-in-bottom 500ms ease-in-out",
+        "fade-out-bottom": "fade-out-bottom 500ms ease-in-out forwards",
+      },
+      keyframes: {
+        "fade-in-bottom": {
+          "0%": {
+            transform: "translateY(100px)",
+          },
+          "100%": {
+            transform: "translateY(0)",
+            opacity: "1",
+          },
+        },
+        "fade-out-bottom": {
+          "0%": {
+            transform: "translateY(0)",
+          },
+          "100%": {
+            transform: "translateY(100px)",
+            opacity: "1",
+          },
+        },
+      },
       colors: {
         secondary: "#8696a0",
         "teal-light": "#7ae3c3",
