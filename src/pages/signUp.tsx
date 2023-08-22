@@ -4,13 +4,14 @@ import Image from "next/image";
 // components
 import Input from "@/components/common/Input";
 import AvatarPhoto from "@/components/common/AvatarPhoto";
+import ContextMenu from "@/components/common/ContextMenu";
+import PhotoPicker from "@/components/common/PhotoPicker";
+import PhotoLibrary from "@/components/common/PhotoLibrary";
+import CapturePhoto from "@/components/common/CapturePhoto";
 
 // buisiness
 import { useUserStore } from "@/store/store";
 import { SIZE } from "@/constant/size";
-import ContextMenu from "@/components/common/ContextMenu";
-import PhotoPicker from "@/components/common/PhotoPicker";
-import PhotoLibrary from "@/components/common/PhotoLibrary";
 
 function SignUp() {
   const contextMenuOptions = [
@@ -54,7 +55,6 @@ function SignUp() {
   });
 
   const [showPhotoLibrary, setShowPhotoLibrary] = useState(false);
-  const [grabImage, setGrabImage] = useState(false);
   const [showCapturePhoto, setShowCapturePhoto] = useState(false);
 
   const avatarImgSrc = useUserStore((set) => set.newUserImgSrc);
@@ -108,6 +108,9 @@ function SignUp() {
           <PhotoPicker ref={$photoPicker} />
           {showPhotoLibrary && (
             <PhotoLibrary setShowPhotoLibrary={setShowPhotoLibrary} />
+          )}
+          {showCapturePhoto && (
+            <CapturePhoto setShowCapturePhoto={setShowCapturePhoto} />
           )}
         </div>
       </div>
