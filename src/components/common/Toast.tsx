@@ -1,5 +1,7 @@
 import { TOAST_TYPE } from "@/constant/type";
-import { TToastType, useUiState, useUserStore } from "@/store/store";
+import { useUiState } from "@/store/store";
+
+import type { TToastType } from "@/type/user";
 import { useEffect } from "react";
 
 import { GiCancel, GiConfirmed } from "react-icons/gi";
