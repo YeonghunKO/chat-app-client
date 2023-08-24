@@ -11,9 +11,9 @@ const Input = ({ isLabel = false, label, setValue, value }: IInput) => {
   };
 
   return (
-    <div className="flex gap-1 flex-col">
+    <div className="flex flex-col gap-1">
       {isLabel && (
-        <label htmlFor={label} className="text-teal-light text-lg px-1">
+        <label htmlFor={label} className="px-1 text-lg text-teal-light">
           {label}
         </label>
       )}
@@ -21,9 +21,10 @@ const Input = ({ isLabel = false, label, setValue, value }: IInput) => {
         <input
           name={label}
           type="text"
+          id={label}
           value={value}
           onChange={handleChange}
-          className="bg-input-background text-sm focus:outline-none text-white h-10 rounded-lg pl-5 pr-5 py-4 w-full"
+          className="h-10 w-full rounded-lg bg-input-background py-4 pl-5 pr-5 text-sm text-white focus:outline-none"
         />
       </div>
     </div>

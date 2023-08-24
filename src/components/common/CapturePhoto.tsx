@@ -36,7 +36,6 @@ const CapturePhoto = ({ setShowCapturePhoto }: ICapturePhoto) => {
       });
 
       if (videoRef.current) {
-        console.log("sdf");
         videoRef.current.srcObject = stream;
       }
     };
@@ -47,10 +46,10 @@ const CapturePhoto = ({ setShowCapturePhoto }: ICapturePhoto) => {
   }, []);
 
   return (
-    <div className="absolute h-4/6 w-2/6 top-1/4 left-1/3 bg-gray-900 flex-col gap-3 rounded-lg pt-2 flex items-center justify-between">
-      <div className="flex flex-col gap-4 w-full">
+    <div className="absolute left-1/3 top-1/4 flex h-4/6 w-2/6 flex-col items-center justify-between gap-3 rounded-lg bg-gray-900 pt-2">
+      <div className="flex w-full flex-col gap-4">
         <div
-          className="pt-2 pr-2 cursor-pointer flex items-end justify-end"
+          className="flex cursor-pointer items-end justify-end pr-2 pt-2"
           onClick={handleCloseBtn}
         >
           <IoClose className="h-10 w-10" />
@@ -60,7 +59,7 @@ const CapturePhoto = ({ setShowCapturePhoto }: ICapturePhoto) => {
         </div>
       </div>
       <button
-        className=" h-16 w-16 bg-white rounded-full cursor-pointer border-8 border-teal-light p-2 mb-10"
+        className=" mb-10 h-16 w-16 cursor-pointer rounded-full border-8 border-teal-light bg-white p-2"
         onClick={captureImage}
       ></button>
     </div>
