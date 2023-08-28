@@ -42,6 +42,7 @@ interface IUserInfo {
 interface IUser {
   newUserImgSrc: string;
   setNewImgSrc: (src: string) => void;
+  userInfo: IUserInfo | null;
 }
 
 interface IUseMutateUserAccount {

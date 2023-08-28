@@ -3,6 +3,7 @@ import { create } from "zustand";
 
 export const useUserStore = create<IUser>((set, get) => ({
   newUserImgSrc: "/default_avatar.png",
+  userInfo: null,
   setNewImgSrc: (src: string) => set({ newUserImgSrc: src }),
 }));
 
