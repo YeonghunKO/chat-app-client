@@ -11,7 +11,7 @@ const Input = ({ isLabel = false, label, setValue, value }: IInput) => {
   };
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex w-full flex-col gap-1">
       {isLabel && (
         <label htmlFor={label} className="px-1 text-lg text-teal-light">
           {label}
