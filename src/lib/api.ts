@@ -22,8 +22,6 @@ export const getFetch = async ({ url, mapper }: IFetch) => {
 };
 
 export const postFetch = async ({ url, body, mapper }: IFetch) => {
-  console.log("pst body", body);
-
   const { data } = await client.post(url, body);
 
   return mapper ? mapper(data) : data;
