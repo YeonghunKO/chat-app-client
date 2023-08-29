@@ -2,17 +2,17 @@ interface IInput {
   label: string;
   value: string;
   setValue: React.Dispatch<string>;
-  isLabel: boolean;
+  type?: string;
 }
 
-const Input = ({ isLabel = false, label, setValue, value }: IInput) => {
+const Input = ({ label, setValue, value, type = "text" }: IInput) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
   return (
     <div className="flex w-full flex-col gap-1">
-      {isLabel && (
+      {label && (
         <label htmlFor={label} className="px-1 text-lg text-teal-light">
           {label}
         </label>
@@ -20,7 +20,7 @@ const Input = ({ isLabel = false, label, setValue, value }: IInput) => {
       <div>
         <input
           name={label}
-          type="text"
+          type={type}
           id={label}
           value={value}
           onChange={handleChange}
