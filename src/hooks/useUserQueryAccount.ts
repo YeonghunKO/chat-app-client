@@ -28,11 +28,11 @@ export const usePostMutationQueryAccount = ({
   url,
 }: IUseMutateUserAccount) => {
   const queryClient = useQueryClient();
-  const mutation = useMutation<any, any, IUserInfo>(
+  const mutation = useMutation<any, any, any>(
     (userInfo) => postFetch({ url, body: userInfo, mapper }),
     {
       onSuccess: (fetchResult) => {
-        queryClient.setQueriesData(queryKey, () => fetchResult);
+        queryClient.setQueryData(queryKey, () => fetchResult);
         onSuccess && onSuccess();
       },
       onError,
