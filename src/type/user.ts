@@ -48,7 +48,7 @@ interface IUser {
 interface IUseMutateUserAccount {
   mapper?: (data: any) => any;
   onSuccess?: TVoidFunc;
-  onError?: TVoidFunc;
+  onError?: (err: any) => void;
   queryKey: string[];
   url: string;
 }
