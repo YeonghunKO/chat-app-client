@@ -21,6 +21,7 @@ export const useUiState = create<IUiState>((set, get) => ({
     toggle?: boolean;
   }) =>
     set({
+      isToastVisible: !get().isToastVisible,
       ...(toggle && { isToastVisible: !get().isToastVisible }),
       ...(msg ? { toastMessage: msg } : { toastMessage: get().toastMessage }),
       ...(type ? { toastType: type } : { toastType: get().toastType }),
