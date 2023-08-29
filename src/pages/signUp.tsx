@@ -1,3 +1,4 @@
+// setting
 import { useRef, useState } from "react";
 import Image from "next/image";
 
@@ -10,8 +11,18 @@ import PhotoLibrary from "@/components/common/PhotoLibrary";
 import CapturePhoto from "@/components/common/CapturePhoto";
 
 // buisiness
-import { useUserStore } from "@/store/store";
+import { useUiState, useUserStore } from "@/store/store";
+
+import { FcGoogle } from "react-icons/fc";
+import { usePostMutationQueryAccount } from "@/hooks/useUserQueryAccount";
+import { queryKeys } from "@/constant/queryKeys";
+import { SIGN_UP_USER } from "@/constant/api";
+import { DASHBOARD } from "@/constant/path";
 import { SIZE } from "@/constant/size";
+
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { firebaseAuth } from "@/utils/firebaseConfig";
+import { useRouter } from "next/router";
 
 function SignUp() {
   const contextMenuOptions = [
@@ -46,8 +57,26 @@ function SignUp() {
   ];
 
   const $photoPicker = useRef<HTMLInputElement>(null);
+
+  const router = useRouter();
+  const updateToast = useUiState((state) => state.updateToastInfo);
+
+  const { mutate, data } = usePostMutationQueryAccount({
+    queryKey: queryKeys.userInfo,
+    url: SIGN_UP_USER,
+    onSuccess: () => router.push(DASHBOARD),
+    onError: (err: any) => {
+      updateToast({
+        type: "ERROR",
+        msg: err.response.data.message,
+      });
+    },
+  });
+
+  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
+  const [password, setPassword] = useState("");
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
   const [contextMenuCordinates, setContextMenuCordinates] = useState({
     x: 0,
@@ -60,11 +89,40 @@ function SignUp() {
   const avatarImgSrc = useUserStore((set) => set.newUserImgSrc);
   const setNewImgSrc = useUserStore((set) => set.setNewImgSrc);
 
-  const onCreateUser = () => {};
+  const handleCreateUser = () => {
+    if (!email || !password) {
+      updateToast({
+        type: "ERROR",
+        msg: "email and password are required",
+      });
+
+      return;
+    }
+    mutate({
+      email,
+      name,
+      about,
+      password,
+      profilePicture: avatarImgSrc,
+    });
+  };
+
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    const {
+      user: { email, displayName, photoURL },
+    } = await signInWithPopup(firebaseAuth, provider);
+
+    mutate({
+      email,
+      name: displayName,
+      profilePicture: photoURL,
+    });
+  };
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center bg-panel-header-background text-white">
-      <div className="flex items-center justify-center gap-2">
+    <div className="flex h-screen w-screen items-center justify-center gap-[8dvw] bg-panel-header-background text-white">
+      <div className="flex flex-col items-center justify-center gap-[5dvh]">
         <Image
           src="/whatsapp.gif"
           alt="whatsapp-gif"
@@ -73,24 +131,17 @@ function SignUp() {
           priority
         />
         <span className="text-7xl">WhatsApp</span>
+        <button
+          className="flex w-full items-center justify-center gap-7 rounded-lg bg-search-input-container-background p-5"
+          onClick={handleGoogleLogin}
+        >
+          <FcGoogle className="text-4xl" />
+          <span className="text-2xl text-white">Sign Up With Google</span>
+        </button>
       </div>
-      <div></div>
-      <h2 className="text-2xl ">Create your profile</h2>
-      <div className="mt-6 flex gap-6 ">
-        <div className="mt-5 flex flex-col items-center justify-between gap-6">
-          <Input label="Display Name" value={name} setValue={setName} isLabel />
-          <Input label="About" value={about} setValue={setAbout} isLabel />
 
-          <div className="flex items-center justify-center">
-            <button
-              className="rounded-lg bg-search-input-container-background p-5"
-              onClick={onCreateUser}
-            >
-              Create Profile
-            </button>
-          </div>
-        </div>
-        <div>
+      <div className="flex h-screen flex-col justify-center gap-6 ">
+        <div className="flex items-center justify-center">
           <AvatarPhoto
             size={SIZE.XL}
             img={avatarImgSrc}
@@ -112,6 +163,26 @@ function SignUp() {
           {showCapturePhoto && (
             <CapturePhoto setShowCapturePhoto={setShowCapturePhoto} />
           )}
+        </div>
+        <div className="mt-5 flex flex-col items-center justify-between gap-2">
+          <Input label="Email" value={email} setValue={setEmail} />
+          <Input label="Name" value={name} setValue={setName} />
+          <Input label="About" value={about} setValue={setAbout} />
+          <Input
+            label="Password"
+            value={password}
+            setValue={setPassword}
+            type="password"
+          />
+        </div>
+
+        <div className="flex w-full items-center justify-around">
+          <button
+            className="w-full rounded-lg bg-search-input-container-background p-5"
+            onClick={handleCreateUser}
+          >
+            Create Profile
+          </button>
         </div>
       </div>
     </div>
