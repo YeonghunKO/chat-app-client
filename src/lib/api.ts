@@ -1,9 +1,10 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 export interface IFetch {
   url: string;
   body?: any;
   mapper?: (data: any) => any;
+  option?: AxiosRequestConfig;
 }
 
 export const client = axios.create({
@@ -15,14 +16,14 @@ export const client = axios.create({
   },
 });
 
-export const getFetch = async ({ url, mapper }: IFetch) => {
-  const { data } = await client.get(url);
+export const getFetch = async ({ url, mapper, option }: IFetch) => {
+  const { data } = await client.get(url, { ...option });
 
   return mapper ? mapper(data) : data;
 };
 
-export const postFetch = async ({ url, body, mapper }: IFetch) => {
-  const { data } = await client.post(url, body);
+export const postFetch = async ({ url, body, mapper, option }: IFetch) => {
+  const { data } = await client.post(url, body, { ...option });
 
   return mapper ? mapper(data) : data;
 };
