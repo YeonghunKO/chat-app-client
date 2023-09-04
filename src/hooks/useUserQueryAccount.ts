@@ -1,18 +1,15 @@
 import { getFetch, postFetch } from "@/lib/api";
-import type {
-  IUseGetUserAccount,
-  IUseMutateUserAccount,
-  IUserInfo,
-} from "@/type/user";
+import type { IUseGetUserAccount, IUseMutateUserAccount } from "@/type/user";
+import { AxiosError, AxiosResponse } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
-export const useGetQueryAccount = ({
+export const useGetQueryAccount = <T>({
   mapper,
   queryKey,
   options,
   url,
 }: IUseGetUserAccount) => {
-  const result = useQuery({
+  const result = useQuery<AxiosResponse<T>, AxiosError<any>, T, any>({
     queryKey,
     queryFn: () => getFetch({ url, mapper }),
     ...options,
