@@ -7,6 +7,7 @@ interface IUiState {
   isToastVisible: boolean;
   toastMessage: string;
   toastType: TToastType;
+  isContactsVisible: boolean;
   updateToastInfo: ({
     type,
     msg,
@@ -16,6 +17,8 @@ interface IUiState {
     msg?: string;
     toggle?: boolean;
   }) => void;
+
+  toggleContactsVisible: () => void;
 }
 
 interface IMessage {
@@ -31,6 +34,7 @@ interface IMessage {
 }
 
 interface IUserInfo {
+  id: string | null;
   email: string | null;
   name: string | null;
   profilePicture: string | null;
@@ -42,7 +46,7 @@ interface IUserInfo {
 interface IUser {
   newUserImgSrc: string;
   setNewImgSrc: (src: string) => void;
-  userInfo: IUserInfo | null;
+  currentChatUser: IUserInfo | null;
 }
 
 interface IUseMutateUserAccount {

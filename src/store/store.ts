@@ -3,7 +3,13 @@ import { create } from "zustand";
 
 export const useUserStore = create<IUser>((set, get) => ({
   newUserImgSrc: "/default_avatar.png",
-  userInfo: null,
+  currentChatUser: null,
+  setNewImgSrc: (src: string) => set({ newUserImgSrc: src }),
+}));
+
+export const useContactStore = create<IUser>((set, get) => ({
+  newUserImgSrc: "/default_avatar.png",
+  currentChatUser: null,
   setNewImgSrc: (src: string) => set({ newUserImgSrc: src }),
 }));
 
@@ -11,6 +17,9 @@ export const useUiState = create<IUiState>((set, get) => ({
   isToastVisible: false,
   toastMessage: "",
   toastType: "SUCESSFUL",
+  isContactsVisible: false,
+  toggleContactsVisible: () =>
+    set({ isContactsVisible: !get().isContactsVisible }),
   updateToastInfo: ({
     type,
     msg,
