@@ -1,16 +1,18 @@
+// setting
+import Cookies from "cookies";
 import { GetServerSideProps } from "next";
 import { QueryClient, dehydrate, useQueryClient } from "react-query";
-import Cookies from "cookies";
 
+// business
 import { COOKIE, GET_USER, REFRESH } from "@/constant/api";
 import { SIGN_IN_PAGE } from "@/constant/path";
 import { queryKeys } from "@/constant/queryKeys";
 import { postFetch } from "@/lib/api";
 import { useGetQueryAccount } from "@/hooks/useUserQueryAccount";
-import { useUserStore } from "@/store/store";
+import { useUserStore } from "@/store";
+import { IUserInfo } from "@/type";
 
-import { IUserInfo } from "@/type/user";
-
+// components
 import ChatList from "@/components/ChatList";
 import ChatBox from "@/components/ChatBox/ChatBox";
 import Empty from "@/components/ChatBox/Empty";
