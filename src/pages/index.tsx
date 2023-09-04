@@ -1,23 +1,42 @@
-import { COOKIE, REFRESH } from "@/constant/api";
+import { GetServerSideProps } from "next";
+import { QueryClient, dehydrate, useQueryClient } from "react-query";
+import Cookies from "cookies";
+
+import { COOKIE, GET_USER, REFRESH } from "@/constant/api";
 import { SIGN_IN_PAGE } from "@/constant/path";
 import { queryKeys } from "@/constant/queryKeys";
 import { postFetch } from "@/lib/api";
-import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
-import { QueryClient, dehydrate, useQueryClient } from "react-query";
+import { useGetQueryAccount } from "@/hooks/useUserQueryAccount";
+import { useUserStore } from "@/store/store";
 
-import Cookies from "cookies";
+import { IUserInfo } from "@/type/user";
+
+import ChatList from "@/components/ChatList";
+import ChatBox from "@/components/ChatBox/ChatBox";
+import Empty from "@/components/ChatBox/Empty";
 
 export default function Home() {
-  const router = useRouter();
   const client = useQueryClient();
-  console.log("client", client.getQueryData(queryKeys.userInfo));
+  const currentChatUser = useUserStore((set) => set.currentChatUser);
+  const initData = client.getQueryData(queryKeys.userInfo) as any;
+  const result = useGetQueryAccount<IUserInfo>({
+    url: GET_USER(initData?.email),
+    queryKey: queryKeys.userInfo,
+  });
 
-  return (
-    <main>
-      <button onClick={() => router.push("/login")}>go to login</button>
-    </main>
-  );
+  // const {} =data
+  if (result.isError) {
+    return <main>error</main>;
+  }
+
+  if (result.isSuccess) {
+    return (
+      <main className="grid h-screen max-h-screen w-screen max-w-full grid-cols-main overflow-hidden">
+        <ChatList />
+        {currentChatUser ? <ChatBox /> : <Empty />}
+      </main>
+    );
+  }
 }
 
 export const getServerSideProps: GetServerSideProps<{}> = async ({
@@ -48,6 +67,7 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
             refreshTokenIdx: decodeURIComponent(refreshTokenIdx),
           },
         },
+
         mapper: (data) => ({
           name: data.user.name,
           email: data.user.email,
@@ -58,6 +78,9 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
     );
 
     const newAccessToken = result.accessToken;
+
+    // getserversideprops는 브라우저단이 아닌 서버단이라서 백엔드 응답에 set-cookie포함되어있어도 실제 쿠키 세팅이 안됨.
+    // 그래서 이렇게 다시 쿠키를 세팅해주어야 함.
     newAccessToken && cookies.set(COOKIE.ACCESS_TOKEN, newAccessToken);
 
     return {
