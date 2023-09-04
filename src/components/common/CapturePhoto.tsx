@@ -1,4 +1,4 @@
-import { useUserStore } from "@/store/store";
+import { useUserStore } from "@/store";
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 

@@ -1,4 +1,4 @@
-import type { IUiState, IUser, TToastType } from "@/type/user";
+import type { IUiState, IUser, TToastType } from "@/type";
 import { create } from "zustand";
 
 export const useUserStore = create<IUser>((set, get) => ({

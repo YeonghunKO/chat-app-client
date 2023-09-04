@@ -1,4 +1,4 @@
-import { useUserStore } from "@/store/store";
+import { useUserStore } from "@/store";
 import { forwardRef } from "react";
 import ReactDOM from "react-dom";
 

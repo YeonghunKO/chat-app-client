@@ -14,7 +14,7 @@ import { usePostMutationQueryAccount } from "@/hooks/useUserQueryAccount";
 //compoenents
 import Input from "@/components/common/Input";
 import { FcGoogle } from "react-icons/fc";
-import { useUiState } from "@/store/store";
+import { useUiState } from "@/store";
 
 export default function Login() {
   const router = useRouter();

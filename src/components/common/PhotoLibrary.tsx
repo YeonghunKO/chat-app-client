@@ -1,4 +1,4 @@
-import { useUserStore } from "@/store/store";
+import { useUserStore } from "@/store";
 import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 import { IoClose } from "react-icons/io5";
@@ -32,15 +32,15 @@ const PhotoLibrary = ({ setShowPhotoLibrary }: IPhotoLibrary) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 max-h-[100dvh] max-w-[100dvw] h-full w-full flex justify-center items-center">
-      <div className="h-max w-max bg-gray-900 gap-6 rounded-lg p-4">
+    <div className="fixed left-0 top-0 flex h-full max-h-[100dvh] w-full max-w-[100dvw] items-center justify-center">
+      <div className="h-max w-max gap-6 rounded-lg bg-gray-900 p-4">
         <div
-          className="pt-2 pr-2 cursor-pointer flex items-end justify-end"
+          className="flex cursor-pointer items-end justify-end pr-2 pt-2"
           onClick={handleCloseBtn}
         >
           <IoClose className="h-10 w-10" />
         </div>
-        <div className="grid grid-cols-3 justify-center items-center gap-16 p-20 w-full">
+        <div className="grid w-full grid-cols-3 items-center justify-center gap-16 p-20">
           {images.map((img, index) => (
             <div
               key={index}

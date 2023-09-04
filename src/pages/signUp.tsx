@@ -11,7 +11,7 @@ import PhotoLibrary from "@/components/common/PhotoLibrary";
 import CapturePhoto from "@/components/common/CapturePhoto";
 
 // buisiness
-import { useUiState, useUserStore } from "@/store/store";
+import { useUiState, useUserStore } from "@/store";
 
 import { FcGoogle } from "react-icons/fc";
 import { usePostMutationQueryAccount } from "@/hooks/useUserQueryAccount";

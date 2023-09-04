@@ -1,5 +1,5 @@
 import { getFetch, postFetch } from "@/lib/api";
-import type { IUseGetUserAccount, IUseMutateUserAccount } from "@/type/user";
+import type { IUseGetUserAccount, IUseMutateUserAccount } from "@/type";
 import { AxiosError, AxiosResponse } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
