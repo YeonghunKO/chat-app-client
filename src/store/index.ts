@@ -1,16 +1,11 @@
-import type { IUiState, IUser, TToastType } from "@/type";
+import type { IUiState, IUser, IUserInfo, TToastType } from "@/type";
 import { create } from "zustand";
 
 export const useUserStore = create<IUser>((set, get) => ({
   newUserImgSrc: "/default_avatar.png",
   currentChatUser: null,
   setNewImgSrc: (src: string) => set({ newUserImgSrc: src }),
-}));
-
-export const useContactStore = create<IUser>((set, get) => ({
-  newUserImgSrc: "/default_avatar.png",
-  currentChatUser: null,
-  setNewImgSrc: (src: string) => set({ newUserImgSrc: src }),
+  setCurrentChatUser: (user: IUserInfo) => set({ currentChatUser: user }),
 }));
 
 export const useUiState = create<IUiState>((set, get) => ({

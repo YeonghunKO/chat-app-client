@@ -47,6 +47,7 @@ interface IUser {
   newUserImgSrc: string;
   setNewImgSrc: (src: string) => void;
   currentChatUser: IUserInfo | null;
+  setCurrentChatUser: (user: IUserInfo) => void;
 }
 
 interface IUseMutateUserAccount {
