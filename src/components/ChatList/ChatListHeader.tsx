@@ -3,8 +3,6 @@ import { BsFillChatLeftTextFill, BsThreeDotsVertical } from "react-icons/bs";
 import ContextMenu from "../common/ContextMenu";
 import { useState } from "react";
 import { SIZE } from "@/constant/size";
-import { useGetQueryAccount } from "@/hooks/useUserQueryAccount";
-import { GET_USER } from "@/constant/api";
 import { useQueryClient } from "react-query";
 import { queryKeys } from "@/constant/queryKeys";
 import { useUiState } from "@/store";
@@ -39,7 +37,7 @@ const ChatListHeader = () => {
   };
 
   return (
-    <div className="flex h-16 items-center justify-between px-4 py-3">
+    <div className="flex h-[60px] items-center justify-between px-4 py-3">
       <div className="cursor-pointer">
         <AvatarPhoto
           size={SIZE.SM}
