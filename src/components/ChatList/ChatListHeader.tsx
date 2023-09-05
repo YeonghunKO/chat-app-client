@@ -1,11 +1,18 @@
-import AvatarPhoto from "../common/AvatarPhoto";
-import { BsFillChatLeftTextFill, BsThreeDotsVertical } from "react-icons/bs";
-import ContextMenu from "../common/ContextMenu";
+// setting
 import { useState } from "react";
+
+// components
+import { BsFillChatLeftTextFill, BsThreeDotsVertical } from "react-icons/bs";
+import AvatarPhoto from "../common/AvatarPhoto";
+import ContextMenu from "../common/ContextMenu";
+
+// state
+import { useUiState } from "@/store";
+
+// business
 import { SIZE } from "@/constant/size";
 import { useQueryClient } from "react-query";
 import { queryKeys } from "@/constant/queryKeys";
-import { useUiState } from "@/store";
 
 const ChatListHeader = () => {
   const contextMenuOptions = [

@@ -1,4 +1,4 @@
-import { BiFilter, BiSearchAlt2, BiArrowBack } from "react-icons/bi";
+import { BiFilter, BiSearchAlt2 } from "react-icons/bi";
 
 const SearchBar = () => {
   return (

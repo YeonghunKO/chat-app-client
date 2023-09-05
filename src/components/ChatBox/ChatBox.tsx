@@ -1,3 +1,4 @@
+// components
 import ChatContainer from "./ChatContainer";
 import ChatHeader from "./ChatHeader";
 import MessageBar from "./MessageBar";

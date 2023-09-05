@@ -1,5 +1,8 @@
+// components
 import { BiArrowBack, BiSearchAlt2 } from "react-icons/bi";
 import ChatListItem from "./ChatListItem";
+
+// business
 import { useGetQueryAccount } from "@/hooks/useUserQueryAccount";
 import { GET_ALL_USERS } from "@/constant/api";
 import { queryKeys } from "@/constant/queryKeys";

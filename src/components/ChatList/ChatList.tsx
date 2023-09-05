@@ -1,4 +1,7 @@
+// state
 import { useUiState } from "@/store";
+
+// components
 import ChatListHeader from "./ChatListHeader";
 import List from "./List";
 import SearchBar from "./SearchBar";

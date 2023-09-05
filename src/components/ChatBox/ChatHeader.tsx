@@ -1,12 +1,16 @@
-import { useUserStore } from "@/store";
-import AvatarPhoto from "../common/AvatarPhoto";
+// setting
+import { useState } from "react";
 
+// business
+import { useUserStore } from "@/store";
+import { SIZE } from "@/constant/size";
+
+// components
+import AvatarPhoto from "../common/AvatarPhoto";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { MdCall } from "react-icons/md";
 import { IoVideocam } from "react-icons/io5";
-import { SIZE } from "@/constant/size";
-import { useState } from "react";
 import ContextMenu from "../common/ContextMenu";
 
 const ChatHeader = () => {
