@@ -6,8 +6,8 @@ import { FaCamera } from "react-icons/fa";
 interface IAvatar {
   size: keyof typeof SIZE;
   img: string;
-  setContextMenuVisible: Dispatch<SetStateAction<boolean>>;
-  setContextMenuCoord: Dispatch<SetStateAction<{ x: number; y: number }>>;
+  setContextMenuVisible?: Dispatch<SetStateAction<boolean>>;
+  setContextMenuCoord?: Dispatch<SetStateAction<{ x: number; y: number }>>;
 }
 
 const AvatarPhoto = ({
@@ -17,8 +17,10 @@ const AvatarPhoto = ({
   setContextMenuCoord,
 }: IAvatar) => {
   const showContextMenu = (e: React.MouseEvent<any>) => {
-    setContextMenuCoord({ x: e.pageX, y: e.pageY });
-    setContextMenuVisible(true);
+    if (setContextMenuCoord && setContextMenuVisible) {
+      setContextMenuCoord({ x: e.pageX, y: e.pageY });
+      setContextMenuVisible(true);
+    }
   };
 
   return (
@@ -30,9 +32,9 @@ const AvatarPhoto = ({
         <img src={img} alt="avatar" className={`h-14 w-14 rounded-full`} />
       )}
       {size === SIZE.XL && (
-        <div className="relative cursor-pointer z-0">
+        <div className="relative z-0 cursor-pointer">
           <div
-            className="bg-photopicker-overlay-background h-60 w-60 absolute top-0 left-0 rounded-full flex items-center justify-center flex-col text-center gap-2 opacity-0 hover:opacity-100 transition-opacity duration-[300]"
+            className="absolute left-0 top-0 flex h-60 w-60 flex-col items-center justify-center gap-2 rounded-full bg-photopicker-overlay-background text-center opacity-0 transition-opacity duration-[300] hover:opacity-100"
             onClick={showContextMenu}
           >
             <FaCamera className="text-2xl" />
