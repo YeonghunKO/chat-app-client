@@ -29,7 +29,7 @@ const ContactsList = () => {
   if (isSuccess) {
     return (
       <div className="flex h-full flex-col">
-        <div className="flex h-16 items-end px-3 py-4">
+        <div className="flex h-[60px] items-end px-3 py-4">
           <div className="flex  items-center gap-12 text-white">
             <BiArrowBack
               className=" cursor-pointer text-xl"
