@@ -13,7 +13,9 @@ const ChatListHeader = () => {
   const contextMenuOptions = [
     {
       name: "Log Out",
-      callBack: () => {},
+      callBack: () => {
+        setContextMenuVisible(false);
+      },
     },
   ];
   const queryClient = useQueryClient();
