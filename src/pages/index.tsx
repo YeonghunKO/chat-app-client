@@ -8,7 +8,7 @@ import { COOKIE, GET_USER, REFRESH } from "@/constant/api";
 import { SIGN_IN_PAGE } from "@/constant/path";
 import { queryKeys } from "@/constant/queryKeys";
 import { postFetch } from "@/lib/api";
-import { useGetQueryAccount } from "@/hooks/useUserQueryAccount";
+import { useGetQueryAccount } from "@/hooks/useQueryAccount";
 import { useUserStore } from "@/store";
 import { IUserInfo } from "@/type";
 

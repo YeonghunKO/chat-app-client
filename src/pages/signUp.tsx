@@ -14,7 +14,7 @@ import CapturePhoto from "@/components/common/CapturePhoto";
 import { useUiState, useUserStore } from "@/store";
 
 import { FcGoogle } from "react-icons/fc";
-import { usePostMutationQueryAccount } from "@/hooks/useUserQueryAccount";
+import { usePostMutationQueryAccount } from "@/hooks/useQueryAccount";
 import { queryKeys } from "@/constant/queryKeys";
 import { SIGN_UP_USER } from "@/constant/api";
 import { DASHBOARD } from "@/constant/path";

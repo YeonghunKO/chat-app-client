@@ -17,7 +17,7 @@ export const useGetQueryAccount = <T>({
   return result;
 };
 
-export const usePostMutationQueryAccount = ({
+export const usePostMutationQueryAccount = <T = any>({
   mapper,
   queryKey,
   onError,
@@ -25,7 +25,7 @@ export const usePostMutationQueryAccount = ({
   url,
 }: IUseMutateUserAccount) => {
   const queryClient = useQueryClient();
-  const mutation = useMutation<any, any, any>(
+  const mutation = useMutation<AxiosResponse<T>, AxiosError<any>, T, any>(
     (userInfo) => postFetch({ url, body: userInfo, mapper }),
     {
       onSuccess: (fetchResult) => {

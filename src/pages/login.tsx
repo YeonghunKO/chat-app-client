@@ -9,7 +9,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { SIGN_IN_USER } from "@/constant/api";
 import { DASHBOARD, SIGN_UP_PAGE } from "@/constant/path";
 import { queryKeys } from "@/constant/queryKeys";
-import { usePostMutationQueryAccount } from "@/hooks/useUserQueryAccount";
+import { usePostMutationQueryAccount } from "@/hooks/useQueryAccount";
 
 //compoenents
 import Input from "@/components/common/Input";

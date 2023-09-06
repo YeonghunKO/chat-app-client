@@ -3,7 +3,7 @@ import { BiArrowBack, BiSearchAlt2 } from "react-icons/bi";
 import ChatListItem from "./ChatListItem";
 
 // business
-import { useGetQueryAccount } from "@/hooks/useUserQueryAccount";
+import { useGetQueryAccount } from "@/hooks/useQueryAccount";
 import { GET_ALL_USERS } from "@/constant/api";
 import { queryKeys } from "@/constant/queryKeys";
 import { useUiState } from "@/store";
