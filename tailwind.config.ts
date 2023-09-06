@@ -57,7 +57,7 @@ const config: Config = {
         "icon-ack": "#53bdeb",
       },
       gridTemplateColumns: {
-        main: "1fr 2.4fr",
+        main: "1fr 3fr",
       },
     },
   },
