@@ -4,6 +4,7 @@ import { getFetch, postFetch } from "@/lib/api";
 import { useUserStore } from "@/store";
 import type {
   IMessage,
+  IUseAddMessage,
   IUseGetAccount,
   IUseMutateAccount,
   IUserInfo,
@@ -34,7 +35,7 @@ export const usePostMutationQueryAccount = <T = any>({
 }: IUseMutateAccount) => {
   const queryClient = useQueryClient();
   const mutation = useMutation<AxiosResponse<T>, AxiosError<any>, T, any>(
-    (userInfo) => postFetch({ url, body: userInfo, mapper }),
+    (data) => postFetch({ url, body: data, mapper }),
     {
       onSuccess: (fetchResult) => {
         queryClient.setQueryData(queryKey, () => fetchResult);
@@ -51,15 +52,16 @@ export const useAddMessageQueryForChat = ({
   mapper,
   onError,
   onSuccess,
-}: IUseMutateAccount) => {
+}: IUseAddMessage) => {
   const queryClient = useQueryClient();
   const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
   const currentChatUser = useUserStore((set) => set.currentChatUser);
+  console.log(userInfo?.id, currentChatUser?.id);
 
   const mutation = useMutation<
     AxiosResponse<IMessage>,
     AxiosError<any>,
-    IMessage,
+    string,
     any
   >(
     (message) =>
@@ -97,4 +99,6 @@ export const useAddMessageQueryForChat = ({
   return mutation;
 };
 
-export const useGetMessagesQueryForChat = () => {};
+export const useGetMessagesQueryForChat = () => {
+  console.log("asdf");
+};

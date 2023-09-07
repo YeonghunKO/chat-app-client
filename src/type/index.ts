@@ -58,6 +58,12 @@ interface IUseMutateAccount {
   url: string;
 }
 
+interface IUseAddMessage {
+  mapper?: (data: any) => any;
+  onSuccess?: TVoidFunc;
+  onError?: (err: any) => void;
+}
+
 interface IUseQueryOoptionType<T>
   extends UseQueryOptions<AxiosResponse<T>, AxiosError, T, QueryKey[]> {}
 
@@ -85,4 +91,5 @@ export type {
   IUseGetAccount,
   IUsePostAccount,
   IUserInfo,
+  IUseAddMessage,
 };
