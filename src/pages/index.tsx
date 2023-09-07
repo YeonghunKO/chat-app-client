@@ -71,6 +71,7 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
         },
 
         mapper: (data) => ({
+          id: data.user.id,
           name: data.user.name,
           email: data.user.email,
           about: data.user.about,
