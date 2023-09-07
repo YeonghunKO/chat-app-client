@@ -1,7 +1,13 @@
 import { AxiosError, AxiosResponse } from "axios";
 import { QueryKey, UseQueryOptions } from "react-query";
+import { Socket } from "socket.io-client";
 
 type TToastType = "WARN" | "ERROR" | "SUCESSFUL";
+
+interface ISocket {
+  socket: Socket | undefined;
+  setSocket: (socket: Socket) => void;
+}
 
 interface IUiState {
   isToastVisible: boolean;
@@ -92,4 +98,5 @@ export type {
   IUsePostAccount,
   IUserInfo,
   IUseAddMessage,
+  ISocket,
 };

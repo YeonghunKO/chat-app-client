@@ -1,4 +1,5 @@
-import type { IUiState, IUser, IUserInfo, TToastType } from "@/type";
+import type { ISocket, IUiState, IUser, IUserInfo, TToastType } from "@/type";
+import { Socket } from "socket.io-client";
 import { create } from "zustand";
 
 export const useUserStore = create<IUser>((set, get) => ({
@@ -30,4 +31,9 @@ export const useUiState = create<IUiState>((set, get) => ({
       ...(msg ? { toastMessage: msg } : { toastMessage: get().toastMessage }),
       ...(type ? { toastType: type } : { toastType: get().toastType }),
     }),
+}));
+
+export const useSocketStore = create<ISocket>((set, get) => ({
+  socket: undefined,
+  setSocket: (socket: Socket) => set({ socket }),
 }));
