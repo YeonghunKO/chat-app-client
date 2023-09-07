@@ -1,7 +1,22 @@
+import { GET_MESSAGES } from "@/constant/api";
+import { queryKeys } from "@/constant/queryKeys";
+import { useGetMessagesQueryForChat } from "@/hooks/useQueryAccount";
+import { getFetch } from "@/lib/api";
 import { useRef } from "react";
+import { useQuery, useQueryClient } from "react-query";
 
 const ChatContainer = () => {
   const containerRef = useRef(null);
+
+  const data = useGetMessagesQueryForChat();
+  console.log("data", data);
+
+  // const { data } = useQuery(queryKeys.messages, () =>
+  //   getFetch({
+  //     url: GET_MESSAGES(),
+  //   }),
+  // );
+
   return (
     <div
       className="custom-scrollbar relative h-[80vh] w-full flex-grow overflow-auto "
@@ -11,6 +26,9 @@ const ChatContainer = () => {
       <div className="relative bottom-0 left-0 z-40 mx-10 my-6 ">
         <div className="flex w-full">
           <div className="flex w-full flex-col justify-end gap-1 overflow-auto">
+            <p>
+              {/* {data?.messages.map((message: string) => <span>{message}</span>)} */}
+            </p>
             {/* {messages.map((message, index) => (
           <div
             key={index}
