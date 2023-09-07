@@ -20,7 +20,7 @@ const ContextMenu = ({
   setContextMenuVisible,
 }: IContextMenu) => {
   const $contextMenu = useRef<HTMLDivElement>(null);
-  const [suitableXPos, setSuitableXPos] = useState(0);
+  const [suitableXPos, setSuitableXPos] = useState(-100);
 
   useUnmountIfClickedOutside({
     ref: $contextMenu,
