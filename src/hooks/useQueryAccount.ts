@@ -1,4 +1,4 @@
-import { ADD_MESSAGE } from "@/constant/api";
+import { ADD_MESSAGE, GET_MESSAGES } from "@/constant/api";
 import { queryKeys } from "@/constant/queryKeys";
 import { getFetch, postFetch } from "@/lib/api";
 import { useUserStore } from "@/store";
@@ -56,10 +56,9 @@ export const useAddMessageQueryForChat = ({
   const queryClient = useQueryClient();
   const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
   const currentChatUser = useUserStore((set) => set.currentChatUser);
-  console.log(userInfo?.id, currentChatUser?.id);
 
   const mutation = useMutation<
-    AxiosResponse<IMessage>,
+    { message: IMessage },
     AxiosError<any>,
     string,
     any
@@ -77,16 +76,14 @@ export const useAddMessageQueryForChat = ({
     {
       onSuccess: (newMessage) => {
         const queryKeysWithChatUser = queryKeys.messages(
-          userInfo?.id,
-          currentChatUser?.id,
+          userInfo?.id as string,
+          currentChatUser?.id as string,
         );
 
         queryClient.setQueryData(
           queryKeysWithChatUser,
           (prevMessages: IMessage[] | any) => {
-            if (prevMessages) {
-              return [...prevMessages, newMessage.data];
-            }
+            return { messages: [...prevMessages.messages, newMessage.message] };
           },
         );
 
@@ -100,5 +97,23 @@ export const useAddMessageQueryForChat = ({
 };
 
 export const useGetMessagesQueryForChat = () => {
-  console.log("asdf");
+  try {
+    const queryClient = useQueryClient();
+    const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
+    const currentChatUser = useUserStore((set) => set.currentChatUser);
+
+    const from = userInfo?.id as string;
+    const to = currentChatUser?.id as string;
+
+    const queryKeysWithChatUser = queryKeys.messages(from, to);
+
+    const { data } = useGetQueryAccount({
+      queryKey: queryKeysWithChatUser,
+      url: GET_MESSAGES(from, to),
+    });
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error);
+  }
 };
