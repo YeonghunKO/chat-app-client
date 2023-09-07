@@ -1,11 +1,13 @@
-interface IInput {
-  label: string;
+import React from "react";
+
+interface IInput extends React.HTMLAttributes<HTMLInputElement> {
+  label?: string;
   value: string;
   setValue: React.Dispatch<string>;
   type?: string;
 }
 
-const Input = ({ label, setValue, value, type = "text" }: IInput) => {
+const Input = ({ label, setValue, value, type = "text", ...rest }: IInput) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
@@ -25,6 +27,7 @@ const Input = ({ label, setValue, value, type = "text" }: IInput) => {
           value={value}
           onChange={handleChange}
           className="h-10 w-full rounded-lg bg-input-background py-4 pl-5 pr-5 text-sm text-white focus:outline-none"
+          {...rest}
         />
       </div>
     </div>
