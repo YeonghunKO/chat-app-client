@@ -30,7 +30,7 @@ interface IMessage {
   type: string;
   message: string;
   messageStatus: string;
-  createdAt: object;
+  createdAt: Date;
 }
 
 interface IUserInfo {
@@ -50,7 +50,7 @@ interface IUser {
   setCurrentChatUser: (user: IUserInfo) => void;
 }
 
-interface IUseMutateUserAccount {
+interface IUseMutateAccount {
   mapper?: (data: any) => any;
   onSuccess?: TVoidFunc;
   onError?: (err: any) => void;
@@ -63,14 +63,14 @@ interface IUseQueryOoptionType<T>
 
 type TVoidFunc = () => void;
 
-interface IUseGetUserAccount {
+interface IUseGetAccount {
   mapper?: (data: any) => any;
   options?: IUseQueryOoptionType<any>;
   queryKey: string[];
   url: string;
 }
 
-interface IUsePostUserAccount extends IUseGetUserAccount {
+interface IUsePostAccount extends IUseGetAccount {
   body: { email: string };
 }
 
@@ -79,10 +79,10 @@ export type {
   IUiState,
   IMessage,
   IUser,
-  IUseMutateUserAccount,
+  IUseMutateAccount,
   IUseQueryOoptionType,
   TVoidFunc,
-  IUseGetUserAccount,
-  IUsePostUserAccount,
+  IUseGetAccount,
+  IUsePostAccount,
   IUserInfo,
 };
