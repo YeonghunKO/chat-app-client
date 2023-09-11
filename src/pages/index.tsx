@@ -16,6 +16,7 @@ import { IUserInfo } from "@/type";
 import ChatList from "@/components/ChatList";
 import ChatBox from "@/components/ChatBox/ChatBox";
 import Empty from "@/components/ChatBox/Empty";
+import useSetSockets from "@/hooks/useSetSockets";
 
 export default function Home() {
   const client = useQueryClient();
@@ -26,6 +27,7 @@ export default function Home() {
     queryKey: queryKeys.userInfo,
   });
 
+  useSetSockets();
   // const {} =data
   if (result.isError) {
     return <main>error</main>;
