@@ -2,11 +2,8 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { ImAttachment } from "react-icons/im";
 import { FaMicrophone } from "react-icons/fa";
 import { MdSend } from "react-icons/md";
-import React, { useCallback, useState } from "react";
-import {
-  useAddMessageQueryForChat,
-  useGetMessagesQueryForChat,
-} from "@/hooks/useQueryAccount";
+import React, { useState } from "react";
+import { useAddMessageQueryForChat } from "@/hooks/useQueryAccount";
 import Input from "../common/Input";
 
 const MessageBar = () => {
@@ -26,6 +23,7 @@ const MessageBar = () => {
   const onEnterForInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       mutate(message);
+
       setMessage("");
     }
   };
@@ -59,7 +57,7 @@ const MessageBar = () => {
             setValue={setMessage}
             value={message}
             placeholder="Type a message"
-            onKeyDown={onEnterForInput}
+            onKeyUp={onEnterForInput}
             onChange={handleControllMessage}
           />
         </div>
