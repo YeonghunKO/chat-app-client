@@ -27,8 +27,8 @@ export default function Home() {
     queryKey: queryKeys.userInfo,
   });
 
-  useSetSockets();
-  // const {} =data
+  useSetSockets(client);
+
   if (result.isError) {
     return <main>error</main>;
   }
