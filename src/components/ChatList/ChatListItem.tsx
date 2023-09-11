@@ -1,5 +1,4 @@
 import { IUserInfo } from "@/type";
-import Image from "next/image";
 import AvatarPhoto from "../common/AvatarPhoto";
 import { SIZE } from "@/constant/size";
 import { useUiState, useUserStore } from "@/store";
@@ -8,6 +7,7 @@ const ChatListItem = ({ userInfo }: { userInfo: IUserInfo }) => {
   const { name, about, profilePicture } = userInfo;
   const setCurrentChatUser = useUserStore((set) => set.setCurrentChatUser);
   const toggleContactsVisible = useUiState((set) => set.toggleContactsVisible);
+
   const handleContactClick = () => {
     setCurrentChatUser(userInfo);
     toggleContactsVisible();
