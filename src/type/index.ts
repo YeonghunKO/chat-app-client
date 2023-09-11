@@ -40,7 +40,7 @@ interface IMessage {
 }
 
 interface IUserInfo {
-  id: string | null;
+  id: number | null;
   email: string | null;
   name: string | null;
   profilePicture: string | null;
@@ -78,8 +78,12 @@ type TVoidFunc = () => void;
 interface IUseGetAccount {
   mapper?: (data: any) => any;
   options?: IUseQueryOoptionType<any>;
-  queryKey: string[];
+  queryKey: (string | number)[];
   url: string;
+}
+
+interface IGetMessages {
+  options?: IUseQueryOoptionType<any>;
 }
 
 interface IUsePostAccount extends IUseGetAccount {
@@ -99,4 +103,5 @@ export type {
   IUserInfo,
   IUseAddMessage,
   ISocket,
+  IGetMessages,
 };

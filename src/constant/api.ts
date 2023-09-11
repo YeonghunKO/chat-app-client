@@ -8,7 +8,7 @@ export const REFRESH = `${AUTH_ROUTE}/refresh`;
 export const GET_USER = (email: string) => `${AUTH_ROUTE}/user/${email}`;
 export const GET_ALL_USERS = `${AUTH_ROUTE}/users`;
 
-export const GET_MESSAGES = (from: string, to: string) =>
+export const GET_MESSAGES = (from: number, to: number) =>
   `${MESSAGE_ROUTE}/get-messages/${from}/${to}`;
 
 export const ADD_MESSAGE = `${MESSAGE_ROUTE}/add-message`;
