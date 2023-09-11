@@ -1,8 +1,9 @@
 import { ADD_MESSAGE, GET_MESSAGES } from "@/constant/api";
 import { queryKeys } from "@/constant/queryKeys";
 import { getFetch, postFetch } from "@/lib/api";
-import { useUserStore } from "@/store";
+import { useSocketStore, useUserStore } from "@/store";
 import type {
+  IGetMessages,
   IMessage,
   IUseAddMessage,
   IUseGetAccount,
@@ -21,8 +22,9 @@ export const useGetQueryAccount = <T>({
   const result = useQuery<AxiosResponse<T>, AxiosError<any>, T, any>({
     queryKey,
     queryFn: () => getFetch({ url, mapper }),
-    ...options,
+    ...(options && options),
   });
+
   return result;
 };
 
@@ -56,7 +58,11 @@ export const useAddMessageQueryForChat = ({
   const queryClient = useQueryClient();
   const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
   const currentChatUser = useUserStore((set) => set.currentChatUser);
-
+  const socket = useSocketStore((set) => set.socket);
+  const queryKeysWithChatUser = queryKeys.messages(
+    userInfo?.id as number,
+    currentChatUser?.id as number,
+  );
   const mutation = useMutation<
     { message: IMessage },
     AxiosError<any>,
@@ -74,45 +80,58 @@ export const useAddMessageQueryForChat = ({
         mapper,
       }),
     {
-      onSuccess: (newMessage) => {
-        const queryKeysWithChatUser = queryKeys.messages(
-          userInfo?.id as string,
-          currentChatUser?.id as string,
-        );
+      onMutate: async (newMessage) => {
+        const previouseTodos = queryClient.getQueryData(queryKeysWithChatUser);
 
+        return { previouseTodos };
+      },
+      onSuccess: (newMessage) => {
         queryClient.setQueryData(
           queryKeysWithChatUser,
           (prevMessages: IMessage[] | any) => {
             return { messages: [...prevMessages.messages, newMessage.message] };
           },
         );
-
+        if (socket) {
+          socket.emit("send-msg", {
+            from: userInfo?.id,
+            to: currentChatUser?.id,
+            message: newMessage,
+          });
+        }
         onSuccess && onSuccess();
       },
 
-      onError,
+      onError: (_error, _message, context) => {
+        queryClient.setQueryData(
+          queryKeysWithChatUser,
+          context?.previouseTodos,
+        );
+        onError && onError(_error.message);
+      },
     },
   );
   return mutation;
 };
 
-export const useGetMessagesQueryForChat = () => {
+export const useGetMessagesQueryForChat = (options: IGetMessages) => {
   try {
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
     const currentChatUser = useUserStore((set) => set.currentChatUser);
 
-    const from = userInfo?.id as string;
-    const to = currentChatUser?.id as string;
+    const from = userInfo?.id as number;
+    const to = currentChatUser?.id as number;
 
     const queryKeysWithChatUser = queryKeys.messages(from, to);
 
     const { data } = useGetQueryAccount({
       queryKey: queryKeysWithChatUser,
       url: GET_MESSAGES(from, to),
+      options: options.options,
     });
 
-    return data;
+    return { data };
   } catch (error: any) {
     throw new Error(error);
   }
