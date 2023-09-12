@@ -32,14 +32,13 @@ const Toast = () => {
       const toastId = setTimeout(() => {
         toggleToastVisible({ toggle: true });
       }, 2000);
-
       return () => clearTimeout(toastId);
     }
   }, [isToastVisible]);
 
   return (
     <div
-      className={`absolute bottom-[30px] left-[30px] h-max w-max rounded-md bg-search-input-container-background p-[20px] text-white ${
+      className={`absolute bottom-[30px] left-[30px] z-[99] h-max w-max rounded-md bg-search-input-container-background p-[20px] text-white ${
         isToastVisible ? "animate-fade-in-bottom" : "animate-fade-out-bottom"
       }`}
     >
