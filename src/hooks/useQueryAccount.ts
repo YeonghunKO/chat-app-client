@@ -95,7 +95,7 @@ export const useAddMessageQueryForChat = ({
         queryClient.setQueryData(
           queryKeysWithChatUser,
           (prevMessages: IMessage[] | any) => {
-            return [...prevMessages.messages, newMessage];
+            return [...prevMessages, newMessage];
           },
         );
         if (socket) {
@@ -109,18 +109,18 @@ export const useAddMessageQueryForChat = ({
       },
 
       onError: (_error, _message, context) => {
+        onError && onError(_error.message);
         queryClient.setQueryData(
           queryKeysWithChatUser,
           context?.previouseTodos,
         );
-        onError && onError(_error.message);
       },
     },
   );
   return mutation;
 };
 
-export const useGetCurrentMessagesQuery = (options?: IGetMessages) => {
+export const useGetCurrentMessagesQuery = <T>(options?: IGetMessages) => {
   try {
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
@@ -131,12 +131,11 @@ export const useGetCurrentMessagesQuery = (options?: IGetMessages) => {
 
     const queryKeysWithChatUser = queryKeys.messages(senderId, recieverId);
 
-    const { data } = useGetQueryAccount({
+    const { data } = useGetQueryAccount<T>({
       queryKey: queryKeysWithChatUser,
       url: GET_MESSAGES(senderId, recieverId),
       options: {
         ...options?.options,
-        ...((!senderId || !recieverId) && { enabled: false }),
       },
     });
 
@@ -146,12 +145,34 @@ export const useGetCurrentMessagesQuery = (options?: IGetMessages) => {
   }
 };
 
-export const useGetMessagesMutationByFromTo = <T>(
+export const useGetMessagesMutationByFromTo = <T extends IMessage[]>(
   info?: IUseGetMessagesMutation,
 ) => {
+  const queryClient = useQueryClient();
+
   const mutation = useMutation<T, AxiosError<any>, any, any>({
+    onMutate: ({ from, to }) => {
+      const previousMessages = queryClient.getQueryData(
+        queryKeys.messages(from, to),
+      );
+      return { previousMessages };
+    },
     mutationFn: ({ from, to }: { from: number; to: number }) =>
       getFetch({ url: GET_MESSAGES(from, to), mapper: info?.mapper }),
+
+    onSuccess: (newMessages, { from: otherSide, to: me }) => {
+      const queryMessagesKeys = queryKeys.messages(me, otherSide);
+      queryClient.setQueryData<IMessage[]>(
+        queryMessagesKeys,
+        (previouseMessages) => {
+          return newMessages;
+        },
+      );
+    },
+    onError: (error, { from: otherSide, to: me }, context) => {
+      const queryMessagesKeys = queryKeys.messages(me, otherSide);
+      queryClient.setQueryData(queryMessagesKeys, context.previousMessages);
+    },
   });
 
   return mutation;
