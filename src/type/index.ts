@@ -90,6 +90,10 @@ interface IUsePostAccount extends IUseGetAccount {
   body: { email: string };
 }
 
+interface IUseGetMessagesMutation {
+  mapper?: (data: any) => any;
+}
+
 export type {
   TToastType,
   IUiState,
@@ -104,4 +108,5 @@ export type {
   IUseAddMessage,
   ISocket,
   IGetMessages,
+  IUseGetMessagesMutation,
 };
