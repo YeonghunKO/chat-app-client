@@ -5,11 +5,21 @@ import { MdSend } from "react-icons/md";
 import React, { useState } from "react";
 import { useAddMessageQueryForChat } from "@/hooks/useQueryAccount";
 import Input from "../common/Input";
+import { useUiState } from "@/store";
+import { TOAST_TYPE } from "@/constant/type";
 
 const MessageBar = () => {
   const [message, setMessage] = useState("");
+  const setAlertMessage = useUiState((set) => set.updateToastInfo);
 
-  const { mutate } = useAddMessageQueryForChat({});
+  const { mutate } = useAddMessageQueryForChat({
+    onError: () => {
+      setAlertMessage({
+        type: TOAST_TYPE.ERROR,
+        msg: "Error while sending message",
+      });
+    },
+  });
 
   const handleSendMessage = () => {
     mutate(message);
