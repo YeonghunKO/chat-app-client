@@ -22,8 +22,10 @@ const MessageBar = () => {
   });
 
   const handleSendMessage = () => {
-    mutate(message);
-    setMessage("");
+    if (message) {
+      mutate(message);
+      setMessage("");
+    }
   };
 
   const handleControllMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,9 +34,11 @@ const MessageBar = () => {
 
   const onEnterForInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      mutate(message);
+      if (message) {
+        mutate(message);
 
-      setMessage("");
+        setMessage("");
+      }
     }
   };
 
