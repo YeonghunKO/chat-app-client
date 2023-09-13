@@ -35,7 +35,7 @@ interface IMessage {
   recieverId: number;
   type: string;
   message: string;
-  messageStatus: string;
+  status: "read" | "delivered" | "sent";
   createdAt: Date;
 }
 
