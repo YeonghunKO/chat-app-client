@@ -5,10 +5,10 @@ type IStatus = { status: "read" | "delivered" | "sent" };
 const Status = ({ status }: IStatus) => {
   return (
     <span className="flex items-end">
-      {status === "sent" && <BsCheck className="text-lg" />}
-      {status === "delivered" && <BsCheckAll className="text-lg" />}
+      {status === "sent" && <BsCheck className="text-[15px]" />}
+      {status === "delivered" && <BsCheckAll className="text-[15px]" />}
       {status === "read" && (
-        <BsCheckAll className="self-end text-lg text-icon-ack" />
+        <BsCheckAll className="self-end text-[15px] text-icon-ack" />
       )}
     </span>
   );

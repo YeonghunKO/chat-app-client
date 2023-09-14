@@ -10,15 +10,15 @@ const TextMessage = ({ message }: { message: IMessage }) => {
   return (
     <div
       key={message.id}
-      className={`relative mb-[2px] flex gap-[2px] overflow-hidden rounded-[10px] p-[10px] ${
+      className={`mb-[2px] flex flex-col gap-[2px] overflow-hidden rounded-[10px]  pl-[10px]  pt-[10px] ${
         currentChatUserId?.id === message.senderId
-          ? "mr-[25px] self-start bg-incoming-background"
-          : "ml-[25px] self-end bg-outgoing-background"
+          ? "mr-[25px] self-start bg-incoming-background pb-[5px] pr-[7px]"
+          : "ml-[25px] self-end bg-outgoing-background pb-[5px] pr-[5px]"
       }`}
     >
       <span className="break-all text-[15px]">{message.message}</span>
-      <div className="absolute flex">
-        <span className="min-w-fit self-end text-[11px] text-bubble-meta">
+      <div className="flex gap-[2px] self-end">
+        <span className="min-w-fit self-end text-[9px] text-bubble-meta">
           {calculateTime(message.createdAt)}
         </span>
         {currentChatUserId?.id !== message.senderId && (
