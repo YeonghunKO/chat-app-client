@@ -1,12 +1,26 @@
-import type { ISocket, IUiState, IUser, IUserInfo, TToastType } from "@/type";
+import type {
+  ISocket,
+  IUiState,
+  IUser,
+  IUserInfo,
+  TOnlineUser,
+  TOnlineUsers,
+  TToastType,
+} from "@/type";
 import { Socket } from "socket.io-client";
 import { create } from "zustand";
 
 export const useUserStore = create<IUser>((set, get) => ({
   newUserImgSrc: "/default_avatar.png",
   currentChatUser: null,
+  onlineUsers: null,
   setNewImgSrc: (src: string) => set({ newUserImgSrc: src }),
   setCurrentChatUser: (user: IUserInfo) => set({ currentChatUser: user }),
+  setOnlineUsers: (onlineUsers: TOnlineUsers) => {
+    console.log("onlineUsers inside store", onlineUsers);
+
+    set({ onlineUsers });
+  },
 }));
 
 export const useUiState = create<IUiState>((set, get) => ({

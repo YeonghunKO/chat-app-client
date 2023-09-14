@@ -4,6 +4,9 @@ import { Socket } from "socket.io-client";
 
 type TToastType = "WARN" | "ERROR" | "SUCESSFUL";
 
+type TOnlineUser = { socketId: string; chatRoomId: number | undefined };
+type TOnlineUsers = Map<number, TOnlineUser>;
+
 interface ISocket {
   socket: Socket | undefined;
   setSocket: (socket: Socket) => void;
@@ -45,6 +48,7 @@ interface IUserInfo {
   name: string | null;
   profilePicture: string | null;
   about?: string;
+
   // sentMessages: IMessage[];
   // recievedMessages: IMessage[];
 }
@@ -54,6 +58,8 @@ interface IUser {
   setNewImgSrc: (src: string) => void;
   currentChatUser: IUserInfo | null;
   setCurrentChatUser: (user: IUserInfo) => void;
+  setOnlineUsers: (onlineUsers: TOnlineUsers) => void;
+  onlineUsers: TOnlineUsers | null;
 }
 
 interface IUseMutateAccount {
@@ -109,4 +115,6 @@ export type {
   ISocket,
   IGetMessages,
   IUseGetMessagesMutation,
+  TOnlineUser,
+  TOnlineUsers,
 };

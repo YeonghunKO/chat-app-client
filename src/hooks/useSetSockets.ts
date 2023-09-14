@@ -1,6 +1,6 @@
 import { queryKeys } from "@/constant/queryKeys";
 import { useSocketStore, useUserStore } from "@/store";
-import { IUserInfo } from "@/type";
+import { IUserInfo, TOnlineUser } from "@/type";
 import { useEffect } from "react";
 import { QueryClient } from "react-query";
 import { io } from "socket.io-client";
@@ -10,11 +10,7 @@ const useSetSockets = (queryClient: QueryClient) => {
   const setSocket = useSocketStore((set) => set.setSocket);
   const socket = useSocketStore((set) => set.socket);
   const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
-  const currentChatUser = useUserStore((set) => set.currentChatUser);
-  const messageChatQueryKey = queryKeys.messages(
-    userInfo?.id as number,
-    currentChatUser?.id as number,
-  );
+  const setOnlineUsers = useUserStore((set) => set.setOnlineUsers);
 
   const { mutate } = useGetMessagesMutationByFromTo();
 
@@ -27,8 +23,27 @@ const useSetSockets = (queryClient: QueryClient) => {
   useEffect(() => {
     if (socket) {
       socket.on(
+        "get-onlineUsers",
+
+        ({ onlineUsers }: { onlineUsers: string }) => {
+          const parsedOnlineUsers = new Map<number, TOnlineUser>(
+            JSON.parse(onlineUsers),
+          );
+
+          setOnlineUsers(parsedOnlineUsers);
+        },
+      );
+    }
+  }, [socket]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on(
         "recieve-msg",
         ({ from, to }: { from: number; to: number; message: string }) => {
+          console.log("from", from);
+          console.log("to", to);
+
           mutate({ from, to });
         },
       );
