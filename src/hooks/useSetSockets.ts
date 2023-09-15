@@ -41,9 +41,6 @@ const useSetSockets = (queryClient: QueryClient) => {
       socket.on(
         "recieve-msg",
         ({ from, to }: { from: number; to: number; message: string }) => {
-          console.log("from", from);
-          console.log("to", to);
-
           mutate({ from, to });
         },
       );
