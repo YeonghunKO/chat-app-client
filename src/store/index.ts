@@ -3,7 +3,6 @@ import type {
   IUiState,
   IUser,
   IUserInfo,
-  TOnlineUser,
   TOnlineUsers,
   TToastType,
 } from "@/type";
