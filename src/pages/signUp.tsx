@@ -23,6 +23,7 @@ import { SIZE } from "@/constant/size";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "@/utils/firebaseConfig";
 import { useRouter } from "next/router";
+import { TOAST_TYPE } from "@/constant/type";
 
 function SignUp() {
   const contextMenuOptions = [
@@ -67,7 +68,7 @@ function SignUp() {
     onSuccess: () => router.push(DASHBOARD),
     onError: (err: any) => {
       updateToast({
-        type: "ERROR",
+        type: TOAST_TYPE.ERROR,
         msg: err.response.data.message,
       });
     },
@@ -156,7 +157,7 @@ function SignUp() {
               setContextMenuVisible={setIsContextMenuVisible}
             />
           )}
-          <PhotoPicker ref={$photoPicker} />
+          <PhotoPicker ref={$photoPicker} onChangeSetImage={setNewImgSrc} />
           {showPhotoLibrary && (
             <PhotoLibrary setShowPhotoLibrary={setShowPhotoLibrary} />
           )}
