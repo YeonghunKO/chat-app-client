@@ -43,11 +43,11 @@ const MessageBar = () => {
   };
 
   return (
-    <div className="relative flex h-20 items-center gap-6 bg-panel-header-background  px-4">
+    <div className="relative flex h-20 items-center gap-3 bg-panel-header-background  px-4">
       <>
-        <div className="flex gap-6">
+        <div className="flex gap-4">
           <BsEmojiSmile
-            className="cursor-pointer text-xl text-panel-header-icon"
+            className="cursor-pointer text-[20px] text-panel-header-icon"
             title="Emoji"
             //   onClick={handleEmojiModal}
             id="emoji-open"
@@ -61,7 +61,7 @@ const MessageBar = () => {
           </div>
         )} */}
           <ImAttachment
-            className="cursor-pointer text-xl text-panel-header-icon"
+            className="cursor-pointer text-[20px] text-panel-header-icon"
             title="Attach"
             //   onClick={() => setGrabImage(true)}
           />
@@ -75,14 +75,14 @@ const MessageBar = () => {
             onChange={handleControllMessage}
           />
         </div>
-        <div className=" flex w-10 items-center justify-center gap-2">
+        <div className="flex items-center gap-3">
           <FaMicrophone
-            className="cursor-pointer text-xl text-panel-header-icon"
+            className="cursor-pointer text-[20px] text-panel-header-icon"
             title="Record"
             // onClick={() => setShowAudioRecorder(true)}
           />
           <MdSend
-            className="cursor-pointer text-xl text-panel-header-icon"
+            className="cursor-pointer text-[20px] text-panel-header-icon"
             title="Send"
             onClick={handleSendMessage}
           />
