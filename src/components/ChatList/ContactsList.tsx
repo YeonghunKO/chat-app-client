@@ -8,11 +8,12 @@ import { GET_ALL_USERS } from "@/constant/api";
 import { queryKeys } from "@/constant/queryKeys";
 import { useUiState } from "@/store";
 import { IUserInfo } from "@/type";
+import { Suspense } from "react";
 
 const ContactsList = () => {
   const toggleContacts = useUiState((set) => set.toggleContactsVisible);
 
-  const { data, isError, isSuccess } = useGetQueryAccount<{
+  const { data, isError, isSuccess, isLoading } = useGetQueryAccount<{
     users: { [key: string]: IUserInfo[] };
   }>({
     url: GET_ALL_USERS,
@@ -22,6 +23,11 @@ const ContactsList = () => {
   if (isError) {
     return <div>error</div>;
   }
+
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
+
   const handleBackButton = () => {
     toggleContacts();
   };
