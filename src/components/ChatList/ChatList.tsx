@@ -5,7 +5,9 @@ import { useUiState } from "@/store";
 import ChatListHeader from "./ChatListHeader";
 import List from "./List";
 import SearchBar from "./SearchBar";
-import ContactsList from "./ContactsList";
+import dynamic from "next/dynamic";
+
+const ContactsList = dynamic(() => import("./ContactsList"), { ssr: false });
 
 const ChatList = () => {
   const isContactsListVisible = useUiState((set) => set.isContactsVisible);

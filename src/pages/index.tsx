@@ -14,9 +14,13 @@ import { IUserInfo } from "@/type";
 
 // components
 import ChatList from "@/components/ChatList";
-import ChatBox from "@/components/ChatBox/ChatBox";
-import Empty from "@/components/ChatBox/Empty";
 import useSetSockets from "@/hooks/useSetSockets";
+import dynamic from "next/dynamic";
+
+const ChatBox = dynamic(() => import("../components/ChatBox"), { ssr: false });
+const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
+  ssr: false,
+});
 
 export default function Home() {
   const client = useQueryClient();
