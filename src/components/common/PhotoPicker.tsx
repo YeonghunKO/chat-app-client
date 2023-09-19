@@ -1,5 +1,4 @@
 import { forwardRef } from "react";
-import Resizer from "react-image-file-resizer";
 
 const PhotoPicker = forwardRef<
   HTMLInputElement,
