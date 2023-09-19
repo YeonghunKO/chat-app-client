@@ -11,6 +11,7 @@ import PhotoLibrary from "@/components/common/PhotoLibrary";
 import CapturePhoto from "@/components/common/CapturePhoto";
 
 // buisiness
+
 import { useUiState, useUserStore } from "@/store";
 
 import { FcGoogle } from "react-icons/fc";
@@ -24,6 +25,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "@/utils/firebaseConfig";
 import { useRouter } from "next/router";
 import { TOAST_TYPE } from "@/constant/type";
+import { resizeFile } from "@/utils/resizeImg";
 
 function SignUp() {
   const contextMenuOptions = [
@@ -121,6 +123,22 @@ function SignUp() {
     });
   };
 
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files as FileList;
+
+    const reader = new FileReader();
+
+    if (file[0]) {
+      reader.readAsDataURL(file[0]);
+      const image = await resizeFile({
+        file: file[0],
+        size: 300,
+        outPut: "base64",
+      });
+      setNewImgSrc(image as string);
+    }
+  };
+
   return (
     <div className="flex h-screen w-screen items-center justify-center gap-[8dvw] bg-panel-header-background text-white">
       <div className="flex flex-col items-center justify-center gap-[5dvh]">
@@ -157,7 +175,10 @@ function SignUp() {
               setContextMenuVisible={setIsContextMenuVisible}
             />
           )}
-          <PhotoPicker ref={$photoPicker} onChangeSetImage={setNewImgSrc} />
+          <PhotoPicker
+            ref={$photoPicker}
+            onChangeSetImage={handlePhotoChange}
+          />
           {showPhotoLibrary && (
             <PhotoLibrary setShowPhotoLibrary={setShowPhotoLibrary} />
           )}
