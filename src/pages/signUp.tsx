@@ -71,7 +71,7 @@ function SignUp() {
     onError: (err: any) => {
       updateToast({
         type: TOAST_TYPE.ERROR,
-        msg: err.response.data.message,
+        msg: err,
       });
     },
   });
@@ -132,9 +132,10 @@ function SignUp() {
       reader.readAsDataURL(file[0]);
       const image = await resizeFile({
         file: file[0],
-        size: 300,
+        size: 200,
         outPut: "base64",
       });
+
       setNewImgSrc(image as string);
     }
   };
@@ -175,6 +176,7 @@ function SignUp() {
               setContextMenuVisible={setIsContextMenuVisible}
             />
           )}
+
           <PhotoPicker
             ref={$photoPicker}
             onChangeSetImage={handlePhotoChange}

@@ -54,8 +54,8 @@ export const usePostMutationQueryAccount = <T = any>({
         onSuccess && onSuccess();
       },
       onError: (_error, _message, context) => {
+        onError && onError(_error.response?.data.message);
         queryClient.setQueriesData(queryKey, context.previousQueris);
-        onError && onError(_error.message);
       },
     },
   );

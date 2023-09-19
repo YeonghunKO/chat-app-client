@@ -35,13 +35,14 @@ export const useUiState = create<IUiState>((set, get) => ({
     type?: TToastType;
     msg?: string;
     toggle?: boolean;
-  }) =>
+  }) => {
     set({
       isToastVisible: !get().isToastVisible,
       ...(toggle && { isToastVisible: !get().isToastVisible }),
       ...(msg ? { toastMessage: msg } : { toastMessage: get().toastMessage }),
       ...(type ? { toastType: type } : { toastType: get().toastType }),
-    }),
+    });
+  },
 }));
 
 export const useSocketStore = create<ISocket>((set, get) => ({
