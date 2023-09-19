@@ -100,10 +100,6 @@ const MessageBar = () => {
         formData.append("image", image);
 
         addImageMessage(formData);
-
-        console.log("image type", typeof image);
-        console.log("image ", image);
-        console.log("origin size image ", file[0]);
       }
     }
   };
