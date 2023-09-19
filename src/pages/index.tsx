@@ -16,10 +16,11 @@ import { IUserInfo } from "@/type";
 import ChatList from "@/components/ChatList";
 import useSetSockets from "@/hooks/useSetSockets";
 import dynamic from "next/dynamic";
+import ChatBox from "@/components/ChatBox";
 
-const ChatBox = dynamic(() => import("../components/ChatBox"), { ssr: false });
 const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
   ssr: false,
+  loading: () => <div>...loading</div>,
 });
 
 export default function Home() {
