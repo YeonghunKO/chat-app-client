@@ -1,29 +1,47 @@
+import React, { useRef, useState } from "react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { ImAttachment } from "react-icons/im";
 import { FaMicrophone } from "react-icons/fa";
 import { MdSend } from "react-icons/md";
-import React, { useState } from "react";
-import { useAddMessageQueryForChat } from "@/hooks/useQueryAccount";
 import Input from "../common/Input";
+
+import {
+  useAddMultiMessageQuery,
+  useAddTextMessageQuery,
+} from "@/hooks/useQueryAccount";
 import { useUiState } from "@/store";
 import { TOAST_TYPE } from "@/constant/type";
 
+import EmojiPicker, { EmojiClickData, Theme } from "emoji-picker-react";
+import useUnmountIfClickedOutside from "@/hooks/useUnmountIfClickedOutside";
+import PhotoPicker from "../common/PhotoPicker";
+import { ADD_IMAGE_MESSAGE } from "@/constant/api";
+import { resizeFile } from "@/utils/resizeImg";
+
 const MessageBar = () => {
   const [message, setMessage] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const setAlertMessage = useUiState((set) => set.updateToastInfo);
 
-  const { mutate } = useAddMessageQueryForChat({
+  const $emojiPicker = useRef(null);
+  const $photoPicker = useRef<HTMLInputElement>(null);
+
+  const { mutate: addTextMessage } = useAddTextMessageQuery({
     onError: () => {
       setAlertMessage({
         type: TOAST_TYPE.ERROR,
-        msg: "Error while sending message",
+        msg: "Error while sending text message",
       });
     },
   });
 
+  const { mutate: addImageMessage } = useAddMultiMessageQuery({
+    url: ADD_IMAGE_MESSAGE,
+  });
+
   const handleSendMessage = () => {
     if (message) {
-      mutate(message);
+      addTextMessage(message);
       setMessage("");
     }
   };
@@ -35,9 +53,57 @@ const MessageBar = () => {
   const onEnterForInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       if (message) {
-        mutate(message);
+        addTextMessage(message);
 
         setMessage("");
+      }
+    }
+  };
+
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
+    setMessage((prevMessage) => (prevMessage += emojiData.emoji));
+  };
+
+  const handleEmojiModal = () => {
+    setShowEmojiPicker(true);
+  };
+
+  useUnmountIfClickedOutside({
+    ref: $emojiPicker,
+    callback: () => {
+      setShowEmojiPicker(false);
+    },
+  });
+
+  const handlePhotoPicker = () => {
+    $photoPicker.current?.click();
+  };
+
+  const handleOnChangePhotoInput = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (e.target.files) {
+      const reader = new FileReader();
+      const file = e.target.files;
+
+      if (file[0]) {
+        reader.readAsDataURL(file[0]);
+
+        const image = (await resizeFile({
+          file: file[0],
+          size: 300,
+          outPut: "file",
+        })) as File;
+
+        const formData = new FormData();
+
+        formData.append("image", image);
+
+        addImageMessage(formData);
+
+        console.log("image type", typeof image);
+        console.log("image ", image);
+        console.log("origin size image ", file[0]);
       }
     }
   };
@@ -49,21 +115,17 @@ const MessageBar = () => {
           <BsEmojiSmile
             className="cursor-pointer text-[20px] text-panel-header-icon"
             title="Emoji"
-            //   onClick={handleEmojiModal}
-            id="emoji-open"
+            onClick={handleEmojiModal}
           />
-          {/* {showEmojiPicker && (
-          <div
-            className="absolute bottom-24 left-16 z-40"
-            ref={emojiPickerRef}
-          >
-            <EmojiPicker onEmojiClick={handleEmojiClick} theme="dark" />
-          </div>
-        )} */}
+          {showEmojiPicker && (
+            <div className="absolute bottom-24 left-16 z-40" ref={$emojiPicker}>
+              <EmojiPicker onEmojiClick={handleEmojiClick} theme={Theme.DARK} />
+            </div>
+          )}
           <ImAttachment
             className="cursor-pointer text-[20px] text-panel-header-icon"
             title="Attach"
-            //   onClick={() => setGrabImage(true)}
+            onClick={handlePhotoPicker}
           />
         </div>
         <div className="flex h-10 w-full items-center rounded-lg">
@@ -86,17 +148,13 @@ const MessageBar = () => {
             title="Send"
             onClick={handleSendMessage}
           />
-          {/* {message.length ? (
-          <button
-        //    onClick={sendMessage}
-          >
-          </button>
-        ) : (
-        )} */}
         </div>
       </>
-      {/* {showAudioRecorder && <CaptureAudio hide={setShowAudioRecorder} />}
-  {grabImage && <PhotoPicker onChange={photoPickerOnChange} />}  */}
+      {/* {showAudioRecorder && <CaptureAudio hide={setShowAudioRecorder} />} */}
+      <PhotoPicker
+        ref={$photoPicker}
+        onChangeSetImage={handleOnChangePhotoInput}
+      />
     </div>
   );
 };
