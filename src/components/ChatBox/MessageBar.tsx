@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { BsEmojiSmile } from "react-icons/bs";
-import { ImAttachment } from "react-icons/im";
+import { BsImageFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
 import { MdSend } from "react-icons/md";
 import Input from "../common/Input";
@@ -118,7 +118,7 @@ const MessageBar = () => {
               <EmojiPicker onEmojiClick={handleEmojiClick} theme={Theme.DARK} />
             </div>
           )}
-          <ImAttachment
+          <BsImageFill
             className="cursor-pointer text-[20px] text-panel-header-icon"
             title="Attach"
             onClick={handlePhotoPicker}
