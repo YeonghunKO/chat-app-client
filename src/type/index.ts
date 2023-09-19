@@ -36,7 +36,7 @@ interface IMessage {
   senderId: number;
   reciever: IUser;
   recieverId: number;
-  type: string;
+  type: "text" | "image" | "audio";
   message: string;
   status: "read" | "delivered" | "sent";
   createdAt: Date;
