@@ -1,6 +1,7 @@
 import { useGetCurrentMessagesQuery } from "@/hooks/useQueryAccount";
 import { IMessage } from "@/type";
 import TextMessage from "./TextMessage";
+import ImageMessage from "./ImageMessage";
 
 const ChatContainer = () => {
   const { data: messages } = useGetCurrentMessagesQuery<IMessage[]>({});
@@ -12,7 +13,17 @@ const ChatContainer = () => {
         <section className="w-full">
           <div className="flex w-full flex-col gap-1 overflow-auto">
             {messages?.map((message) => {
-              return <TextMessage message={message} key={message.id} />;
+              switch (message.type) {
+                case "text":
+                  return <TextMessage message={message} key={message.id} />;
+                case "image":
+                  return <ImageMessage message={message} key={message.id} />;
+                case "audio":
+                  break;
+
+                default:
+                  return;
+              }
             })}
           </div>
         </section>
