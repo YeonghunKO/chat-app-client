@@ -6,6 +6,7 @@ import type {
   IGetMessages,
   IMessage,
   IUseAddMessage,
+  IUseAddMulitMessage,
   IUseGetAccount,
   IUseGetMessagesMutation,
   IUseMutateAccount,
@@ -35,10 +36,11 @@ export const usePostMutationQueryAccount = <T = any>({
   onError,
   onSuccess,
   url,
+  httpOptions,
 }: IUseMutateAccount) => {
   const queryClient = useQueryClient();
   const mutation = useMutation<AxiosResponse<T>, AxiosError<any>, T, any>(
-    (data) => postFetch({ url, body: data, mapper }),
+    (data) => postFetch({ url, body: data, mapper, option: httpOptions }),
     {
       onMutate: () => {
         const previousQueris = queryClient.getQueryData(queryKey);
@@ -61,7 +63,7 @@ export const usePostMutationQueryAccount = <T = any>({
   return mutation;
 };
 
-export const useAddMessageQueryForChat = ({
+export const useAddTextMessageQuery = ({
   mapper,
   onError,
   onSuccess,
@@ -74,7 +76,7 @@ export const useAddMessageQueryForChat = ({
     userInfo?.id as number,
     currentChatUser?.id as number,
   );
-  const mutation = useMutation<IMessage, AxiosError<any>, string, any>(
+  const mutation = useMutation<IMessage, AxiosError<any>, any, any>(
     (message) =>
       postFetch({
         url: ADD_MESSAGE,
@@ -85,6 +87,72 @@ export const useAddMessageQueryForChat = ({
         },
         mapper,
       }),
+    {
+      onMutate: async (newMessage) => {
+        const previouseTodos = queryClient.getQueryData(queryKeysWithChatUser);
+
+        return { previouseTodos };
+      },
+      onSuccess: (newMessage) => {
+        queryClient.setQueryData(
+          queryKeysWithChatUser,
+          (prevMessages: IMessage[] | any) => {
+            return [...prevMessages, newMessage];
+          },
+        );
+        if (socket) {
+          socket.emit("send-msg", {
+            from: userInfo?.id,
+            to: currentChatUser?.id,
+            message: newMessage,
+          });
+        }
+        onSuccess && onSuccess();
+      },
+
+      onError: (_error, _message, context) => {
+        onError && onError(_error.message);
+        queryClient.setQueryData(
+          queryKeysWithChatUser,
+          context?.previouseTodos,
+        );
+      },
+    },
+  );
+  return mutation;
+};
+
+export const useAddMultiMessageQuery = ({
+  mapper,
+  onError,
+  onSuccess,
+  url,
+}: IUseAddMulitMessage) => {
+  const queryClient = useQueryClient();
+  const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
+  const currentChatUser = useUserStore((set) => set.currentChatUser);
+  const socket = useSocketStore((set) => set.socket);
+  const queryKeysWithChatUser = queryKeys.messages(
+    userInfo?.id as number,
+    currentChatUser?.id as number,
+  );
+  const mutation = useMutation<IMessage, AxiosError<any>, any, any>(
+    (multiPartData) =>
+      postFetch({
+        url,
+        body: multiPartData,
+        option: {
+          params: {
+            from: userInfo?.id,
+            to: currentChatUser?.id,
+          },
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+        mapper,
+      }),
+
     {
       onMutate: async (newMessage) => {
         const previouseTodos = queryClient.getQueryData(queryKeysWithChatUser);
@@ -131,7 +199,7 @@ export const useGetCurrentMessagesQuery = <T>(options?: IGetMessages) => {
 
     const queryKeysWithChatUser = queryKeys.messages(senderId, recieverId);
 
-    const { data } = useGetQueryAccount<T>({
+    const result = useGetQueryAccount<T>({
       queryKey: queryKeysWithChatUser,
       url: GET_MESSAGES(senderId, recieverId),
       options: {
@@ -139,7 +207,7 @@ export const useGetCurrentMessagesQuery = <T>(options?: IGetMessages) => {
       },
     });
 
-    return { data };
+    return result;
   } catch (error: any) {
     throw new Error(error);
   }

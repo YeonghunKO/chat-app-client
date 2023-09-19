@@ -12,6 +12,7 @@ export const GET_MESSAGES = (from: number, to: number) =>
   `${MESSAGE_ROUTE}/get-messages/${from}/${to}`;
 
 export const ADD_MESSAGE = `${MESSAGE_ROUTE}/add-message`;
+export const ADD_IMAGE_MESSAGE = `${MESSAGE_ROUTE}/add-image-message`;
 
 export const COOKIE = {
   REFRESH_IDX: "refreshTokenIdx",

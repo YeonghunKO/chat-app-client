@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { QueryKey, UseQueryOptions } from "react-query";
 import { Socket } from "socket.io-client";
 
@@ -68,12 +68,20 @@ interface IUseMutateAccount {
   onError?: (err: any) => void;
   queryKey: string[];
   url: string;
+  httpOptions?: AxiosRequestConfig;
 }
 
 interface IUseAddMessage {
   mapper?: (data: any) => any;
   onSuccess?: TVoidFunc;
   onError?: (err: any) => void;
+}
+
+interface IUseAddMulitMessage {
+  mapper?: (data: any) => any;
+  onSuccess?: TVoidFunc;
+  onError?: (err: any) => void;
+  url: string;
 }
 
 interface IUseQueryOoptionType<T>
@@ -117,4 +125,5 @@ export type {
   IUseGetMessagesMutation,
   TOnlineUser,
   TOnlineUsers,
+  IUseAddMulitMessage,
 };
