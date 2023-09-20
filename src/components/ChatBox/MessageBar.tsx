@@ -1,30 +1,46 @@
+// settings
 import React, { useRef, useState } from "react";
+
+// components
 import { BsEmojiSmile } from "react-icons/bs";
 import { BsImageFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
 import { MdSend } from "react-icons/md";
 import Input from "../common/Input";
+import EmojiPicker, { EmojiClickData, Theme } from "emoji-picker-react";
+import PhotoPicker from "../common/PhotoPicker";
 
+// buisiness
 import {
   useAddMultiMessageQuery,
   useAddTextMessageQuery,
 } from "@/hooks/useQueryAccount";
+import useUnmountIfClickedOutside from "@/hooks/useUnmountIfClickedOutside";
 import { useUiState } from "@/store";
 import { TOAST_TYPE } from "@/constant/type";
-
-import EmojiPicker, { EmojiClickData, Theme } from "emoji-picker-react";
-import useUnmountIfClickedOutside from "@/hooks/useUnmountIfClickedOutside";
-import PhotoPicker from "../common/PhotoPicker";
 import { ADD_IMAGE_MESSAGE } from "@/constant/api";
 import { resizeFile } from "@/utils/resizeImg";
+import dynamic from "next/dynamic";
+
+const RecordVoice = dynamic(() => import("../common/RecordVoice"), {
+  ssr: false,
+});
 
 const MessageBar = () => {
   const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const setAlertMessage = useUiState((set) => set.updateToastInfo);
+  const [showAudioRecorder, setShowAudioRecorder] = useState(false);
 
   const $emojiPicker = useRef(null);
   const $photoPicker = useRef<HTMLInputElement>(null);
+
+  useUnmountIfClickedOutside({
+    ref: $emojiPicker,
+    callback: () => {
+      setShowEmojiPicker(false);
+    },
+  });
 
   const { mutate: addTextMessage } = useAddTextMessageQuery({
     onError: () => {
@@ -68,13 +84,6 @@ const MessageBar = () => {
     setShowEmojiPicker(true);
   };
 
-  useUnmountIfClickedOutside({
-    ref: $emojiPicker,
-    callback: () => {
-      setShowEmojiPicker(false);
-    },
-  });
-
   const handlePhotoPicker = () => {
     $photoPicker.current?.click();
   };
@@ -104,49 +113,63 @@ const MessageBar = () => {
     }
   };
 
+  const handleOpenAudioRecorder = () => {
+    setShowAudioRecorder(true);
+  };
+
   return (
     <div className="relative flex h-20 items-center gap-3 bg-panel-header-background  px-4">
-      <>
-        <div className="flex gap-4">
-          <BsEmojiSmile
-            className="cursor-pointer text-[20px] text-panel-header-icon"
-            title="Emoji"
-            onClick={handleEmojiModal}
-          />
-          {showEmojiPicker && (
-            <div className="absolute bottom-24 left-16 z-40" ref={$emojiPicker}>
-              <EmojiPicker onEmojiClick={handleEmojiClick} theme={Theme.DARK} />
-            </div>
-          )}
-          <BsImageFill
-            className="cursor-pointer text-[20px] text-panel-header-icon"
-            title="Attach"
-            onClick={handlePhotoPicker}
-          />
-        </div>
-        <div className="flex h-10 w-full items-center rounded-lg">
-          <Input
-            setValue={setMessage}
-            value={message}
-            placeholder="Type a message"
-            onKeyUp={onEnterForInput}
-            onChange={handleControllMessage}
-          />
-        </div>
-        <div className="flex items-center gap-3">
-          <FaMicrophone
-            className="cursor-pointer text-[20px] text-panel-header-icon"
-            title="Record"
-            // onClick={() => setShowAudioRecorder(true)}
-          />
-          <MdSend
-            className="cursor-pointer text-[20px] text-panel-header-icon"
-            title="Send"
-            onClick={handleSendMessage}
-          />
-        </div>
-      </>
-      {/* {showAudioRecorder && <CaptureAudio hide={setShowAudioRecorder} />} */}
+      {!showAudioRecorder ? (
+        <>
+          <div className="flex gap-4">
+            <BsEmojiSmile
+              className="cursor-pointer text-[20px] text-panel-header-icon"
+              title="Emoji"
+              onClick={handleEmojiModal}
+            />
+            {showEmojiPicker && (
+              <div
+                className="absolute bottom-24 left-16 z-40"
+                ref={$emojiPicker}
+              >
+                <EmojiPicker
+                  onEmojiClick={handleEmojiClick}
+                  theme={Theme.DARK}
+                />
+              </div>
+            )}
+            <BsImageFill
+              className="cursor-pointer text-[20px] text-panel-header-icon"
+              title="Attach"
+              onClick={handlePhotoPicker}
+            />
+          </div>
+          <div className="flex h-10 w-full items-center rounded-lg">
+            <Input
+              setValue={setMessage}
+              value={message}
+              placeholder="Type a message"
+              onKeyUp={onEnterForInput}
+              onChange={handleControllMessage}
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <FaMicrophone
+              className="cursor-pointer text-[20px] text-panel-header-icon"
+              title="Record"
+              onClick={handleOpenAudioRecorder}
+            />
+            <MdSend
+              className="cursor-pointer text-[20px] text-panel-header-icon"
+              title="Send"
+              onClick={handleSendMessage}
+            />
+          </div>
+        </>
+      ) : null}
+      {showAudioRecorder && (
+        <RecordVoice setShowRecorder={setShowAudioRecorder} />
+      )}
       <PhotoPicker
         ref={$photoPicker}
         onChangeSetImage={handleOnChangePhotoInput}
