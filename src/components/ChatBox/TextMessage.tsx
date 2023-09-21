@@ -16,8 +16,10 @@ const TextMessage = ({ message }: { message: IMessage }) => {
           : "ml-[25px] self-end bg-outgoing-background"
       }`}
     >
-      <span className="break-all p-[10px] text-[15px]">{message.message}</span>
-      <div className="flex gap-[2px] self-end px-[8px] py-[5px]">
+      <span className="break-all px-[10px] pt-[10px] text-[15px]">
+        {message.message}
+      </span>
+      <div className="flex gap-[2px] self-end px-[8px] py-[3px]">
         <span className="min-w-fit self-end text-[9px] text-bubble-meta">
           {calculateTime(message.createdAt)}
         </span>
