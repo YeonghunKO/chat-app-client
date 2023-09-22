@@ -1,9 +1,10 @@
+import Image from "next/image";
+
 import { useUserStore } from "@/store";
 import { IMessage } from "@/type";
 import { calculateTime } from "@/utils/calculateTime";
-import React from "react";
+
 import Status from "./Status";
-import Image from "next/image";
 
 const ImageMessage = ({ message }: { message: IMessage }) => {
   const currentChatUserId = useUserStore((set) => set.currentChatUser);

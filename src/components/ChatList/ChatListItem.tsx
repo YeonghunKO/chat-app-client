@@ -1,9 +1,10 @@
 import { IUserInfo } from "@/type";
-import AvatarPhoto from "../common/AvatarPhoto";
-import { SIZE } from "@/constant/size";
 import { useSocketStore, useUiState, useUserStore } from "@/store";
 import { useQueryClient } from "react-query";
 import { queryKeys } from "@/constant/queryKeys";
+import { SIZE } from "@/constant/size";
+
+import AvatarPhoto from "../common/AvatarPhoto";
 
 const ChatListItem = ({ userInfo }: { userInfo: IUserInfo }) => {
   const { name, about, profilePicture, id } = userInfo;

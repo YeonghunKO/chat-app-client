@@ -1,7 +1,7 @@
 import { useUserStore } from "@/store";
 import { IMessage } from "@/type";
 import { calculateTime } from "@/utils/calculateTime";
-import React from "react";
+
 import Status from "./Status";
 
 const TextMessage = ({ message }: { message: IMessage }) => {
