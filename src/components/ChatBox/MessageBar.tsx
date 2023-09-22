@@ -53,6 +53,12 @@ const MessageBar = () => {
 
   const { mutate: addImageMessage } = useAddMultiMessageQuery({
     url: ADD_IMAGE_MESSAGE,
+    onError: () => {
+      setAlertMessage({
+        type: TOAST_TYPE.ERROR,
+        msg: "Error while sending image message",
+      });
+    },
   });
 
   const handleSendMessage = () => {
