@@ -1,7 +1,14 @@
-import { useGetCurrentMessagesQuery } from "@/hooks/useQueryAccount";
+import dynamic from "next/dynamic";
 import { IMessage } from "@/type";
+
+import { useGetCurrentMessagesQuery } from "@/hooks/useQueryAccount";
 import TextMessage from "./TextMessage";
+
 import ImageMessage from "./ImageMessage";
+
+const AudioMessage = dynamic(() => import("../ChatBox/AudioMessage"), {
+  ssr: false,
+});
 
 const ChatContainer = () => {
   const { data: messages } = useGetCurrentMessagesQuery<IMessage[]>({});
@@ -19,7 +26,7 @@ const ChatContainer = () => {
                 case "image":
                   return <ImageMessage message={message} key={message.id} />;
                 case "audio":
-                  break;
+                  return <AudioMessage message={message} key={message.id} />;
 
                 default:
                   return;
