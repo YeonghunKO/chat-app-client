@@ -1,21 +1,8 @@
 // settings
-import React, {
-  Dispatch,
-  SetStateAction,
-  useRef,
-  useState,
-  useEffect,
-} from "react";
-import WaveSurfer from "wavesurfer.js";
+import React, { Dispatch, SetStateAction, useRef } from "react";
 
 // components
-import {
-  FaMicrophone,
-  FaPauseCircle,
-  FaPlay,
-  FaStop,
-  FaTrash,
-} from "react-icons/fa";
+import { FaMicrophone, FaPauseCircle, FaPlay, FaStop } from "react-icons/fa";
 import { GiCancel } from "react-icons/gi";
 
 import { MdSend } from "react-icons/md";
@@ -24,6 +11,10 @@ import { MdSend } from "react-icons/md";
 import { formatTime } from "@/utils/calculateTime";
 import { useRecord } from "@/hooks/useRecord";
 import { useWaveSurfer } from "@/hooks/useWaveSurfer";
+import { useAddMultiMessageQuery } from "@/hooks/useQueryAccount";
+import { ADD_AUDIO_MESSAGE } from "@/constant/api";
+import { useUiState } from "@/store";
+import { TOAST_TYPE } from "@/constant/type";
 
 interface IRecordVoice {
   setShowRecorder: Dispatch<SetStateAction<boolean>>;
@@ -31,6 +22,17 @@ interface IRecordVoice {
 
 const RecordVoice = ({ setShowRecorder }: IRecordVoice) => {
   const $waveformRef = useRef<HTMLDivElement>(null);
+  const updateToast = useUiState((set) => set.updateToastInfo);
+
+  const { mutate: addAudioMessage } = useAddMultiMessageQuery({
+    url: ADD_AUDIO_MESSAGE,
+    onError: () => {
+      updateToast({
+        type: TOAST_TYPE.ERROR,
+        msg: "error while sending audio message",
+      });
+    },
+  });
 
   const [waveForm] = useWaveSurfer({
     container: $waveformRef,
@@ -60,7 +62,12 @@ const RecordVoice = ({ setShowRecorder }: IRecordVoice) => {
   };
 
   const sendRecording = () => {
-    console.log("renderedAudio", renderedAudio);
+    if (!renderedAudio) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append("audio", renderedAudio);
+    addAudioMessage(formData);
   };
 
   return (
