@@ -19,6 +19,7 @@ export const useWaveSurfer = ({ container }: IUseWaveSurfer) => {
         barWidth: 2,
         height: 30,
         responsive: true,
+        hideScrollbar: true,
       });
 
       setWaveform(waveSurfer);
