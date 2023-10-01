@@ -10,13 +10,15 @@ const useSetSockets = (queryClient: QueryClient) => {
   const setSocket = useSocketStore((set) => set.setSocket);
   const socket = useSocketStore((set) => set.socket);
   const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
-  const setOnlineUsers = useUserStore((set) => set.setOnlineUsers);
+  const { setOnlineUsers } = useUserStore((set) => ({
+    setOnlineUsers: set.setOnlineUsers,
+  }));
 
   const { mutate } = useGetMessagesMutationByFromTo();
 
   useEffect(() => {
     const socket = io(process.env.NEXT_PUBLIC_BASE_URL as string);
-    socket.emit("add-user", userInfo?.id);
+    socket.emit("add-user", { me: userInfo?.id });
     setSocket(socket);
   }, [userInfo]);
 
