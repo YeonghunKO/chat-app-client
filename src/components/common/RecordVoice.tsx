@@ -68,6 +68,7 @@ const RecordVoice = ({ setShowRecorder }: IRecordVoice) => {
     const formData = new FormData();
     formData.append("audio", renderedAudio);
     addAudioMessage(formData);
+    setShowRecorder(false);
   };
 
   return (
@@ -102,7 +103,11 @@ const RecordVoice = ({ setShowRecorder }: IRecordVoice) => {
             )}
           </div>
         )}
-        <div className="w-full" ref={$waveformRef} hidden={isRecording} />
+        <div
+          className="w-full overflow-hidden"
+          ref={$waveformRef}
+          hidden={isRecording}
+        />
         {recordedAudio && !isRecording && (
           <span>{formatTime(currentPlaybackTime)}</span>
         )}
