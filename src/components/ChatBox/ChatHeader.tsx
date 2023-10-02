@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 // business
-import { useUserStore } from "@/store";
+import { useSearchStore, useUserStore } from "@/store";
 import { SIZE } from "@/constant/size";
 
 // components
@@ -25,10 +25,17 @@ const ChatHeader = () => {
   const currentChatUser = useUserStore((set) => set.currentChatUser);
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
   const [menuCoord, setMenuCoord] = useState({ x: 0, y: 0 });
+  const toggleSearchMessages = useSearchStore(
+    (set) => set.toggleIsSearchingMessage,
+  );
 
   const showContextMenu = (e: React.MouseEvent<HTMLElement>) => {
     setIsContextMenuVisible(true);
     setMenuCoord({ x: e.pageX, y: e.pageY });
+  };
+
+  const handleSeachingMessage = () => {
+    toggleSearchMessages();
   };
 
   return (
@@ -56,7 +63,7 @@ const ChatHeader = () => {
         />
         <BiSearchAlt2
           className="cursor-pointer text-xl text-panel-header-icon"
-          //   onClick={() => dispatch({ type: reducerCases.SET_MESSAGES_SEARCH })}
+          onClick={handleSeachingMessage}
         />
         <BsThreeDotsVertical
           className="cursor-pointer text-xl text-panel-header-icon"

@@ -9,7 +9,7 @@ import { SIGN_IN_PAGE } from "@/constant/path";
 import { queryKeys } from "@/constant/queryKeys";
 import { postFetch } from "@/lib/api";
 import { useGetQueryAccount } from "@/hooks/useQueryAccount";
-import { useUserStore } from "@/store";
+import { useSearchStore, useUserStore } from "@/store";
 import { IUserInfo } from "@/type";
 
 // components
@@ -17,6 +17,7 @@ import ChatList from "@/components/ChatList";
 import useSetSockets from "@/hooks/useSetSockets";
 import dynamic from "next/dynamic";
 import ChatBox from "@/components/ChatBox";
+import SearchMessages from "@/components/ChatBox/SearchMessages";
 
 const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
   ssr: false,
@@ -32,6 +33,8 @@ export default function Home() {
     queryKey: queryKeys.userInfo,
   });
 
+  const isSearchingMessages = useSearchStore((set) => set.isSearchingMessage);
+
   useSetSockets(client);
 
   if (result.isError) {
@@ -42,7 +45,21 @@ export default function Home() {
     return (
       <main className="grid h-screen max-h-screen w-screen max-w-full grid-cols-main overflow-hidden">
         <ChatList />
-        {currentChatUser ? <ChatBox /> : <Empty />}
+        {currentChatUser ? (
+          <div
+            className={`grid transition-all  ${
+              isSearchingMessages
+                ? // auto를 하면 최대한 늘어날 수 있는만큼 늘어남
+                  "grid-cols-[50%_auto]"
+                : "grid-cols-[100%_auto]"
+            }`}
+          >
+            <ChatBox />
+            <SearchMessages />
+          </div>
+        ) : (
+          <Empty />
+        )}
       </main>
     );
   }
