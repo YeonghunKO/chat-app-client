@@ -50,7 +50,7 @@ export default function Home() {
             className={`grid transition-all duration-500 ease-in-out ${
               isSearchingMessages
                 ? // auto를 하면 최대한 늘어날 수 있는만큼 늘어남
-                  "grid-cols-[50%_auto]"
+                  "grid-cols-[57%_auto]"
                 : "grid-cols-[100%_auto]"
             }`}
           >
