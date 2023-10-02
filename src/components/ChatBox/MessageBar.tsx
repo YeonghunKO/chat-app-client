@@ -68,10 +68,6 @@ const MessageBar = () => {
     }
   };
 
-  const handleControllMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage(e.target.value);
-  };
-
   const onEnterForInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       if (message) {
@@ -156,7 +152,6 @@ const MessageBar = () => {
               value={message}
               placeholder="Type a message"
               onKeyUp={onEnterForInput}
-              onChange={handleControllMessage}
             />
           </div>
           <div className="flex items-center gap-3">
