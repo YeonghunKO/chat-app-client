@@ -1,12 +1,12 @@
 import { useGetCurrentMessagesQuery } from "@/hooks/useQueryAccount";
 import { useSearchStore, useUserStore } from "@/store";
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Input from "../common/Input";
 import { IMessage } from "@/type";
 import { calculateTime } from "@/utils/calculateTime";
 
-const SearchMessages = () => {
+const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
   const toggleSearching = useSearchStore((set) => set.toggleIsSearchingMessage);
 
   const handleCloseSearching = () => {
@@ -35,6 +35,27 @@ const SearchMessages = () => {
     }
   }, [searchingKeyWord, allMessages]);
 
+  const handleResultClick = (messageId: number) => () => {
+    if (parent.current) {
+      const $chatBoxes = parent.current?.querySelector(".chat_container");
+
+      if ($chatBoxes) {
+        const $childForMessageId = Array.from($chatBoxes.children).find(
+          (child) => child.id === String(messageId),
+        );
+
+        // move scroll to the childNode
+        if ($childForMessageId) {
+          $childForMessageId.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+            inline: "nearest",
+          });
+        }
+      }
+    }
+  };
+
   return (
     <section className="z-10 w-full  bg-search-input-container-background">
       <header className="flex h-[57px] gap-[10px] bg-panel-header-background pl-[10px] pt-[18px]">
@@ -56,6 +77,7 @@ const SearchMessages = () => {
           searchedMessages.map((message: IMessage) => {
             return (
               <div
+                onClick={handleResultClick(message.id)}
                 key={message.id}
                 className="mb-[10px] cursor-pointer rounded-md p-[10px] hover:bg-incoming-background hover:text-teal-light"
               >
