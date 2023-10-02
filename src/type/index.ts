@@ -7,6 +7,15 @@ type TToastType = "WARN" | "ERROR" | "SUCESSFUL";
 type TOnlineUser = { socketId: string; chatRoomId: number | undefined };
 type TOnlineUsers = Map<number, TOnlineUser>;
 
+interface ISearchStore {
+  isSearchingMessage: boolean;
+  isSearchingContacts: boolean;
+  filteredContacts: IUserInfo | any[];
+  filteredMessages: IMessage[];
+  toggleIsSearchingContacts: () => void;
+  toggleIsSearchingMessage: () => void;
+}
+
 interface ISocket {
   socket: Socket | undefined;
   setSocket: (socket: Socket) => void;
@@ -126,4 +135,5 @@ export type {
   TOnlineUser,
   TOnlineUsers,
   IUseAddMulitMessage,
+  ISearchStore,
 };

@@ -1,4 +1,5 @@
 import type {
+  ISearchStore,
   ISocket,
   IUiState,
   IUser,
@@ -48,4 +49,19 @@ export const useUiState = create<IUiState>((set, get) => ({
 export const useSocketStore = create<ISocket>((set, get) => ({
   socket: undefined,
   setSocket: (socket: Socket) => set({ socket }),
+}));
+
+export const useSearchStore = create<ISearchStore>((set, get) => ({
+  isSearchingContacts: false,
+  isSearchingMessage: false,
+  filteredContacts: [],
+  filteredMessages: [],
+  toggleIsSearchingContacts: () =>
+    set({
+      isSearchingContacts: !get().isSearchingContacts,
+    }),
+  toggleIsSearchingMessage: () =>
+    set({
+      isSearchingMessage: !get().isSearchingMessage,
+    }),
 }));
