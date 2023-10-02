@@ -72,6 +72,7 @@ const AudioMessage = ({ message }: { message: IMessage }) => {
 
   return (
     <div
+      id={`${message.id}`}
       key={message.id}
       className={`relative mb-[2px] flex h-[80px] w-[300px] flex-col justify-between overflow-hidden rounded-[10px]  ${
         currentChatUserId?.id === message.senderId

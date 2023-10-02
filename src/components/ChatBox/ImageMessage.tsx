@@ -11,6 +11,7 @@ const ImageMessage = ({ message }: { message: IMessage }) => {
 
   return (
     <div
+      id={`${message.id}`}
       key={message.id}
       className={`relative mb-[2px] flex flex-col gap-[2px] overflow-hidden rounded-[10px] ${
         currentChatUserId?.id === message.senderId
