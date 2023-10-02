@@ -18,6 +18,7 @@ import useSetSockets from "@/hooks/useSetSockets";
 import dynamic from "next/dynamic";
 import ChatBox from "@/components/ChatBox";
 import SearchMessages from "@/components/ChatBox/SearchMessages";
+import { useRef } from "react";
 
 const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
   ssr: false,
@@ -32,6 +33,8 @@ export default function Home() {
     url: GET_USER(initData?.email),
     queryKey: queryKeys.userInfo,
   });
+
+  const $chatBox = useRef<HTMLElement>(null);
 
   const isSearchingMessages = useSearchStore((set) => set.isSearchingMessage);
 
@@ -54,8 +57,8 @@ export default function Home() {
                 : "grid-cols-[100%_auto]"
             }`}
           >
-            <ChatBox />
-            <SearchMessages />
+            <ChatBox ref={$chatBox} />
+            <SearchMessages parent={$chatBox} />
           </div>
         ) : (
           <Empty />
