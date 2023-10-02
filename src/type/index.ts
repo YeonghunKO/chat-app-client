@@ -11,7 +11,7 @@ interface ISearchStore {
   isSearchingMessage: boolean;
   isSearchingContacts: boolean;
   filteredContacts: IUserInfo | any[];
-  filteredMessages: IMessage[];
+
   toggleIsSearchingContacts: () => void;
   toggleIsSearchingMessage: () => void;
 }

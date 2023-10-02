@@ -55,7 +55,7 @@ export const useSearchStore = create<ISearchStore>((set, get) => ({
   isSearchingContacts: false,
   isSearchingMessage: false,
   filteredContacts: [],
-  filteredMessages: [],
+
   toggleIsSearchingContacts: () =>
     set({
       isSearchingContacts: !get().isSearchingContacts,
