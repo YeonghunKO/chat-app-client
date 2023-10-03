@@ -24,6 +24,10 @@ const useSetSockets = (queryClient: QueryClient) => {
 
   useEffect(() => {
     if (socket) {
+      socket.on("update-chat-list-status", ({ to: me }) => {
+        console.log("m", me);
+      });
+
       socket.on(
         "get-onlineUsers",
 
@@ -35,11 +39,7 @@ const useSetSockets = (queryClient: QueryClient) => {
           setOnlineUsers(parsedOnlineUsers);
         },
       );
-    }
-  }, [socket]);
 
-  useEffect(() => {
-    if (socket) {
       socket.on(
         "recieve-msg",
         ({ from, to }: { from: number; to: number; message: string }) => {
