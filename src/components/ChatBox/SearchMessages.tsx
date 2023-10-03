@@ -51,6 +51,13 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
             block: "end",
             inline: "nearest",
           });
+
+          $childForMessageId.classList.add("animate-shake-bottom");
+          // 모바일일경우 활성화하기
+          // toggleSearching();
+          setTimeout(() => {
+            $childForMessageId.classList.remove("animate-shake-bottom");
+          }, 3000);
         }
       }
     }

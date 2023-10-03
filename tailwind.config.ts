@@ -14,6 +14,7 @@ const config: Config = {
       animation: {
         "fade-in-bottom": "fade-in-bottom 500ms ease-in-out",
         "fade-out-bottom": "fade-out-bottom 500ms ease-in-out forwards",
+        "shake-bottom": "shake-bottom 1000ms 2 ease-in-out",
       },
       keyframes: {
         "fade-in-bottom": {
@@ -32,6 +33,28 @@ const config: Config = {
           "100%": {
             transform: "translateY(100px)",
             opacity: "1",
+          },
+        },
+
+        "shake-bottom": {
+          "0%, 100%": {
+            transform: "rotate(0deg)",
+            "transform-origin": "50% 100%",
+          },
+          "10%": {
+            transform: "rotate(2deg)",
+          },
+          "20%,40%,60%": {
+            transform: "rotate(-4deg)",
+          },
+          "30%, 50%, 70%": {
+            transform: "rotate(4deg)",
+          },
+          "80%": {
+            transform: "rotate(-2deg)",
+          },
+          "90%": {
+            transform: "rotate(2deg)",
           },
         },
       },
