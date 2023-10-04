@@ -21,9 +21,8 @@ const ChatListItem = ({ userInfo }: { userInfo: IUserInfo }) => {
         userId: loggedInUser.id,
         value: { chatRoomId: id },
       });
-
       // 상태편의 메시지에 내한테 보낸 메시지가 read로 표시되도록 함
-      socket.emit("send-msg", {
+      socket.emit("mark-read", {
         from: loggedInUser.id,
         to: id,
       });
