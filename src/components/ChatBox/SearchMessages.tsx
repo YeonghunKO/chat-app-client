@@ -78,14 +78,18 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
           placeholder="searching messages"
         />
       </div>
-      <div className="custom-scrollbar h-[80dvh] overflow-auto p-[20px] pt-[0]">
+      <div className="custom-scrollbar flex h-[80dvh] flex-col overflow-auto p-[20px] pt-[0]">
         {searchedMessages.length ? (
           searchedMessages.map((message: IMessage) => {
             return (
               <div
                 onClick={handleResultClick(message.id)}
                 key={message.id}
-                className="mb-[10px] cursor-pointer rounded-md p-[10px] hover:bg-incoming-background hover:text-teal-light"
+                className={`${
+                  message.senderId === currentChatUser?.id
+                    ? "self-start bg-incoming-background"
+                    : "self-end bg-outgoing-background"
+                } mb-[10px] w-[90%] cursor-pointer rounded-md p-[10px] transition-opacity hover:opacity-80`}
               >
                 <p className="text-panel-header-icon">
                   {calculateTime(message.createdAt)}
