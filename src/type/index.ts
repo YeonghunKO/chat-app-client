@@ -117,6 +117,13 @@ interface IUseGetMessagesMutation {
   mapper?: (data: any) => any;
 }
 
+interface IUseMutationGetQuery {
+  queryKey: (string | number)[];
+  mutationFunc: (data: any) => any;
+  onSuccess?: TVoidFunc;
+  onError?: (err: any) => void;
+}
+
 export type {
   TToastType,
   IUiState,
@@ -136,4 +143,5 @@ export type {
   TOnlineUsers,
   IUseAddMulitMessage,
   ISearchStore,
+  IUseMutationGetQuery,
 };

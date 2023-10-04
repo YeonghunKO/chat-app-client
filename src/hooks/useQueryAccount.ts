@@ -10,6 +10,7 @@ import type {
   IUseGetAccount,
   IUseGetMessagesMutation,
   IUseMutateAccount,
+  IUseMutationGetQuery,
   IUserInfo,
 } from "@/type";
 import { AxiosError, AxiosResponse } from "axios";
@@ -28,6 +29,36 @@ export const useGetQueryAccount = <T>({
   });
 
   return result;
+};
+
+export const useMutationQuery = <T>({
+  queryKey,
+
+  onError,
+  onSuccess,
+  mutationFunc,
+}: IUseMutationGetQuery) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation<T, AxiosError<any>, any, any>({
+    onMutate: () => {
+      const previousData = queryClient.getQueryData(queryKey);
+      return { previousData };
+    },
+    mutationFn: mutationFunc,
+    onSuccess: (newData) => {
+      queryClient.setQueryData(queryKey, () => {
+        return newData;
+      });
+      onSuccess && onSuccess();
+    },
+    onError: (error, variables, context) => {
+      queryClient.setQueryData(queryKey, context.previousData);
+      onError && onError(error);
+    },
+  });
+
+  return mutation;
 };
 
 export const usePostMutationQueryAccount = <T = any>({

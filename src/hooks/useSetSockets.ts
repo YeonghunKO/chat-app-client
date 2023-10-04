@@ -4,7 +4,12 @@ import { IUserInfo, TOnlineUser } from "@/type";
 import { useEffect } from "react";
 import { QueryClient } from "react-query";
 import { io } from "socket.io-client";
-import { useGetMessagesMutationByFromTo } from "./useQueryAccount";
+import {
+  useGetMessagesMutationByFromTo,
+  useMutationQuery,
+} from "./useQueryAccount";
+import { getFetch } from "@/lib/api";
+import { UPDATE_CHAT_LIST } from "@/constant/api";
 
 const useSetSockets = (queryClient: QueryClient) => {
   const setSocket = useSocketStore((set) => set.setSocket);
@@ -15,6 +20,10 @@ const useSetSockets = (queryClient: QueryClient) => {
   }));
 
   const { mutate } = useGetMessagesMutationByFromTo();
+  const { mutate: updateChatList } = useMutationQuery({
+    queryKey: queryKeys.chatLists,
+    mutationFunc: (me: number) => getFetch({ url: UPDATE_CHAT_LIST(me) }),
+  });
 
   useEffect(() => {
     const socket = io(process.env.NEXT_PUBLIC_BASE_URL as string);
@@ -24,8 +33,16 @@ const useSetSockets = (queryClient: QueryClient) => {
 
   useEffect(() => {
     if (socket) {
+      socket.on(
+        "update-message-read",
+        ({ from, to }: { from: number; to: number; message: string }) => {
+          mutate({ from, to });
+        },
+      );
+
       socket.on("update-chat-list-status", ({ to: me }) => {
         console.log("m", me);
+        updateChatList(me);
       });
 
       socket.on(
