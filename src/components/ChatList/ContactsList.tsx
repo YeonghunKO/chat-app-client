@@ -8,7 +8,6 @@ import { GET_ALL_USERS } from "@/constant/api";
 import { queryKeys } from "@/constant/queryKeys";
 import { useUiState } from "@/store";
 import { IUserInfo } from "@/type";
-import { Suspense } from "react";
 
 const ContactsList = () => {
   const toggleContacts = useUiState((set) => set.toggleContactsVisible);
@@ -19,7 +18,6 @@ const ContactsList = () => {
     url: GET_ALL_USERS,
     queryKey: queryKeys.users,
   });
-
   if (isError) {
     return <div>error</div>;
   }
