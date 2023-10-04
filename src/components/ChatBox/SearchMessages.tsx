@@ -1,6 +1,6 @@
 import { useGetCurrentMessagesQuery } from "@/hooks/useQueryAccount";
 import { useSearchStore, useUserStore } from "@/store";
-import { RefObject, useEffect, useState } from "react";
+import { RefObject, memo, useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Input from "../common/Input";
 import { IMessage } from "@/type";
@@ -12,7 +12,6 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
   const handleCloseSearching = () => {
     toggleSearching();
   };
-
   const currentChatUser = useUserStore((set) => set.currentChatUser);
 
   const [searchedMessages, setSearchedMessages] = useState<IMessage[]>([]);
@@ -105,4 +104,4 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
   );
 };
 
-export default SearchMessages;
+export default memo(SearchMessages);

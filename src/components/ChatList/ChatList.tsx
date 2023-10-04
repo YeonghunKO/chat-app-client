@@ -6,6 +6,7 @@ import ChatListHeader from "./ChatListHeader";
 import List from "./List";
 import SearchBar from "./SearchBar";
 import dynamic from "next/dynamic";
+import { memo } from "react";
 
 const ContactsList = dynamic(() => import("./ContactsList"), { ssr: false });
 
@@ -29,4 +30,4 @@ const ChatList = () => {
   );
 };
 
-export default ChatList;
+export default memo(ChatList);

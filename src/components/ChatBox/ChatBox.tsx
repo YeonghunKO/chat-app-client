@@ -1,5 +1,5 @@
 // components
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 import ChatContainer from "./ChatContainer";
 import ChatHeader from "./ChatHeader";
 import MessageBar from "./MessageBar";
@@ -17,4 +17,4 @@ const ChatBox = forwardRef<HTMLElement, {}>(function ChatBox(props, ref) {
   );
 });
 
-export default ChatBox;
+export default memo(ChatBox);
