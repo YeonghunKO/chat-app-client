@@ -25,6 +25,10 @@
   background-color: #ffffff3b;
 }
 
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
