@@ -88,7 +88,7 @@ const ContactItem = ({
                 )}
               </div>
               {messageInfo.totalUnReadCount > 0 ? (
-                <div className="h-[15px] w-[15px] rounded-full bg-icon-green text-center text-[10px] text-white">
+                <div className="h-[17px] w-[17px] rounded-full bg-icon-green text-center text-[12px] font-semibold text-white">
                   {messageInfo.totalUnReadCount}
                 </div>
               ) : null}
