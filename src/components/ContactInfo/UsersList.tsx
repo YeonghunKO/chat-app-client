@@ -1,6 +1,6 @@
 // components
 import { BiArrowBack, BiSearchAlt2 } from "react-icons/bi";
-import ChatListItem from "./ChatListItem";
+import ContactItem from "./ContactItem";
 
 // business
 import { useGetQueryAccount } from "@/hooks/useQueryAccount";
@@ -9,7 +9,7 @@ import { queryKeys } from "@/constant/queryKeys";
 import { useUiState } from "@/store";
 import { IUserInfo } from "@/type";
 
-const ContactsList = () => {
+const UsersList = () => {
   const toggleContacts = useUiState((set) => set.toggleContactsVisible);
 
   const { data, isError, isSuccess, isLoading } = useGetQueryAccount<{
@@ -64,7 +64,7 @@ const ContactsList = () => {
                   {initialLetter}
                 </div>
                 {userList.map((userInfo) => {
-                  return <ChatListItem userInfo={userInfo} key={userInfo.id} />;
+                  return <ContactItem userInfo={userInfo} key={userInfo.id} />;
                 })}
               </div>
             );
@@ -75,4 +75,4 @@ const ContactsList = () => {
   }
 };
 
-export default ContactsList;
+export default UsersList;

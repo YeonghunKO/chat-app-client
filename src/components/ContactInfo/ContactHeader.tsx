@@ -14,7 +14,7 @@ import { SIZE } from "@/constant/size";
 import { useQueryClient } from "react-query";
 import { queryKeys } from "@/constant/queryKeys";
 
-const ChatListHeader = () => {
+const ContactHeader = () => {
   const contextMenuOptions = [
     {
       name: "Log Out",
@@ -75,4 +75,4 @@ const ChatListHeader = () => {
   );
 };
 
-export default ChatListHeader;
+export default ContactHeader;

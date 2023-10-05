@@ -2,26 +2,26 @@
 import { useUiState } from "@/store";
 
 // components
-import ChatListHeader from "./ChatListHeader";
+import ContactHeader from "./ContactHeader";
 import List from "./List";
 import SearchBar from "./SearchBar";
 import dynamic from "next/dynamic";
 import { memo } from "react";
 
-const ContactsList = dynamic(() => import("./ContactsList"), { ssr: false });
+const UsersList = dynamic(() => import("./UsersList"), { ssr: false });
 
-const ChatList = () => {
+const ContactInfo = () => {
   const isContactsListVisible = useUiState((set) => set.isContactsVisible);
 
   return (
     <section className="z-20 flex max-h-screen flex-col bg-panel-header-background">
       {isContactsListVisible ? (
         <>
-          <ContactsList />
+          <UsersList />
         </>
       ) : (
         <>
-          <ChatListHeader />
+          <ContactHeader />
           <SearchBar />
           <List />
         </>
@@ -30,4 +30,4 @@ const ChatList = () => {
   );
 };
 
-export default memo(ChatList);
+export default memo(ContactInfo);

@@ -10,7 +10,7 @@ import AvatarPhoto from "../common/AvatarPhoto";
 import Status from "../ChatBox/Status";
 import { calculateTime } from "@/utils/calculateTime";
 
-const ChatListItem = ({
+const ContactItem = ({
   userInfo,
   messageInfo,
   isChatting = false,
@@ -102,4 +102,4 @@ const ChatListItem = ({
   );
 };
 
-export default ChatListItem;
+export default ContactItem;

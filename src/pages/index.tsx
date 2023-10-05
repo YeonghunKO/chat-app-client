@@ -13,7 +13,7 @@ import { useSearchStore, useUserStore } from "@/store";
 import { IUserInfo } from "@/type";
 
 // components
-import ChatList from "@/components/ChatList";
+import ContactInfo from "@/components/ContactInfo";
 import useSetSockets from "@/hooks/useSetSockets";
 import dynamic from "next/dynamic";
 import ChatBox from "@/components/ChatBox";
@@ -47,7 +47,7 @@ export default function Home() {
   if (result.isSuccess) {
     return (
       <main className="grid h-screen max-h-screen w-screen max-w-full grid-cols-main overflow-hidden">
-        <ChatList />
+        <ContactInfo />
         {currentChatUser ? (
           <div
             className={`grid transition-all duration-500 ease-in-out ${

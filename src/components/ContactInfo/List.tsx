@@ -2,7 +2,7 @@ import { UPDATE_CHAT_LIST } from "@/constant/api";
 import { queryKeys } from "@/constant/queryKeys";
 import { useGetQueryAccount } from "@/hooks/useQueryAccount";
 import { useQueryClient } from "react-query";
-import ChatListItem from "./ChatListItem";
+import ContactItem from "./ContactItem";
 import { IMessage, IUserInfo } from "@/type";
 
 const List = () => {
@@ -35,7 +35,7 @@ const List = () => {
         {chatList.map((list) => {
           const { chatUser, ...messageInfo } = list;
           return (
-            <ChatListItem
+            <ContactItem
               key={messageInfo.id}
               userInfo={chatUser}
               messageInfo={messageInfo}
