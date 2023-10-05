@@ -120,9 +120,10 @@ export const useAddTextMessageQuery = ({
       }),
     {
       onMutate: async (newMessage) => {
-        const previouseTodos = queryClient.getQueryData(queryKeysWithChatUser);
-
-        return { previouseTodos };
+        const previouseMessages = queryClient.getQueryData(
+          queryKeysWithChatUser,
+        ) as IMessage[];
+        return { previouseMessages };
       },
       onSuccess: (newMessage) => {
         queryClient.setQueryData(
@@ -145,7 +146,7 @@ export const useAddTextMessageQuery = ({
         onError && onError(_error.message);
         queryClient.setQueryData(
           queryKeysWithChatUser,
-          context?.previouseTodos,
+          context?.previouseMessages,
         );
       },
     },
@@ -186,9 +187,11 @@ export const useAddMultiMessageQuery = ({
 
     {
       onMutate: async (newMessage) => {
-        const previouseTodos = queryClient.getQueryData(queryKeysWithChatUser);
+        const previouseMessages = queryClient.getQueryData(
+          queryKeysWithChatUser,
+        );
 
-        return { previouseTodos };
+        return { previouseMessages };
       },
       onSuccess: (newMessage) => {
         queryClient.setQueryData(
@@ -211,7 +214,7 @@ export const useAddMultiMessageQuery = ({
         onError && onError(_error.message);
         queryClient.setQueryData(
           queryKeysWithChatUser,
-          context?.previouseTodos,
+          context?.previouseMessages,
         );
       },
     },
