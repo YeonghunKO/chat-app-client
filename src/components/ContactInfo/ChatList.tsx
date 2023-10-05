@@ -5,7 +5,7 @@ import { useQueryClient } from "react-query";
 import ContactItem from "./ContactItem";
 import { IMessage, IUserInfo } from "@/type";
 
-const List = () => {
+const ChatList = () => {
   const queryClient = useQueryClient();
   const loggedInUser = queryClient.getQueryData(queryKeys.userInfo) as any;
   const {
@@ -48,4 +48,4 @@ const List = () => {
   }
 };
 
-export default List;
+export default ChatList;

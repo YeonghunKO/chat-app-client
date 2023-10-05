@@ -3,7 +3,7 @@ import { useUiState } from "@/store";
 
 // components
 import ContactHeader from "./ContactHeader";
-import List from "./List";
+import ChatList from "./ChatList";
 import SearchBar from "./SearchBar";
 import dynamic from "next/dynamic";
 import { memo } from "react";
@@ -23,7 +23,7 @@ const ContactInfo = () => {
         <>
           <ContactHeader />
           <SearchBar />
-          <List />
+          <ChatList />
         </>
       )}
     </section>
