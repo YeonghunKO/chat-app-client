@@ -1,6 +1,7 @@
+import { TMEssageStatus } from "@/type";
 import { BsCheck, BsCheckAll } from "react-icons/bs";
 
-type IStatus = { status: "read" | "delivered" | "sent" };
+type IStatus = { status: TMEssageStatus };
 
 const Status = ({ status }: IStatus) => {
   return (

@@ -3,6 +3,8 @@ import { QueryKey, UseQueryOptions } from "react-query";
 import { Socket } from "socket.io-client";
 
 type TToastType = "WARN" | "ERROR" | "SUCESSFUL";
+type TMessageType = "text" | "image" | "audio";
+type TMEssageStatus = "read" | "delivered" | "sent";
 
 type TOnlineUser = { socketId: string; chatRoomId: number | undefined };
 type TOnlineUsers = Map<number, TOnlineUser>;
@@ -45,9 +47,9 @@ interface IMessage {
   senderId: number;
   reciever: IUser;
   recieverId: number;
-  type: "text" | "image" | "audio";
+  type: TMessageType;
   message: string;
-  status: "read" | "delivered" | "sent";
+  status: TMEssageStatus;
   createdAt: Date;
 }
 
@@ -126,6 +128,8 @@ interface IUseMutationGetQuery {
 
 export type {
   TToastType,
+  TMessageType,
+  TMEssageStatus,
   IUiState,
   IMessage,
   IUser,
