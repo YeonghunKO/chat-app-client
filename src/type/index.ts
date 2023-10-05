@@ -43,9 +43,7 @@ interface IUiState {
 
 interface IMessage {
   id: number;
-  sender: IUser;
   senderId: number;
-  reciever: IUser;
   recieverId: number;
   type: TMessageType;
   message: string;
