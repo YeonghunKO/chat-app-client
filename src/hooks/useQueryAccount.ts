@@ -123,15 +123,24 @@ export const useAddTextMessageQuery = ({
         const previouseMessages = queryClient.getQueryData(
           queryKeysWithChatUser,
         ) as IMessage[];
+
+        const mutatedMessages = [
+          ...previouseMessages,
+          {
+            id: 0,
+            senderId: 0,
+            recieverId: 0,
+            type: "text",
+            message: newMessage,
+            status: "sent",
+            createdAt: Date.now(),
+          },
+        ];
+
+        queryClient.setQueryData(queryKeysWithChatUser, () => mutatedMessages);
         return { previouseMessages };
       },
       onSuccess: (newMessage) => {
-        queryClient.setQueryData(
-          queryKeysWithChatUser,
-          (prevMessages: IMessage[] | any) => {
-            return [...prevMessages, newMessage];
-          },
-        );
         if (socket) {
           socket.emit("send-msg", {
             from: userInfo?.id,
@@ -140,6 +149,13 @@ export const useAddTextMessageQuery = ({
           });
         }
         onSuccess && onSuccess();
+      },
+
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: queryKeysWithChatUser,
+          exact: true,
+        });
       },
 
       onError: (_error, _message, context) => {
