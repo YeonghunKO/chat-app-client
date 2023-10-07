@@ -31,7 +31,7 @@ export default function Login() {
     onError: (err: any) => {
       updateToast({
         type: "ERROR",
-        msg: err.response.data.message,
+        msg: err,
       });
     },
   });
