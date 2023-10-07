@@ -31,7 +31,7 @@ const ChatList = () => {
 
   if (isSuccess) {
     return (
-      <div className="custom-scrollbar overflow-scroll">
+      <div className="custom-scrollbar overflow-auto">
         {chatList.map((list) => {
           const { chatUser, ...messageInfo } = list;
           return (
