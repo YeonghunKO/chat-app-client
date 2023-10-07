@@ -67,7 +67,7 @@ const ContactItem = ({
         {isChatting && messageInfo ? (
           <>
             <h4 className="flex items-center justify-between gap-[5px] pr-[17px] text-secondary">
-              <div className="flex items-center gap-[5px]">
+              <div className="mb-[7px] flex items-center gap-[5px]">
                 <Status status={messageInfo.status} />
                 {messageInfo.type === "text" && (
                   <span className="w-[14vw] overflow-hidden text-ellipsis whitespace-nowrap break-all">
@@ -95,7 +95,7 @@ const ContactItem = ({
             </h4>
           </>
         ) : (
-          <h4 className="pr-5 text-secondary">{about || "\u00A0"}</h4>
+          <h4 className="mb-[7px] pr-5 text-secondary">{about || "\u00A0"}</h4>
         )}
       </div>
     </div>
