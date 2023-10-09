@@ -8,9 +8,12 @@ import { GET_ALL_USERS } from "@/constant/api";
 import { queryKeys } from "@/constant/queryKeys";
 import { useUiState } from "@/store";
 import { IUserInfo } from "@/type";
+import Input from "../common/Input";
+import { useState } from "react";
 
 const UsersList = () => {
   const toggleContacts = useUiState((set) => set.toggleContactsVisible);
+  const [contactSearchValue, setContactSearchValue] = useState("");
 
   const { data, isError, isSuccess, isLoading } = useGetQueryAccount<{
     users: { [key: string]: IUserInfo[] };
@@ -18,6 +21,7 @@ const UsersList = () => {
     url: GET_ALL_USERS,
     queryKey: queryKeys.users,
   });
+
   if (isError) {
     return <div>error</div>;
   }
@@ -44,15 +48,15 @@ const UsersList = () => {
         </div>
         <div className="custom-scrollbar h-full flex-auto overflow-auto bg-search-input-container-background">
           <div className=" flex h-14 items-center gap-3 px-4 py-3">
-            <div className="flex flex-grow items-center gap-5 rounded-lg bg-panel-header-background px-3 py-1">
+            <div className="mt-3 flex flex-grow items-center gap-5 rounded-lg px-3 py-2">
               <div>
                 <BiSearchAlt2 className="text-l cursor-pointer text-panel-header-icon" />
               </div>
-              <div className="">
-                <input
-                  type="text"
+              <div className="w-full">
+                <Input
+                  value={contactSearchValue}
+                  setValue={setContactSearchValue}
                   placeholder="Search Contacts"
-                  className="w-full bg-transparent text-sm text-white focus:outline-none"
                 />
               </div>
             </div>
