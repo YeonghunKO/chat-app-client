@@ -9,11 +9,15 @@ import { queryKeys } from "@/constant/queryKeys";
 import { useUiState } from "@/store";
 import { IUserInfo } from "@/type";
 import Input from "../common/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const UsersList = () => {
   const toggleContacts = useUiState((set) => set.toggleContactsVisible);
   const [contactSearchValue, setContactSearchValue] = useState("");
+  const [originalContacts, setOriginalContacts] =
+    useState<[string, IUserInfo[]][]>();
+  const [filtleredContacts, setFilteredContacts] =
+    useState<(readonly [string, IUserInfo[]] | null)[]>();
 
   const { data, isError, isSuccess, isLoading } = useGetQueryAccount<{
     users: { [key: string]: IUserInfo[] };
@@ -21,6 +25,36 @@ const UsersList = () => {
     url: GET_ALL_USERS,
     queryKey: queryKeys.users,
   });
+
+  useEffect(() => {
+    if (data?.users) {
+      const users = Object.entries(data.users);
+      console.log("users", users);
+      setOriginalContacts(users);
+    }
+  }, [data?.users]);
+
+  useEffect(() => {
+    const filteredContacts = originalContacts?.map((userInfo) => {
+      const [keyword, users] = userInfo;
+
+      const filteredUsers = users?.filter((user) => {
+        return user.name
+          ?.toLocaleLowerCase()
+          .includes(contactSearchValue.toLocaleLowerCase());
+      });
+      const result = [keyword, filteredUsers] as const;
+      if (filteredUsers?.length) {
+        return result;
+      } else {
+        return null;
+      }
+    });
+
+    if (filteredContacts) {
+      setFilteredContacts(filteredContacts);
+    }
+  }, [contactSearchValue]);
 
   if (isError) {
     return <div>error</div>;
@@ -61,18 +95,61 @@ const UsersList = () => {
               </div>
             </div>
           </div>
-          {Object.entries(data.users).map(([initialLetter, userList]) => {
-            return (
-              <div key={Date.now() + initialLetter} className="py-[10px]">
-                <div className="pb-[5px]  pl-[10px] text-teal-light">
-                  {initialLetter}
-                </div>
-                {userList.map((userInfo) => {
-                  return <ContactItem userInfo={userInfo} key={userInfo.id} />;
-                })}
-              </div>
-            );
-          })}
+          {filtleredContacts?.length
+            ? filtleredContacts?.map((userListInfo) => {
+                if (userListInfo) {
+                  const [initialLetter, userList] = userListInfo;
+                  if (initialLetter && userList) {
+                    return (
+                      <div
+                        key={Date.now() + initialLetter}
+                        className="py-[10px]"
+                      >
+                        <div className="pb-[5px]  pl-[10px] text-teal-light">
+                          {initialLetter}
+                        </div>
+                        {userList.map((userInfo) => {
+                          return (
+                            <ContactItem
+                              userInfo={userInfo}
+                              key={userInfo.id}
+                            />
+                          );
+                        })}
+                      </div>
+                    );
+                  }
+                }
+
+                return null;
+              })
+            : originalContacts?.map((userListInfo) => {
+                if (userListInfo) {
+                  const [initialLetter, userList] = userListInfo;
+                  if (initialLetter && userList) {
+                    return (
+                      <div
+                        key={Date.now() + initialLetter}
+                        className="py-[10px]"
+                      >
+                        <div className="pb-[5px]  pl-[10px] text-teal-light">
+                          {initialLetter}
+                        </div>
+                        {userList.map((userInfo) => {
+                          return (
+                            <ContactItem
+                              userInfo={userInfo}
+                              key={userInfo.id}
+                            />
+                          );
+                        })}
+                      </div>
+                    );
+                  }
+                }
+
+                return null;
+              })}
         </div>
       </div>
     );
