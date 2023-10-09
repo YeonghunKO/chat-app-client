@@ -132,7 +132,7 @@ export const useAddTextMessageQuery = ({
             recieverId: 0,
             type: "text",
             message: newMessage,
-            status: "sent",
+            status: "",
             createdAt: Date.now(),
           },
         ];
