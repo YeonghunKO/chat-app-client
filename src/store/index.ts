@@ -52,14 +52,8 @@ export const useSocketStore = create<ISocket>((set, get) => ({
 }));
 
 export const useSearchStore = create<ISearchStore>((set, get) => ({
-  isSearchingContacts: false,
   isSearchingMessage: false,
-  filteredContacts: [],
 
-  toggleIsSearchingContacts: () =>
-    set({
-      isSearchingContacts: !get().isSearchingContacts,
-    }),
   toggleIsSearchingMessage: () =>
     set({
       isSearchingMessage: !get().isSearchingMessage,

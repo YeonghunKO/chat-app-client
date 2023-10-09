@@ -11,10 +11,7 @@ type TOnlineUsers = Map<number, TOnlineUser>;
 
 interface ISearchStore {
   isSearchingMessage: boolean;
-  isSearchingContacts: boolean;
-  filteredContacts: IUserInfo | any[];
 
-  toggleIsSearchingContacts: () => void;
   toggleIsSearchingMessage: () => void;
 }
 
