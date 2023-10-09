@@ -56,6 +56,8 @@ const UsersList = () => {
     }
   }, [contactSearchValue]);
 
+  const isResultEmpty = filtleredContacts?.every((contact) => !contact);
+
   if (isError) {
     return <div>error</div>;
   }
@@ -95,8 +97,13 @@ const UsersList = () => {
               </div>
             </div>
           </div>
-          {filtleredContacts?.length
-            ? filtleredContacts?.map((userListInfo) => {
+          {filtleredContacts?.length ? (
+            isResultEmpty ? (
+              <div className="flex h-full items-center justify-center">
+                No contact found.
+              </div>
+            ) : (
+              filtleredContacts?.map((userListInfo) => {
                 if (userListInfo) {
                   const [initialLetter, userList] = userListInfo;
                   if (initialLetter && userList) {
@@ -123,33 +130,30 @@ const UsersList = () => {
 
                 return null;
               })
-            : originalContacts?.map((userListInfo) => {
-                if (userListInfo) {
-                  const [initialLetter, userList] = userListInfo;
-                  if (initialLetter && userList) {
-                    return (
-                      <div
-                        key={Date.now() + initialLetter}
-                        className="py-[10px]"
-                      >
-                        <div className="pb-[5px]  pl-[10px] text-teal-light">
-                          {initialLetter}
-                        </div>
-                        {userList.map((userInfo) => {
-                          return (
-                            <ContactItem
-                              userInfo={userInfo}
-                              key={userInfo.id}
-                            />
-                          );
-                        })}
+            )
+          ) : (
+            originalContacts?.map((userListInfo) => {
+              if (userListInfo) {
+                const [initialLetter, userList] = userListInfo;
+                if (initialLetter && userList) {
+                  return (
+                    <div key={Date.now() + initialLetter} className="py-[10px]">
+                      <div className="pb-[5px]  pl-[10px] text-teal-light">
+                        {initialLetter}
                       </div>
-                    );
-                  }
+                      {userList.map((userInfo) => {
+                        return (
+                          <ContactItem userInfo={userInfo} key={userInfo.id} />
+                        );
+                      })}
+                    </div>
+                  );
                 }
+              }
 
-                return null;
-              })}
+              return null;
+            })
+          )}
         </div>
       </div>
     );
