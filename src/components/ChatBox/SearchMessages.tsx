@@ -63,7 +63,7 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
   };
 
   return (
-    <section className="z-10 w-full  bg-search-input-container-background">
+    <div className="z-10 w-full  bg-search-input-container-background">
       <header className="flex h-[57px] gap-[10px] bg-panel-header-background pl-[10px] pt-[18px]">
         <IoClose
           className="cursor-pointer text-2xl text-icon-lighter"
@@ -104,7 +104,7 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
           </p>
         )}
       </div>
-    </section>
+    </div>
   );
 };
 

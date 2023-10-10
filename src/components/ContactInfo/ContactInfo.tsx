@@ -14,7 +14,7 @@ const ContactInfo = () => {
   const isContactsListVisible = useUiState((set) => set.isContactsVisible);
 
   return (
-    <section className="z-20 flex max-h-screen flex-col bg-panel-header-background">
+    <aside className="z-20 flex max-h-screen flex-col bg-panel-header-background">
       {isContactsListVisible ? (
         <>
           <UsersList />
@@ -26,7 +26,7 @@ const ContactInfo = () => {
           <ChatList />
         </>
       )}
-    </section>
+    </aside>
   );
 };
 
