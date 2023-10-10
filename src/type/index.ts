@@ -13,6 +13,9 @@ interface ISearchStore {
   isSearchingMessage: boolean;
   filteredChatList: any[];
   toggleIsSearchingMessage: () => void;
+  setFilteredChatList: (filteredChatList: number[]) => void;
+  allMessageSearchValue: string;
+  setAllMessageSearchValue: (value: string) => void;
 }
 
 interface ISocket {
@@ -114,7 +117,7 @@ interface IUseGetMessagesMutation {
 interface IUseMutationGetQuery {
   queryKey: (string | number)[];
   mutationFunc: (data: any) => any;
-  onSuccess?: TVoidFunc;
+  onSuccess?: (data: any) => any;
   onError?: (err: any) => void;
 }
 
