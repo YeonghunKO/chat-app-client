@@ -33,7 +33,6 @@ export const useGetQueryAccount = <T>({
 
 export const useMutationQuery = <T>({
   queryKey,
-
   onError,
   onSuccess,
   mutationFunc,
@@ -50,7 +49,8 @@ export const useMutationQuery = <T>({
       queryClient.setQueryData(queryKey, () => {
         return newData;
       });
-      onSuccess && onSuccess();
+
+      onSuccess && onSuccess(newData);
     },
     onError: (error, variables, context) => {
       queryClient.setQueryData(queryKey, context.previousData);
