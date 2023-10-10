@@ -29,7 +29,7 @@ const UsersList = () => {
   useEffect(() => {
     if (data?.users) {
       const users = Object.entries(data.users);
-      console.log("users", users);
+
       setOriginalContacts(users);
     }
   }, [data?.users]);
