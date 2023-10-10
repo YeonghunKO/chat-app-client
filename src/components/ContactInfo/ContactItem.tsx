@@ -1,7 +1,7 @@
 import { useQueryClient } from "react-query";
 import { useSocketStore, useUiState, useUserStore } from "@/store";
 
-import { IMessage, IUserInfo, TMEssageStatus, TMessageType } from "@/type";
+import { IMessage, IUserInfo } from "@/type";
 import { queryKeys } from "@/constant/queryKeys";
 import { SIZE } from "@/constant/size";
 
