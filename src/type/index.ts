@@ -54,9 +54,6 @@ interface IUserInfo {
   name: string | null;
   profilePicture: string | null;
   about?: string;
-
-  // sentMessages: IMessage[];
-  // recievedMessages: IMessage[];
 }
 
 interface IUser {
