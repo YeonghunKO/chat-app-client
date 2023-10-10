@@ -18,7 +18,8 @@ import useSetSockets from "@/hooks/useSetSockets";
 import dynamic from "next/dynamic";
 import ChatBox from "@/components/ChatBox";
 import SearchMessages from "@/components/ChatBox/SearchMessages";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { getItem, setItem } from "@/utils/storage";
 
 const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
   ssr: false,
@@ -27,18 +28,39 @@ const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
 
 export default function Home() {
   const client = useQueryClient();
-  const currentChatUser = useUserStore((set) => set.currentChatUser);
+  const { currentChatUser, setCurrentChatUser } = useUserStore((set) => ({
+    currentChatUser: set.currentChatUser,
+    setCurrentChatUser: set.setCurrentChatUser,
+  }));
   const initData = client.getQueryData(queryKeys.userInfo) as any;
   const result = useGetQueryAccount<IUserInfo>({
     url: GET_USER(initData?.email),
     queryKey: queryKeys.userInfo,
   });
 
-  const $chatBox = useRef<HTMLElement>(null);
+  const $chatBox = useRef<HTMLDivElement>(null);
 
   const isSearchingMessages = useSearchStore((set) => set.isSearchingMessage);
 
   useSetSockets(client);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      setItem("currentChatUser", currentChatUser);
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [currentChatUser]);
+
+  useEffect(() => {
+    const storedUser = getItem("currentChatUser");
+    if (storedUser) {
+      setCurrentChatUser(storedUser);
+    }
+  }, []);
 
   if (result.isError) {
     return <main>error</main>;
@@ -49,7 +71,7 @@ export default function Home() {
       <main className="grid h-screen max-h-screen w-screen max-w-full grid-cols-main overflow-hidden">
         <ContactInfo />
         {currentChatUser ? (
-          <div
+          <section
             className={`grid transition-all duration-500 ease-in-out ${
               isSearchingMessages
                 ? // auto를 하면 최대한 늘어날 수 있는만큼 늘어남
@@ -59,7 +81,7 @@ export default function Home() {
           >
             <ChatBox ref={$chatBox} />
             <SearchMessages parent={$chatBox} />
-          </div>
+          </section>
         ) : (
           <Empty />
         )}
