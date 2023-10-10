@@ -3,4 +3,5 @@ export const queryKeys = {
   users: ["users"],
   messages: (from: number, to: number) => ["messages", from, to],
   chatLists: ["chatList"],
+  filteredMessages: ["filtered-messages"],
 };

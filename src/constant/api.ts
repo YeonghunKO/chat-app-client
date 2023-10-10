@@ -11,6 +11,9 @@ export const GET_ALL_USERS = `${AUTH_ROUTE}/users`;
 export const GET_MESSAGES = (from: number, to: number) =>
   `${MESSAGE_ROUTE}/get-messages/${from}/${to}`;
 
+export const FILTERED_MESSAGE = (userId: number | null, message: string) =>
+  `${MESSAGE_ROUTE}/filter-message/${userId}/${message}`;
+
 export const ADD_MESSAGE = `${MESSAGE_ROUTE}/add-message`;
 export const ADD_IMAGE_MESSAGE = `${MESSAGE_ROUTE}/add-image-message`;
 export const ADD_AUDIO_MESSAGE = `${MESSAGE_ROUTE}/add-audio-message`;
