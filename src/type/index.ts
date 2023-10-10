@@ -11,7 +11,7 @@ type TOnlineUsers = Map<number, TOnlineUser>;
 
 interface ISearchStore {
   isSearchingMessage: boolean;
-
+  filteredChatList: any[];
   toggleIsSearchingMessage: () => void;
 }
 
