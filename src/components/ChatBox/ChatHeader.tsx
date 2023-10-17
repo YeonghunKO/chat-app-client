@@ -2,14 +2,13 @@
 import { useState } from "react";
 
 // business
-import { useSearchStore, useUserStore } from "@/store";
+import { useCallStore, useSearchStore, useUserStore } from "@/store";
 import { SIZE } from "@/constant/size";
 
 // components
 import AvatarPhoto from "../common/AvatarPhoto";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { BiSearchAlt2 } from "react-icons/bi";
-import { MdCall } from "react-icons/md";
 import { IoVideocam } from "react-icons/io5";
 import ContextMenu from "../common/ContextMenu";
 
@@ -22,6 +21,7 @@ const ChatHeader = () => {
       },
     },
   ];
+  const setIsStartCall = useCallStore((set) => set.setIsStartCall);
   const currentChatUser = useUserStore((set) => set.currentChatUser);
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
   const [menuCoord, setMenuCoord] = useState({ x: 0, y: 0 });
@@ -36,6 +36,10 @@ const ChatHeader = () => {
 
   const handleSeachingMessage = () => {
     toggleSearchMessages();
+  };
+
+  const handleVideoCall = () => {
+    setIsStartCall(true);
   };
 
   return (
@@ -53,13 +57,9 @@ const ChatHeader = () => {
         </div>
       </div>
       <div className="flex gap-6 ">
-        <MdCall
-          className="cursor-pointer text-xl text-panel-header-icon"
-          //   onClick={handleVoiceCall}
-        />
         <IoVideocam
           className="cursor-pointer text-xl text-panel-header-icon"
-          //   onClick={handleVideoCall}
+          onClick={handleVideoCall}
         />
         <BiSearchAlt2
           className="cursor-pointer text-xl text-panel-header-icon"
