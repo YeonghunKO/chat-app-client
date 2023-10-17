@@ -1,4 +1,5 @@
 import type {
+  ICallingStore,
   ISearchStore,
   ISocket,
   IUiState,
@@ -19,6 +20,11 @@ export const useUserStore = create<IUser>((set, get) => ({
   setOnlineUsers: (onlineUsers: TOnlineUsers) => {
     set({ onlineUsers });
   },
+}));
+
+export const useCallStore = create<ICallingStore>((set, get) => ({
+  isStartCall: false,
+  setIsStartCall: (isStartCall: boolean) => set({ isStartCall }),
 }));
 
 export const useUiState = create<IUiState>((set, get) => ({
