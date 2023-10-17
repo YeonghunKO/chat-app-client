@@ -23,7 +23,7 @@ const SearchBar = () => {
     setSearchingValue: set.setAllMessageSearchValue,
   }));
 
-  const { mutate, data } = useMutationQuery({
+  const { mutate } = useMutationQuery({
     queryKey: queryKeys.filteredMessages,
     mutationFunc: (message: string) =>
       getFetch({

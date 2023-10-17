@@ -1,4 +1,4 @@
-import { FILTERED_MESSAGE, UPDATE_CHAT_LIST } from "@/constant/api";
+import { UPDATE_CHAT_LIST } from "@/constant/api";
 import { queryKeys } from "@/constant/queryKeys";
 import { useGetQueryAccount } from "@/hooks/useQueryAccount";
 import { useQueryClient } from "react-query";
