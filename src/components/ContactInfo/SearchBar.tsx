@@ -61,7 +61,7 @@ const SearchBar = () => {
           <Input
             value={value}
             setValue={setValue}
-            placeholder="search new chat"
+            placeholder="search entire chat"
           />
         </div>
       </div>
