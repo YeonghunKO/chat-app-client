@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@types/cookies": "^0.7.7",
+    "@types/simple-peer": "^9.11.6",
     "@types/uuid": "^9.0.3",
     "@types/wavesurfer.js": "^6.0.6",
     "prettier": "^3.0.2",
