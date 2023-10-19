@@ -11,10 +11,10 @@ const CallingContainer = () => {
   console.log("call", call);
 
   return (
-    <ContextProvider>
+    <>
       {/* <IncomingCall /> */}
       <ConnectingCall />
-    </ContextProvider>
+    </>
   );
 };
 

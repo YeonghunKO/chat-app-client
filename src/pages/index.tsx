@@ -21,6 +21,7 @@ import SearchMessages from "@/components/ChatBox/SearchMessages";
 import { useEffect, useRef } from "react";
 import { getItem, setItem } from "@/utils/storage";
 import CallingContainer from "@/components/Calling/CallingContainer";
+import { ContextProvider } from "@/components/common/CallingContext";
 
 const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
   ssr: false,
@@ -55,7 +56,6 @@ export default function Home() {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [currentChatUser]);
-
   useEffect(() => {
     const storedUser = getItem("currentChatUser");
     if (storedUser) {
@@ -70,7 +70,9 @@ export default function Home() {
   if (result.isSuccess) {
     return (
       <main className="grid h-screen max-h-screen w-screen max-w-full grid-cols-main overflow-hidden">
-        <CallingContainer />
+        <ContextProvider>
+          <CallingContainer />
+        </ContextProvider>
         <ContactInfo />
         {currentChatUser ? (
           <section
