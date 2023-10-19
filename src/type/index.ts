@@ -19,8 +19,8 @@ interface ISearchStore {
 }
 
 interface ICallingStore {
-  isStartCall: boolean;
-  setIsStartCall: (isStartCall: boolean) => void;
+  isStartCalling: boolean;
+  setIsStartCalling: (isStartCall: boolean) => void;
 }
 
 interface ISocket {

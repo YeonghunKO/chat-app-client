@@ -21,7 +21,7 @@ const ChatHeader = () => {
       },
     },
   ];
-  const setIsStartCall = useCallStore((set) => set.setIsStartCall);
+  const setIsStartCalling = useCallStore((set) => set.setIsStartCalling);
   const currentChatUser = useUserStore((set) => set.currentChatUser);
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
   const [menuCoord, setMenuCoord] = useState({ x: 0, y: 0 });
@@ -39,7 +39,7 @@ const ChatHeader = () => {
   };
 
   const handleVideoCall = () => {
-    setIsStartCall(true);
+    setIsStartCalling(true);
   };
 
   return (
