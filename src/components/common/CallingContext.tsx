@@ -1,5 +1,12 @@
 // setting
-import { createContext, useEffect, useRef, useState } from "react";
+import {
+  MutableRefObject,
+  RefObject,
+  createContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useQueryClient } from "react-query";
 import Peer from "simple-peer";
 
@@ -8,14 +15,35 @@ import { queryKeys } from "@/constant/queryKeys";
 import { useCallStore, useSocketStore, useUserStore } from "@/store";
 import { IUserInfo } from "@/type";
 
-const SocketCotext = createContext({});
+type TVoid = () => void;
+export interface TSocketContext {
+  stream?: MediaStream | undefined;
+  call?: {
+    isRecieving: boolean;
+    from: any;
+    name: any;
+    signal: any;
+  };
+  callAccepted?: boolean;
+  callEnded?: boolean;
+  name?: string;
+  myVideo?: RefObject<HTMLVideoElement>;
+  userVideo?: RefObject<HTMLVideoElement>;
+  connectionPeerRef?: MutableRefObject<Peer.Instance | null>;
+  callUser?: (id: number) => void;
+  rejectUser?: (id: number) => void;
+  answerUser?: TVoid;
+  leaveUser?: TVoid;
+}
+
+const SocketCotext = createContext<TSocketContext>({});
 
 const ContextProvider = ({ children }: { children: any }) => {
   const client = useQueryClient();
-  const myId = client.getQueryData<IUserInfo>(queryKeys.userInfo)?.id;
+  const loggedInUser = client.getQueryData<IUserInfo>(queryKeys.userInfo);
   const socket = useSocketStore((set) => set.socket);
-  const isStartCall = useCallStore((set) => set.isStartCall);
-  // const currentChatUser = useUserStore(set=>set.currentChatUser)
+  const isStartCalling = useCallStore((set) => set.isStartCalling);
+  const currentChatUser = useUserStore((set) => set.currentChatUser);
 
   const [stream, setStream] = useState<MediaStream>();
   const [call, setCall] = useState<{
@@ -39,7 +67,7 @@ const ContextProvider = ({ children }: { children: any }) => {
   const connectionPeerRef = useRef<Peer.Instance | null>(null);
 
   useEffect(() => {
-    if (isStartCall) {
+    if (isStartCalling) {
       navigator.mediaDevices
         .getUserMedia({ audio: true, video: true })
         .then((currentLocalStream) => {
@@ -53,12 +81,12 @@ const ContextProvider = ({ children }: { children: any }) => {
           setCall({ isRecieving: true, from, name: callerName, signal });
         });
 
-        socket?.on("callRejected", (signal) => {
+        socket.on("callRejected", (signal) => {
           setCallAccepted(false);
         });
       }
     }
-  }, [isStartCall]);
+  }, [isStartCalling]);
 
   const callUser = (id: number) => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
@@ -71,8 +99,8 @@ const ContextProvider = ({ children }: { children: any }) => {
       socket?.emit("callUser", {
         userToCall: id,
         signalData: data,
-        from: myId,
-        name,
+        from: loggedInUser?.id,
+        name: currentChatUser,
       });
       console.log("data", data);
     });
@@ -94,6 +122,7 @@ const ContextProvider = ({ children }: { children: any }) => {
   };
 
   const answerUser = () => {
+    setCallAccepted(true);
     const peer = new Peer({ initiator: false, trickle: false, stream });
     peer.on("signal", (data) => {
       socket?.emit("answerCall", { signal: data, to: call?.from });
