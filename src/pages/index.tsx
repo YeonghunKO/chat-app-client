@@ -20,7 +20,7 @@ import ChatBox from "@/components/ChatBox";
 import SearchMessages from "@/components/ChatBox/SearchMessages";
 import { useEffect, useRef } from "react";
 import { getItem, setItem } from "@/utils/storage";
-import { CallingContainer } from "@/components/Calling/CallingContainer";
+import CallingContainer from "@/components/Calling/CallingContainer";
 
 const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
   ssr: false,
