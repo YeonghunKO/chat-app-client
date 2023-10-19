@@ -17,32 +17,50 @@ import { IUserInfo } from "@/type";
 
 type TVoid = () => void;
 export interface TSocketContext {
-  stream?: MediaStream | undefined;
-  call?: {
+  stream: MediaStream | undefined;
+  call: {
     isRecieving: boolean;
     from: any;
     name: any;
     signal: any;
   };
-  callAccepted?: boolean;
-  callEnded?: boolean;
-  name?: string;
+  callAccepted: boolean;
+  callEnded: boolean;
   myVideo?: RefObject<HTMLVideoElement>;
   userVideo?: RefObject<HTMLVideoElement>;
   connectionPeerRef?: MutableRefObject<Peer.Instance | null>;
-  callUser?: () => void;
-  rejectUser?: () => void;
-  answerUser?: TVoid;
-  leaveUser?: TVoid;
+  callUser: TVoid;
+  rejectUser: TVoid;
+  answerUser: TVoid;
+  leaveUser: TVoid;
+  setCall: (call: any) => void;
 }
 
-const SocketCotext = createContext<TSocketContext>({});
+const SocketCotext = createContext<TSocketContext>({
+  stream: undefined,
+  call: {
+    isRecieving: false,
+    from: null,
+    name: null,
+    signal: null,
+  },
+  callAccepted: false,
+  callEnded: false,
+  callUser: () => {},
+  rejectUser: () => {},
+  answerUser: () => {},
+  leaveUser: () => {},
+  setCall: () => {},
+});
 
 const ContextProvider = ({ children }: { children: any }) => {
   const client = useQueryClient();
   const loggedInUser = client.getQueryData<IUserInfo>(queryKeys.userInfo);
   const socket = useSocketStore((set) => set.socket);
-  const isStartCalling = useCallStore((set) => set.isStartCalling);
+  const { isStartCalling, setIsStartCalling } = useCallStore((set) => ({
+    isStartCalling: set.isStartCalling,
+    setIsStartCalling: set.setIsStartCalling,
+  }));
   const currentChatUser = useUserStore((set) => set.currentChatUser);
 
   const [stream, setStream] = useState<MediaStream>();
@@ -57,10 +75,8 @@ const ContextProvider = ({ children }: { children: any }) => {
     name: null,
     signal: null,
   });
-
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
-  const [name, setName] = useState("");
 
   const myVideo = useRef<HTMLVideoElement>(null);
   const userVideo = useRef<HTMLVideoElement>(null);
@@ -154,7 +170,6 @@ const ContextProvider = ({ children }: { children: any }) => {
         call,
         callAccepted,
         callEnded,
-        name,
         myVideo,
         userVideo,
         connectionPeerRef,
@@ -162,6 +177,7 @@ const ContextProvider = ({ children }: { children: any }) => {
         rejectUser,
         answerUser,
         leaveUser,
+        setCall,
       }}
     >
       {children}
