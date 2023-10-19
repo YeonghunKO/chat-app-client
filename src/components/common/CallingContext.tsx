@@ -30,8 +30,8 @@ export interface TSocketContext {
   myVideo?: RefObject<HTMLVideoElement>;
   userVideo?: RefObject<HTMLVideoElement>;
   connectionPeerRef?: MutableRefObject<Peer.Instance | null>;
-  callUser?: (id: number) => void;
-  rejectUser?: (id: number) => void;
+  callUser?: () => void;
+  rejectUser?: () => void;
   answerUser?: TVoid;
   leaveUser?: TVoid;
 }
@@ -88,7 +88,7 @@ const ContextProvider = ({ children }: { children: any }) => {
     }
   }, [isStartCalling]);
 
-  const callUser = (id: number) => {
+  const callUser = () => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
 
     // signal은 언제 오는 것일까?
@@ -97,10 +97,10 @@ const ContextProvider = ({ children }: { children: any }) => {
 
     peer.on("signal", (data) => {
       socket?.emit("callUser", {
-        userToCall: id,
+        userToCall: currentChatUser?.id,
         signalData: data,
         from: loggedInUser?.id,
-        name: currentChatUser,
+        name: loggedInUser?.name,
       });
       console.log("data", data);
     });
@@ -125,7 +125,7 @@ const ContextProvider = ({ children }: { children: any }) => {
     setCallAccepted(true);
     const peer = new Peer({ initiator: false, trickle: false, stream });
     peer.on("signal", (data) => {
-      socket?.emit("answerCall", { signal: data, to: call?.from });
+      socket?.emit("answerCall", { signal: data, to: call.from });
     });
 
     peer.on("stream", (stream) => {
@@ -138,8 +138,8 @@ const ContextProvider = ({ children }: { children: any }) => {
     connectionPeerRef.current = peer;
   };
 
-  const rejectUser = (id: number) => {
-    socket?.emit("rejectCall", { to: id });
+  const rejectUser = () => {
+    socket?.emit("rejectCall", { to: call.from });
   };
 
   const leaveUser = () => {
