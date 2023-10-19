@@ -20,7 +20,7 @@ import ChatBox from "@/components/ChatBox";
 import SearchMessages from "@/components/ChatBox/SearchMessages";
 import { useEffect, useRef } from "react";
 import { getItem, setItem } from "@/utils/storage";
-import { ContextProvider } from "@/components/common/CallingContext";
+import { CallingContainer } from "@/components/Calling/CallingContainer";
 
 const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
   ssr: false,
@@ -70,9 +70,7 @@ export default function Home() {
   if (result.isSuccess) {
     return (
       <main className="grid h-screen max-h-screen w-screen max-w-full grid-cols-main overflow-hidden">
-        <ContextProvider>
-          <></>
-        </ContextProvider>
+        <CallingContainer />
         <ContactInfo />
         {currentChatUser ? (
           <section
