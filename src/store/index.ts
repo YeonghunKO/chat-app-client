@@ -23,8 +23,8 @@ export const useUserStore = create<IUser>((set, get) => ({
 }));
 
 export const useCallStore = create<ICallingStore>((set, get) => ({
-  isStartCall: false,
-  setIsStartCall: (isStartCall: boolean) => set({ isStartCall }),
+  isStartCalling: false,
+  setIsStartCalling: (isStartCalling: boolean) => set({ isStartCalling }),
 }));
 
 export const useUiState = create<IUiState>((set, get) => ({
