@@ -56,7 +56,7 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
           // toggleSearching();
           setTimeout(() => {
             $childForMessageId.classList.remove("animate-shake-bottom");
-          }, 3000);
+          }, 2000);
         }
       }
     }
