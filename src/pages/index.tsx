@@ -57,10 +57,10 @@ export default function Home() {
     };
   }, [currentChatUser]);
   useEffect(() => {
-    const storedUser = getItem("currentChatUser");
-    if (storedUser) {
-      setCurrentChatUser(storedUser);
-    }
+    // const storedUser = getItem("currentChatUser");
+    // if (storedUser) {
+    //   setCurrentChatUser(storedUser);
+    // }
   }, []);
 
   if (result.isError) {
@@ -69,27 +69,27 @@ export default function Home() {
 
   if (result.isSuccess) {
     return (
-      <main className="grid h-screen max-h-screen w-screen max-w-full grid-cols-main overflow-hidden">
-        <ContextProvider>
+      <ContextProvider>
+        <main className="grid h-screen max-h-screen w-screen max-w-full grid-cols-main overflow-hidden">
           <CallingContainer />
-        </ContextProvider>
-        <ContactInfo />
-        {currentChatUser ? (
-          <section
-            className={`grid transition-all duration-500 ease-in-out ${
-              isSearchingMessages
-                ? // auto를 하면 최대한 늘어날 수 있는만큼 늘어남
-                  "grid-cols-[57%_auto]"
-                : "grid-cols-[100%_auto]"
-            }`}
-          >
-            <ChatBox ref={$chatBox} />
-            <SearchMessages parent={$chatBox} />
-          </section>
-        ) : (
-          <Empty />
-        )}
-      </main>
+          <ContactInfo />
+          {currentChatUser ? (
+            <section
+              className={`grid transition-all duration-500 ease-in-out ${
+                isSearchingMessages
+                  ? // auto를 하면 최대한 늘어날 수 있는만큼 늘어남
+                    "grid-cols-[57%_auto]"
+                  : "grid-cols-[100%_auto]"
+              }`}
+            >
+              <ChatBox ref={$chatBox} />
+              <SearchMessages parent={$chatBox} />
+            </section>
+          ) : (
+            <Empty />
+          )}
+        </main>
+      </ContextProvider>
     );
   }
 }
