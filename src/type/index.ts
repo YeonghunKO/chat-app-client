@@ -18,11 +18,6 @@ interface ISearchStore {
   setAllMessageSearchValue: (value: string) => void;
 }
 
-interface ICallingStore {
-  isStartCalling: boolean;
-  setIsStartCalling: (isStartCall: boolean) => void;
-}
-
 interface ISocket {
   socket: Socket | undefined;
   setSocket: (socket: Socket) => void;
@@ -148,5 +143,4 @@ export type {
   IUseAddMulitMessage,
   ISearchStore,
   IUseMutationGetQuery,
-  ICallingStore,
 };
