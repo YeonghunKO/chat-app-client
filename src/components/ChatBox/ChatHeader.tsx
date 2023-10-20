@@ -1,8 +1,8 @@
 // setting
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 // business
-import { useCallStore, useSearchStore, useUserStore } from "@/store";
+import { useSearchStore, useUserStore } from "@/store";
 import { SIZE } from "@/constant/size";
 
 // components
@@ -11,6 +11,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { IoVideocam } from "react-icons/io5";
 import ContextMenu from "../common/ContextMenu";
+import { SocketCotext } from "../common/CallingContext";
 
 const ChatHeader = () => {
   const contextMenuOptions = [
@@ -21,7 +22,7 @@ const ChatHeader = () => {
       },
     },
   ];
-  const setIsStartCalling = useCallStore((set) => set.setIsStartCalling);
+  const { setIsStartCalling, callUser } = useContext(SocketCotext);
   const currentChatUser = useUserStore((set) => set.currentChatUser);
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
   const [menuCoord, setMenuCoord] = useState({ x: 0, y: 0 });
@@ -39,7 +40,8 @@ const ChatHeader = () => {
   };
 
   const handleVideoCall = () => {
-    setIsStartCalling(true);
+    setIsStartCalling && setIsStartCalling(true);
+    callUser();
   };
 
   return (
