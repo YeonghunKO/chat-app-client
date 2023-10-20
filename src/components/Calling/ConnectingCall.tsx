@@ -4,9 +4,9 @@ import Image from "next/image";
 import { MdOutlineCallEnd } from "react-icons/md";
 
 const ConnectingCall = () => {
-  const { callAccepted, call, setCall } = useContext(SocketCotext);
+  const { callAccepted, call, cancelUser, rejectUser } =
+    useContext(SocketCotext);
 
-  const endCall = () => {};
   console.log(call);
   return (
     <div className="absolute left-1/2 top-1/2 z-[99] flex h-[80dvh] w-[80dvw] -translate-x-1/2 -translate-y-1/2 items-center justify-center border-2 border-outgoing-background  bg-conversation-panel-background">
@@ -20,7 +20,7 @@ const ConnectingCall = () => {
         </div>
         <button
           className="flex h-16 w-16 items-center justify-center rounded-full bg-red-600"
-          onClick={endCall}
+          onClick={cancelUser}
         >
           <MdOutlineCallEnd className="text-3xl" />
         </button>

@@ -1,7 +1,9 @@
 import Image from "next/image";
-import React from "react";
+import React, { useContext } from "react";
+import { SocketCotext } from "../common/CallingContext";
 
 const IncomingCall = () => {
+  const { rejectUser, answerUser } = useContext(SocketCotext);
   return (
     <div className="absolute bottom-3 left-1/2 z-[99] flex h-[120px] w-[400px] -translate-x-1/2 items-center justify-start border-2 border-teal-800 bg-panel-header-background p-3">
       <div className="flex items-center gap-[20px]">
@@ -19,10 +21,16 @@ const IncomingCall = () => {
             <div>incoming call</div>
           </div>
           <div className="flex gap-[5px]">
-            <button className="rounded-full bg-green-700 px-[15px] py-[2px]">
+            <button
+              onClick={answerUser}
+              className="rounded-full bg-green-700 px-[15px] py-[2px]"
+            >
               accept
             </button>
-            <button className="rounded-full bg-red-700 px-[15px] py-[2px]">
+            <button
+              onClick={rejectUser}
+              className="rounded-full bg-red-700 px-[15px] py-[2px]"
+            >
               reject
             </button>
           </div>
