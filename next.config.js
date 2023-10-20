@@ -8,6 +8,10 @@ const nextConfig = {
         hostname: "**",
         pathname: "/uploads/images/**",
       },
+      {
+        hostname: "lh3.googleusercontent.com",
+        pathname: "/**/**",
+      },
     ],
   },
 };
