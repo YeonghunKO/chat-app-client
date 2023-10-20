@@ -1,7 +1,9 @@
 // setting
 import {
+  Dispatch,
   MutableRefObject,
   RefObject,
+  SetStateAction,
   createContext,
   useEffect,
   useRef,
@@ -22,8 +24,7 @@ export interface TSocketContext {
   stream: MediaStream | undefined;
   call: {
     isRecieving: boolean;
-    from: any;
-    name: any;
+    callerInfo: IUserInfo | null;
     signal: any;
   };
   callAccepted: boolean;
@@ -35,6 +36,7 @@ export interface TSocketContext {
   rejectUser: TVoid;
   answerUser: TVoid;
   cancelUser: TVoid;
+  setIsStartCalling?: Dispatch<SetStateAction<boolean>>;
 }
 
 /**
@@ -78,8 +80,7 @@ const SocketCotext = createContext<TSocketContext>({
   stream: undefined,
   call: {
     isRecieving: false,
-    from: null,
-    name: null,
+    callerInfo: null,
     signal: null,
   },
   callAccepted: false,
@@ -96,24 +97,19 @@ const ContextProvider = ({ children }: { children: any }) => {
 
   const socket = useSocketStore((set) => set.socket);
   const currentChatUser = useUserStore((set) => set.currentChatUser);
-  const onlineUsers = useUserStore((set) => set.onlineUsers);
   const setToastMsg = useUiState((set) => set.updateToastInfo);
 
   const [stream, setStream] = useState<MediaStream>();
   const [isStartCalling, setIsStartCalling] = useState(false);
   const [call, setCall] = useState<{
     isRecieving: boolean;
-    from: any;
-    name: any;
+    callerInfo: IUserInfo | null;
     signal: any;
   }>({
     isRecieving: false,
-    from: null,
-    name: null,
+    callerInfo: null,
     signal: null,
   });
-
-  console.log("onlineUser", onlineUsers);
 
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
@@ -137,8 +133,9 @@ const ContextProvider = ({ children }: { children: any }) => {
 
   useEffect(() => {
     if (socket) {
-      socket.on("callUser", ({ from, name: callerName, signal }) => {
-        setCall({ isRecieving: true, from, name: callerName, signal });
+      socket.on("callUser", ({ from, callerInfo, signal }) => {
+        console.log("callUser");
+        setCall({ isRecieving: true, callerInfo, signal });
       });
 
       socket.on("callRejected", (signal) => {
@@ -174,8 +171,7 @@ const ContextProvider = ({ children }: { children: any }) => {
     socket?.emit("callUser", {
       userToCall: currentChatUser?.id,
       signalData: stream,
-      from: loggedInUser?.id,
-      name: loggedInUser?.name,
+      callerInfo: loggedInUser,
     });
     // peer.on("signal", (data) => {
     //   console.log("data", data);
@@ -204,7 +200,7 @@ const ContextProvider = ({ children }: { children: any }) => {
     setCall((prev) => ({ ...prev, isRecieving: false }));
 
     // const peer = new Peer({ initiator: false, trickle: false, stream });
-    socket?.emit("answerCall", { signal: stream, to: call.from });
+    socket?.emit("answerCall", { signal: stream, to: call.callerInfo?.id });
     // peer.on("signal", (data) => {
     // });
 
@@ -222,7 +218,7 @@ const ContextProvider = ({ children }: { children: any }) => {
     setCallEnded(true);
     setIsStartCalling(false);
     connectionPeerRef.current?.destroy();
-    socket?.emit("cancelCall", { to: call.from });
+    socket?.emit("cancelCall", { to: call.callerInfo?.id });
     stopCamera();
   };
 
@@ -230,7 +226,7 @@ const ContextProvider = ({ children }: { children: any }) => {
     setCallAccepted(false);
     setCall((prev) => ({ ...prev, isRecieving: false }));
     connectionPeerRef.current?.destroy();
-    socket?.emit("rejectCall", { to: call.from });
+    socket?.emit("rejectCall", { to: call.callerInfo?.id });
   };
 
   return (
@@ -248,6 +244,7 @@ const ContextProvider = ({ children }: { children: any }) => {
         rejectUser,
         answerUser,
         cancelUser,
+        setIsStartCalling,
       }}
     >
       {children}
