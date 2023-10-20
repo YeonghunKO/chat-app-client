@@ -152,6 +152,7 @@ const ContextProvider = ({ children }: { children: any }) => {
 
       socket.on("callCanceled", (signal) => {
         setCallEnded(true);
+        setCallAccepted(false);
         setCall((prev) => ({ ...prev, isRecieving: false }));
         setToastMsg({
           type: TOAST_TYPE.ERROR,
@@ -221,6 +222,7 @@ const ContextProvider = ({ children }: { children: any }) => {
   const cancelUser = () => {
     setCallEnded(true);
     setIsStartCalling(false);
+    setCallAccepted(false);
     connectionPeerRef.current?.destroy();
     socket?.emit("cancelCall", { to: call.callerInfo?.id });
     stopCamera();
