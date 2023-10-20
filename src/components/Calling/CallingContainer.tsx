@@ -7,8 +7,6 @@ import ConnectedCall from "./ConnectedCall";
 const CallingContainer = () => {
   const { callAccepted, call, callEnded, isStartCalling } =
     useContext(SocketCotext);
-  console.log("callAccepted", callAccepted);
-  console.log("call", call);
 
   return (
     <>
