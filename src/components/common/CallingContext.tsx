@@ -118,6 +118,9 @@ const ContextProvider = ({ children }: { children: any }) => {
   const userVideo = useRef<HTMLVideoElement>(null);
   const connectionPeerRef = useRef<Peer.Instance | null>(null);
 
+  const stopCamera = () => {
+    stream?.getTracks().forEach((track) => track.stop());
+  };
   useEffect(() => {
     if (isStartCalling) {
       navigator.mediaDevices
@@ -134,7 +137,6 @@ const ContextProvider = ({ children }: { children: any }) => {
   useEffect(() => {
     if (socket) {
       socket.on("callUser", ({ from, callerInfo, signal }) => {
-        console.log("callUser");
         setCall({ isRecieving: true, callerInfo, signal });
       });
 
@@ -145,25 +147,26 @@ const ContextProvider = ({ children }: { children: any }) => {
           type: TOAST_TYPE.ERROR,
           msg: "Call denied",
         });
+        stopCamera();
       });
 
       socket.on("callCanceled", (signal) => {
         setCallEnded(true);
+        setCall((prev) => ({ ...prev, isRecieving: false }));
         setToastMsg({
           type: TOAST_TYPE.ERROR,
           msg: "Call canceled",
         });
+        stopCamera();
       });
     }
   }, [socket]);
 
-  const stopCamera = () => {
-    stream?.getTracks().forEach((track) => track.stop());
-  };
-
   const callUser = () => {
+    setCallEnded(false);
     // const peer = new Peer({ initiator: true, trickle: false, stream });
     setIsStartCalling(true);
+    setCall((prev) => ({ ...prev, callerInfo: currentChatUser }));
     // signal은 언제 오는 것일까?
     // 눈을 뜨고 안테나를 쫑긋 세워 잘 찾아보아라 그럼 보인다
     // answerCall 하반부에 히히히히
@@ -187,8 +190,8 @@ const ContextProvider = ({ children }: { children: any }) => {
 
     socket?.on("callAccepted", (signal) => {
       setCallAccepted(true);
+      setCallEnded(false);
       setIsStartCalling(false);
-      console.log("signal callAccepted", signal);
       // peer.signal(signal);
     });
 
@@ -196,6 +199,7 @@ const ContextProvider = ({ children }: { children: any }) => {
   };
 
   const answerUser = () => {
+    setCallEnded(false);
     setCallAccepted(true);
     setCall((prev) => ({ ...prev, isRecieving: false }));
 
