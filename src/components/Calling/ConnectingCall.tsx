@@ -14,11 +14,11 @@ const ConnectingCall = () => {
           <h1 className="text-[50px]">{call.callerInfo?.name}</h1>
           <h2>calling</h2>
         </div>
-        <div className="h-[70%] w-[70%]">
+        <div className="h-[70%] w-[70%] animate-shake-bottom">
           {call.callerInfo && (
             <Image
               src={call.callerInfo.profilePicture as string}
-              alt="harry"
+              alt="connecting-profile-picture"
               fill
               className="!relative"
             />
