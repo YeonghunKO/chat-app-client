@@ -136,7 +136,7 @@ const ContextProvider = ({ children }: { children: any }) => {
 
   useEffect(() => {
     if (socket) {
-      socket.on("callUser", ({ from, callerInfo, signal }) => {
+      socket.on("callUser", ({ callerInfo, signal }) => {
         setCall({ isRecieving: true, callerInfo, signal });
       });
 
@@ -220,15 +220,16 @@ const ContextProvider = ({ children }: { children: any }) => {
   };
 
   const cancelUser = () => {
+    stopCamera();
     setCallEnded(true);
     setIsStartCalling(false);
     setCallAccepted(false);
     connectionPeerRef.current?.destroy();
     socket?.emit("cancelCall", { to: call.callerInfo?.id });
-    stopCamera();
   };
 
   const rejectUser = () => {
+    stopCamera();
     setCallAccepted(false);
     setCall((prev) => ({ ...prev, isRecieving: false }));
     connectionPeerRef.current?.destroy();
