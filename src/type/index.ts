@@ -9,6 +9,8 @@ type TMEssageStatus = "read" | "delivered" | "sent";
 type TOnlineUser = { socketId: string; chatRoomId: number | undefined };
 type TOnlineUsers = Map<number, TOnlineUser>;
 
+type TVoidFunc = () => void;
+
 interface ISearchStore {
   isSearchingMessage: boolean;
   filteredChatList: any[];
@@ -92,8 +94,6 @@ interface IUseAddMulitMessage {
 
 interface IUseQueryOoptionType<T>
   extends UseQueryOptions<AxiosResponse<T>, AxiosError, T, QueryKey[]> {}
-
-type TVoidFunc = () => void;
 
 interface IUseGetAccount {
   mapper?: (data: any) => any;
