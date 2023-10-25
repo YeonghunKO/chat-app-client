@@ -5,6 +5,7 @@ import {
   RefObject,
   SetStateAction,
   createContext,
+  memo,
   useEffect,
   useRef,
   useState,
@@ -27,11 +28,9 @@ export interface TSocketContext {
     callerInfo: IUserInfo | null;
     signal: any;
   };
-  callAccepted: boolean;
   callEnded: boolean;
   myVideo?: RefObject<HTMLVideoElement>;
   userVideo?: RefObject<HTMLVideoElement>;
-  connectionPeerRef?: MutableRefObject<Peer.Instance | null>;
   callUser: TVoid;
   rejectUser: TVoid;
   answerUser: TVoid;
@@ -83,7 +82,6 @@ const SocketCotext = createContext<TSocketContext>({
     callerInfo: null,
     signal: null,
   },
-  callAccepted: false,
   callEnded: false,
   callUser: () => {},
   rejectUser: () => {},
@@ -97,6 +95,7 @@ const ContextProvider = ({ children }: { children: any }) => {
 
   const socket = useSocketStore((set) => set.socket);
   const currentChatUser = useUserStore((set) => set.currentChatUser);
+  const onlineUsers = useUserStore((set) => set.onlineUsers);
   const setToastMsg = useUiState((set) => set.updateToastInfo);
 
   const [stream, setStream] = useState<MediaStream>();
@@ -111,20 +110,34 @@ const ContextProvider = ({ children }: { children: any }) => {
     signal: null,
   });
 
-  const [callAccepted, setCallAccepted] = useState(false);
-  const [callEnded, setCallEnded] = useState(false);
+  const [callEnded, setCallEnded] = useState(true);
 
   const myVideo = useRef<HTMLVideoElement>(null);
   const userVideo = useRef<HTMLVideoElement>(null);
-  const connectionPeerRef = useRef<Peer.Instance | null>(null);
+  const connectionPeerRef = useRef<Map<number, Peer.Instance>>(new Map());
+  console.log("haha", connectionPeerRef.current);
+  console.log("onlineUsers", onlineUsers);
 
-  const stopCamera = () => {
+  const cutConnection = () => {
     stream?.getTracks().forEach((track) => track.stop());
+    if (call.callerInfo?.id && connectionPeerRef.current) {
+      // map.get(call.callerInfo.id).
+      connectionPeerRef.current.get(loggedInUser?.id as number)?.destroy();
+      connectionPeerRef.current.delete(loggedInUser?.id as number);
+    }
+
+    setCallEnded(true);
+    setIsStartCalling(false);
   };
+
   useEffect(() => {
     if (isStartCalling) {
+      const myConstraints = {
+        audio: true,
+        video: true,
+      };
       navigator.mediaDevices
-        .getUserMedia({ audio: true, video: true })
+        .getUserMedia(myConstraints)
         .then((currentLocalStream) => {
           setStream(currentLocalStream);
           if (myVideo.current) {
@@ -137,102 +150,103 @@ const ContextProvider = ({ children }: { children: any }) => {
   useEffect(() => {
     if (socket) {
       socket.on("callUser", ({ callerInfo, signal }) => {
+        console.log("callUser CallerInfo", callerInfo);
+        console.log("callUser signal", signal);
         setCall({ isRecieving: true, callerInfo, signal });
       });
 
       socket.on("callRejected", (signal) => {
+        console.log("callRejected");
+
         setIsStartCalling(false);
-        setCallAccepted(false);
         setToastMsg({
           type: TOAST_TYPE.ERROR,
           msg: "Call denied",
         });
-        stopCamera();
+        cutConnection();
       });
 
       socket.on("callCanceled", (signal) => {
-        setCallEnded(true);
-        setCallAccepted(false);
+        console.log("callCanceled");
+
         setCall((prev) => ({ ...prev, isRecieving: false }));
         setToastMsg({
           type: TOAST_TYPE.ERROR,
           msg: "Call canceled",
         });
-        stopCamera();
+        cutConnection();
       });
     }
   }, [socket]);
 
   const callUser = () => {
-    setCallEnded(false);
-    // const peer = new Peer({ initiator: true, trickle: false, stream });
+    socket?.off("callAccepted");
+
+    const peer = new Peer({ initiator: true, trickle: false, stream });
+    peer._debug = console.log;
+    connectionPeerRef.current.set(loggedInUser?.id as number, peer);
     setIsStartCalling(true);
     setCall((prev) => ({ ...prev, callerInfo: currentChatUser }));
     // signal은 언제 오는 것일까?
     // 눈을 뜨고 안테나를 쫑긋 세워 잘 찾아보아라 그럼 보인다
     // answerCall 하반부에 히히히히
 
-    socket?.emit("callUser", {
-      userToCall: currentChatUser?.id,
-      signalData: stream,
-      callerInfo: loggedInUser,
+    peer.on("signal", (data) => {
+      console.log("callUser signal");
+      socket?.emit("callUser", {
+        userToCall: currentChatUser?.id,
+        signal: data,
+        callerInfo: loggedInUser,
+      });
     });
-    // peer.on("signal", (data) => {
-    //   console.log("data", data);
-    // });
 
-    // peer.on("stream", (stream) => {
-    //   if (userVideo.current) {
-    //     userVideo.current.srcObject = stream;
-    //   }
-
-    //   console.log("callUser stream", stream);
-    // });
+    peer.on("stream", (stream) => {
+      if (userVideo.current) {
+        userVideo.current.srcObject = stream;
+      }
+    });
 
     socket?.on("callAccepted", (signal) => {
-      setCallAccepted(true);
+      console.log("callAccepted");
       setCallEnded(false);
       setIsStartCalling(false);
-      // peer.signal(signal);
+      peer.signal(signal);
     });
 
-    // connectionPeerRef.current = peer;
+    peer.on("error", (err) => {
+      console.log("peer error", err);
+    });
   };
 
   const answerUser = () => {
     setCallEnded(false);
-    setCallAccepted(true);
     setCall((prev) => ({ ...prev, isRecieving: false }));
 
-    // const peer = new Peer({ initiator: false, trickle: false, stream });
-    socket?.emit("answerCall", { signal: stream, to: call.callerInfo?.id });
-    // peer.on("signal", (data) => {
-    // });
+    const peer = new Peer({ initiator: false, trickle: false, stream });
+    connectionPeerRef.current.set(loggedInUser?.id as number, peer);
+    peer.on("signal", (data) => {
+      socket?.emit("answerCall", { signal: data, to: call.callerInfo?.id });
+    });
 
-    // peer.on("stream", (stream) => {
-    //   if (userVideo.current) {
-    //     userVideo.current.srcObject = stream;
-    //   }
-    // });
+    peer.on("stream", (stream) => {
+      if (userVideo.current) {
+        userVideo.current.srcObject = stream;
+      }
+    });
 
-    // peer.signal(call?.signal);
-    // connectionPeerRef.current = peer;
+    peer.signal(call.signal);
   };
 
   const cancelUser = () => {
-    stopCamera();
+    cutConnection();
     setCallEnded(true);
     setIsStartCalling(false);
-    setCallAccepted(false);
-    connectionPeerRef.current?.destroy();
     socket?.emit("cancelCall", { to: call.callerInfo?.id });
   };
 
   const rejectUser = () => {
-    stopCamera();
-    setCallAccepted(false);
+    cutConnection();
     setCall((prev) => ({ ...prev, isRecieving: false }));
-    connectionPeerRef.current?.destroy();
     socket?.emit("rejectCall", { to: call.callerInfo?.id });
   };
 
@@ -242,11 +256,9 @@ const ContextProvider = ({ children }: { children: any }) => {
         isStartCalling,
         stream,
         call,
-        callAccepted,
         callEnded,
         myVideo,
         userVideo,
-        connectionPeerRef,
         callUser,
         rejectUser,
         answerUser,
@@ -259,4 +271,6 @@ const ContextProvider = ({ children }: { children: any }) => {
   );
 };
 
-export { ContextProvider, SocketCotext };
+export default memo(ContextProvider);
+
+export { SocketCotext };
