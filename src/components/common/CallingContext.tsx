@@ -271,6 +271,6 @@ const ContextProvider = ({ children }: { children: any }) => {
   );
 };
 
-export default memo(ContextProvider);
+export default ContextProvider;
 
 export { SocketCotext };
