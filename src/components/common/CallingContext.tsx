@@ -1,11 +1,9 @@
 // setting
 import {
   Dispatch,
-  MutableRefObject,
   RefObject,
   SetStateAction,
   createContext,
-  memo,
   useEffect,
   useRef,
   useState,
@@ -37,42 +35,6 @@ export interface TSocketContext {
   cancelUser: TVoid;
   setIsStartCalling?: Dispatch<SetStateAction<boolean>>;
 }
-
-/**
- * 우선 webrtc 구현한거 다 주석처리하고 web socket / ui 변경만 구현해보기.
- * 
- * <Incoming/> ==> 
- *  1. 랜더링
-  *  call.isRecieving === true 일때 랜더링
-  * 2. accept 버튼
-    *  callAccepted === true면서 Connected가 랜더링
-    *  call.isRecieving === false 가 됨
-  * 3. reject 버튼
-    *  callAccepted === false가 되면서 Connected가 랜더링
-    *  언마운트됨
-    *  socket cancel를 쏴줌
-  * 4. 언마운트 
-    *  내가 reject 버튼을 누를때
-    *  상대방이 cancel버튼을 누를러서 cancel socket이 들어올때
-    *  언마운트 이후 toast 모달을 띄어줌 
-    
- * <Connecting/> ==>
- * 1. 랜더링
-  * isStartCalling === true가 됨
-  * chatHeader에서 videocall을 눌렀을때
- * 2. reject socket이 오면 언마운트되고 toast modal 띄어줌
-   3. cancel 버튼
-    * peer.destroy하고
-    * cancel call 소켓을 쏴줌.
-  
- * <Connected/> ==> 
-  1. 랜더링
- *  callAccepted === true일때 랜더링.
- *  callEnded === false 가 됨
-* 2. cancel
-   * peer.destroy하고
-   * cancel call 소켓을 쏴줌.
- */
 
 const SocketCotext = createContext<TSocketContext>({
   isStartCalling: false,
@@ -115,13 +77,11 @@ const ContextProvider = ({ children }: { children: any }) => {
   const myVideo = useRef<HTMLVideoElement>(null);
   const userVideo = useRef<HTMLVideoElement>(null);
   const connectionPeerRef = useRef<Map<number, Peer.Instance>>(new Map());
-  console.log("haha", connectionPeerRef.current);
-  console.log("onlineUsers", onlineUsers);
+  // console.log("haha", connectionPeerRef.current);
 
   const cutConnection = () => {
     stream?.getTracks().forEach((track) => track.stop());
     if (call.callerInfo?.id && connectionPeerRef.current) {
-      // map.get(call.callerInfo.id).
       connectionPeerRef.current.get(loggedInUser?.id as number)?.destroy();
       connectionPeerRef.current.delete(loggedInUser?.id as number);
     }
@@ -151,7 +111,7 @@ const ContextProvider = ({ children }: { children: any }) => {
     if (socket) {
       socket.on("callUser", ({ callerInfo, signal }) => {
         console.log("callUser CallerInfo", callerInfo);
-        console.log("callUser signal", signal);
+        // console.log("callUser signal", signal);
         setCall({ isRecieving: true, callerInfo, signal });
       });
 
@@ -180,7 +140,7 @@ const ContextProvider = ({ children }: { children: any }) => {
   }, [socket]);
 
   const callUser = () => {
-    socket?.off("callAccepted");
+    // socket?.off("callAccepted");
 
     const peer = new Peer({ initiator: true, trickle: false, stream });
     peer._debug = console.log;
@@ -192,7 +152,7 @@ const ContextProvider = ({ children }: { children: any }) => {
     // answerCall 하반부에 히히히히
 
     peer.on("signal", (data) => {
-      console.log("callUser signal");
+      // console.log("callUser signal");
       socket?.emit("callUser", {
         userToCall: currentChatUser?.id,
         signal: data,
