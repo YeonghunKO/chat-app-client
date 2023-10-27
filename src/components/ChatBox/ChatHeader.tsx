@@ -22,7 +22,7 @@ const ChatHeader = () => {
       },
     },
   ];
-  const { setIsStartCalling, callUser, isStartCalling } =
+  const { setIsStartCalling, callUser, isStartCalling, call } =
     useContext(SocketCotext);
   const currentChatUser = useUserStore((set) => set.currentChatUser);
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
@@ -42,7 +42,7 @@ const ChatHeader = () => {
 
   const handleVideoCall = () => {
     setIsStartCalling && setIsStartCalling(true);
-    !isStartCalling && callUser();
+    !isStartCalling && !call.callerInfo && callUser();
   };
 
   return (
