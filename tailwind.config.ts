@@ -55,19 +55,19 @@ const config: Config = {
             "transform-origin": "50% 100%",
           },
           "10%": {
-            transform: "rotate(2deg)",
+            transform: "rotate(4deg)",
           },
           "20%,40%,60%": {
-            transform: "rotate(-2deg)",
+            transform: "rotate(-4deg)",
           },
           "30%, 50%, 70%": {
-            transform: "rotate(2deg)",
+            transform: "rotate(4deg)",
           },
           "80%": {
             transform: "rotate(0deg)",
           },
           "90%": {
-            transform: "rotate(2deg)",
+            transform: "rotate(4deg)",
           },
         },
       },
