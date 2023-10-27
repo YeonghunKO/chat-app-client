@@ -77,7 +77,6 @@ const ContextProvider = ({ children }: { children: any }) => {
   const myVideo = useRef<HTMLVideoElement>(null);
   const userVideo = useRef<HTMLVideoElement>(null);
   const connectionPeerRef = useRef<Peer.Instance>();
-  // console.log("haha", connectionPeerRef.current);
 
   const cutConnection = () => {
     stream?.getTracks().forEach((track) => track.stop());
@@ -114,8 +113,6 @@ const ContextProvider = ({ children }: { children: any }) => {
       });
 
       socket.on("callRejected", (signal) => {
-        console.log("callRejected");
-
         setIsStartCalling(false);
         setToastMsg({
           type: TOAST_TYPE.ERROR,
@@ -125,8 +122,6 @@ const ContextProvider = ({ children }: { children: any }) => {
       });
 
       socket.on("callCanceled", (signal) => {
-        console.log("callCanceled");
-
         setToastMsg({
           type: TOAST_TYPE.ERROR,
           msg: "Call canceled",
@@ -164,7 +159,6 @@ const ContextProvider = ({ children }: { children: any }) => {
     });
 
     socket?.on("callAccepted", (signal) => {
-      console.log("callAccepted");
       setCallEnded(false);
       setIsStartCalling(false);
       peer.signal(signal);
