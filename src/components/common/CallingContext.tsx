@@ -76,43 +76,41 @@ const ContextProvider = ({ children }: { children: any }) => {
 
   const myVideo = useRef<HTMLVideoElement>(null);
   const userVideo = useRef<HTMLVideoElement>(null);
-  const connectionPeerRef = useRef<Map<number, Peer.Instance>>(new Map());
+  const connectionPeerRef = useRef<Peer.Instance>();
   // console.log("haha", connectionPeerRef.current);
 
   const cutConnection = () => {
     stream?.getTracks().forEach((track) => track.stop());
     if (call.callerInfo?.id && connectionPeerRef.current) {
-      connectionPeerRef.current.get(loggedInUser?.id as number)?.destroy();
-      connectionPeerRef.current.delete(loggedInUser?.id as number);
+      connectionPeerRef.current.destroy();
     }
 
+    setCall({ callerInfo: null, signal: null, isRecieving: false });
     setCallEnded(true);
     setIsStartCalling(false);
   };
 
   useEffect(() => {
-    if (isStartCalling) {
-      const myConstraints = {
-        audio: true,
-        video: true,
-      };
-      navigator.mediaDevices
-        .getUserMedia(myConstraints)
-        .then((currentLocalStream) => {
-          setStream(currentLocalStream);
-          if (myVideo.current) {
-            myVideo.current.srcObject = currentLocalStream;
-          }
-        });
-    }
+    const myConstraints = {
+      audio: true,
+      video: true,
+    };
+    navigator.mediaDevices
+      .getUserMedia(myConstraints)
+      .then((currentLocalStream) => {
+        setStream(currentLocalStream);
+        if (myVideo.current) {
+          myVideo.current.srcObject = currentLocalStream;
+        }
+      });
   }, [isStartCalling, socket]);
 
   useEffect(() => {
     if (socket) {
       socket.on("callUser", ({ callerInfo, signal }) => {
-        console.log("callUser CallerInfo", callerInfo);
-        // console.log("callUser signal", signal);
-        setCall({ isRecieving: true, callerInfo, signal });
+        if (!call.callerInfo) {
+          setCall({ isRecieving: true, callerInfo, signal });
+        }
       });
 
       socket.on("callRejected", (signal) => {
@@ -129,7 +127,6 @@ const ContextProvider = ({ children }: { children: any }) => {
       socket.on("callCanceled", (signal) => {
         console.log("callCanceled");
 
-        setCall((prev) => ({ ...prev, isRecieving: false }));
         setToastMsg({
           type: TOAST_TYPE.ERROR,
           msg: "Call canceled",
@@ -140,11 +137,11 @@ const ContextProvider = ({ children }: { children: any }) => {
   }, [socket]);
 
   const callUser = () => {
-    // socket?.off("callAccepted");
+    socket?.off("callAccepted");
 
     const peer = new Peer({ initiator: true, trickle: false, stream });
     peer._debug = console.log;
-    connectionPeerRef.current.set(loggedInUser?.id as number, peer);
+    connectionPeerRef.current = peer;
     setIsStartCalling(true);
     setCall((prev) => ({ ...prev, callerInfo: currentChatUser }));
     // signal은 언제 오는 것일까?
@@ -181,9 +178,9 @@ const ContextProvider = ({ children }: { children: any }) => {
   const answerUser = () => {
     setCallEnded(false);
     setCall((prev) => ({ ...prev, isRecieving: false }));
-
+    socket?.off("answerCall");
     const peer = new Peer({ initiator: false, trickle: false, stream });
-    connectionPeerRef.current.set(loggedInUser?.id as number, peer);
+    connectionPeerRef.current = peer;
     peer.on("signal", (data) => {
       socket?.emit("answerCall", { signal: data, to: call.callerInfo?.id });
     });
