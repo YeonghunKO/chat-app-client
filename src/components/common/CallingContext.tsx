@@ -57,7 +57,6 @@ const ContextProvider = ({ children }: { children: any }) => {
 
   const socket = useSocketStore((set) => set.socket);
   const currentChatUser = useUserStore((set) => set.currentChatUser);
-  const onlineUsers = useUserStore((set) => set.onlineUsers);
   const setToastMsg = useUiState((set) => set.updateToastInfo);
 
   const [stream, setStream] = useState<MediaStream>();
