@@ -98,7 +98,7 @@ const ContextProvider = ({ children }: { children: any }) => {
       .then((currentLocalStream) => {
         setStream(currentLocalStream);
       });
-  }, [myVideo.current]);
+  }, [myVideo.current, call.callerInfo]);
 
   useEffect(() => {
     if (socket) {
