@@ -83,7 +83,6 @@ const ContextProvider = ({ children }: { children: any }) => {
     if (call.callerInfo?.id && connectionPeerRef.current) {
       connectionPeerRef.current.destroy();
     }
-
     setCall({ callerInfo: null, signal: null, isRecieving: false });
     setCallEnded(true);
     setIsStartCalling(false);
@@ -98,11 +97,8 @@ const ContextProvider = ({ children }: { children: any }) => {
       .getUserMedia(myConstraints)
       .then((currentLocalStream) => {
         setStream(currentLocalStream);
-        if (myVideo.current) {
-          myVideo.current.srcObject = currentLocalStream;
-        }
       });
-  }, [isStartCalling, socket]);
+  }, [myVideo.current]);
 
   useEffect(() => {
     if (socket) {
@@ -112,7 +108,7 @@ const ContextProvider = ({ children }: { children: any }) => {
         }
       });
 
-      socket.on("callRejected", (signal) => {
+      socket.on("callRejected", () => {
         setIsStartCalling(false);
         setToastMsg({
           type: TOAST_TYPE.ERROR,
@@ -121,7 +117,7 @@ const ContextProvider = ({ children }: { children: any }) => {
         cutConnection();
       });
 
-      socket.on("callCanceled", (signal) => {
+      socket.on("callCanceled", () => {
         setToastMsg({
           type: TOAST_TYPE.ERROR,
           msg: "Call canceled",
@@ -135,16 +131,12 @@ const ContextProvider = ({ children }: { children: any }) => {
     socket?.off("callAccepted");
 
     const peer = new Peer({ initiator: true, trickle: false, stream });
-    peer._debug = console.log;
+
     connectionPeerRef.current = peer;
     setIsStartCalling(true);
     setCall((prev) => ({ ...prev, callerInfo: currentChatUser }));
-    // signal은 언제 오는 것일까?
-    // 눈을 뜨고 안테나를 쫑긋 세워 잘 찾아보아라 그럼 보인다
-    // answerCall 하반부에 히히히히
 
     peer.on("signal", (data) => {
-      // console.log("callUser signal");
       socket?.emit("callUser", {
         userToCall: currentChatUser?.id,
         signal: data,
@@ -152,9 +144,12 @@ const ContextProvider = ({ children }: { children: any }) => {
       });
     });
 
-    peer.on("stream", (stream) => {
+    peer.on("stream", (otherStream) => {
       if (userVideo.current) {
-        userVideo.current.srcObject = stream;
+        userVideo.current.srcObject = otherStream;
+      }
+      if (myVideo.current && stream) {
+        myVideo.current.srcObject = stream;
       }
     });
 
@@ -174,14 +169,18 @@ const ContextProvider = ({ children }: { children: any }) => {
     setCall((prev) => ({ ...prev, isRecieving: false }));
     socket?.off("answerCall");
     const peer = new Peer({ initiator: false, trickle: false, stream });
+
     connectionPeerRef.current = peer;
     peer.on("signal", (data) => {
       socket?.emit("answerCall", { signal: data, to: call.callerInfo?.id });
     });
 
-    peer.on("stream", (stream) => {
+    peer.on("stream", (otherStream) => {
       if (userVideo.current) {
-        userVideo.current.srcObject = stream;
+        userVideo.current.srcObject = otherStream;
+      }
+      if (myVideo.current && stream) {
+        myVideo.current.srcObject = stream;
       }
     });
 
@@ -190,14 +189,11 @@ const ContextProvider = ({ children }: { children: any }) => {
 
   const cancelUser = () => {
     cutConnection();
-    setCallEnded(true);
-    setIsStartCalling(false);
     socket?.emit("cancelCall", { to: call.callerInfo?.id });
   };
 
   const rejectUser = () => {
     cutConnection();
-    setCall((prev) => ({ ...prev, isRecieving: false }));
     socket?.emit("rejectCall", { to: call.callerInfo?.id });
   };
 
