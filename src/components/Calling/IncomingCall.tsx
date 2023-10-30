@@ -12,7 +12,7 @@ const IncomingCall = () => {
   return (
     <div className="absolute bottom-3 left-1/2 z-[99] flex h-[120px] w-[400px] -translate-x-1/2 items-center justify-start border-2 border-teal-800 bg-panel-header-background p-3">
       <div className="flex items-center gap-[20px]">
-        <div className="h-[80px] w-[80px] rounded-sm">
+        <div className="relative h-[80px] w-[80px] rounded-sm">
           {callerInfo && (
             <Image
               className="!relative"
@@ -42,8 +42,14 @@ const IncomingCall = () => {
             </button>
           </div>
         </div>
-        <div className="h-[80px] w-[80px] rounded-sm bg-conversation-panel-background">
-          <Image src="/whatsapp.gif" className="!relative" alt="calling" fill />
+        <div className="relative h-[80px] w-[80px] rounded-sm bg-conversation-panel-background">
+          <Image
+            sizes="100%"
+            src="/whatsapp.gif"
+            className="!relative"
+            alt="calling"
+            fill
+          />
         </div>
       </div>
     </div>
