@@ -7,7 +7,7 @@ type TMessageType = "text" | "image" | "audio";
 type TMEssageStatus = "read" | "delivered" | "sent";
 
 type TOnlineUser = { socketId: string; chatRoomId: number | undefined };
-type TOnlineUsers = Map<number, TOnlineUser>;
+type TOnlineUsers = Map<number | any, TOnlineUser>;
 
 type TVoidFunc = () => void;
 

@@ -24,7 +24,11 @@ const ChatHeader = () => {
   ];
   const { setIsStartCalling, callUser, isStartCalling, call } =
     useContext(SocketCotext);
-  const currentChatUser = useUserStore((set) => set.currentChatUser);
+  const { currentChatUser, onlineUsers } = useUserStore((set) => ({
+    currentChatUser: set.currentChatUser,
+    onlineUsers: set.onlineUsers,
+  }));
+
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
   const [menuCoord, setMenuCoord] = useState({ x: 0, y: 0 });
   const toggleSearchMessages = useSearchStore(
@@ -54,9 +58,9 @@ const ChatHeader = () => {
         />
         <div className="flex flex-col">
           <span className="text-primary-strong">{currentChatUser?.name}</span>
-          {/* <span className="text-secondary text-sm">
-        {onlineUsers.includes(currentChatUser.id) ? "online" : "offline"}
-      </span> */}
+          <span className="text-sm text-secondary">
+            {onlineUsers?.has(currentChatUser?.id) ? "online" : "offline"}
+          </span>
         </div>
       </div>
       <div className="flex gap-6 ">
