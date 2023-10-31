@@ -53,7 +53,7 @@ const SearchBar = () => {
 
   return (
     <div className="flex h-14 items-center gap-3 bg-search-input-container-background py-3 pl-3">
-      <div className="flex w-full items-center gap-5 rounded-lg py-1">
+      <div className="flex w-full items-center gap-5 rounded-lg py-1 pr-3">
         <div>
           <BiSearchAlt2 className="text-l cursor-pointer text-panel-header-icon" />
         </div>
@@ -64,9 +64,6 @@ const SearchBar = () => {
             placeholder="search entire chat"
           />
         </div>
-      </div>
-      <div className="pl-3 pr-5">
-        <BiFilter className="cursor-pointer text-xl text-panel-header-icon " />
       </div>
     </div>
   );
