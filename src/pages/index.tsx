@@ -4,13 +4,11 @@ import { GetServerSideProps } from "next";
 import { QueryClient, dehydrate, useQueryClient } from "react-query";
 
 // business
-import { COOKIE, GET_USER, REFRESH } from "@/constant/api";
+import { COOKIE, REFRESH } from "@/constant/api";
 import { SIGN_IN_PAGE } from "@/constant/path";
 import { queryKeys } from "@/constant/queryKeys";
 import { postFetch } from "@/lib/api";
-import { useGetQueryAccount } from "@/hooks/useQueryAccount";
 import { useSearchStore, useUserStore } from "@/store";
-import { IUserInfo } from "@/type";
 
 // components
 import ContactInfo from "@/components/ContactInfo";
@@ -34,11 +32,6 @@ export default function Home() {
     currentChatUser: set.currentChatUser,
     setCurrentChatUser: set.setCurrentChatUser,
   }));
-  const initData = client.getQueryData(queryKeys.userInfo) as any;
-  const result = useGetQueryAccount<IUserInfo>({
-    url: GET_USER(initData?.email),
-    queryKey: queryKeys.userInfo,
-  });
 
   const $chatBox = useRef<HTMLDivElement>(null);
 
@@ -63,35 +56,29 @@ export default function Home() {
     // }
   }, []);
 
-  if (result.isError) {
-    return <main>error</main>;
-  }
-
-  if (result.isSuccess) {
-    return (
-      <ContextProvider>
-        <main className="grid h-screen max-h-screen w-screen max-w-full grid-cols-main overflow-hidden">
-          <CallingContainer />
-          <ContactInfo />
-          {currentChatUser ? (
-            <section
-              className={`grid transition-all duration-500 ease-in-out ${
-                isSearchingMessages
-                  ? // auto를 하면 최대한 늘어날 수 있는만큼 늘어남
-                    "grid-cols-[57%_auto]"
-                  : "grid-cols-[100%_auto]"
-              }`}
-            >
-              <ChatBox ref={$chatBox} />
-              <SearchMessages parent={$chatBox} />
-            </section>
-          ) : (
-            <Empty />
-          )}
-        </main>
-      </ContextProvider>
-    );
-  }
+  return (
+    <ContextProvider>
+      <main className="grid h-screen max-h-screen w-screen max-w-full grid-cols-main overflow-hidden">
+        <CallingContainer />
+        <ContactInfo />
+        {currentChatUser ? (
+          <section
+            className={`grid transition-all duration-500 ease-in-out ${
+              isSearchingMessages
+                ? // auto를 하면 최대한 늘어날 수 있는만큼 늘어남
+                  "grid-cols-[57%_auto]"
+                : "grid-cols-[100%_auto]"
+            }`}
+          >
+            <ChatBox ref={$chatBox} />
+            <SearchMessages parent={$chatBox} />
+          </section>
+        ) : (
+          <Empty />
+        )}
+      </main>
+    </ContextProvider>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps<{}> = async ({
