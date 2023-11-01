@@ -1,5 +1,7 @@
 import React from "react";
 import Toast from "./Toast";
+import { ErrorBoundary } from "./ErrorBoundary";
+import RetryFallback from "./ErrorBoundary/RetryFallback";
 
 interface ILayout {
   children: React.ReactNode;
@@ -7,10 +9,15 @@ interface ILayout {
 
 const Layout = ({ children }: ILayout) => {
   return (
-    <div>
+    <ErrorBoundary
+      fallback={RetryFallback}
+      onReset={() => {
+        location.reload();
+      }}
+    >
       {children}
       <Toast />
-    </div>
+    </ErrorBoundary>
   );
 };
 

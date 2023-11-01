@@ -110,7 +110,7 @@ export const useAddTextMessageQuery = ({
   const mutation = useMutation<IMessage, AxiosError<any>, any, any>(
     (message) =>
       postFetch({
-        url: ADD_MESSAGE,
+        url: "ADD_MESSAGE",
         body: {
           from: userInfo?.id,
           to: currentChatUser?.id,
@@ -157,14 +157,14 @@ export const useAddTextMessageQuery = ({
           exact: true,
         });
       },
-
-      onError: (_error, _message, context) => {
-        onError && onError(_error.message);
-        queryClient.setQueryData(
-          queryKeysWithChatUser,
-          context?.previouseMessages,
-        );
-      },
+      // useErrorBoundary: true,
+      // onError: (_error, _message, context) => {
+      //   onError && onError(_error.message);
+      //   queryClient.setQueryData(
+      //     queryKeysWithChatUser,
+      //     context?.previouseMessages,
+      //   );
+      // },
     },
   );
   return mutation;

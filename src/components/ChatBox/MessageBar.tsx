@@ -43,12 +43,12 @@ const MessageBar = () => {
   });
 
   const { mutate: addTextMessage } = useAddTextMessageQuery({
-    onError: () => {
-      setAlertMessage({
-        type: TOAST_TYPE.ERROR,
-        msg: "Error while sending text message",
-      });
-    },
+    // onError: () => {
+    //   setAlertMessage({
+    //     type: TOAST_TYPE.ERROR,
+    //     msg: "Error while sending text message",
+    //   });
+    // },
   });
 
   const { mutate: addImageMessage } = useAddMultiMessageQuery({

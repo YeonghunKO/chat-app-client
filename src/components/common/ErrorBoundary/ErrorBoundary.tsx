@@ -1,10 +1,9 @@
 import React, { FunctionComponent } from "react";
 import { ErrorBoundaryError, ErrorFallbackProps } from "./type";
-import DefaultFallback from "./DefaultFallback";
 
 interface ErrorBoundaryProps {
   onReset?: () => void;
-  fallback?: FunctionComponent<ErrorFallbackProps>;
+  fallback: FunctionComponent<ErrorFallbackProps>;
   children: React.ReactNode;
 }
 
@@ -22,7 +21,7 @@ class ErrorBoundary extends React.Component<
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false, err: null };
-    this.resetErrorBoundary.bind(this);
+    this.resetErrorBoundary = this.resetErrorBoundary.bind(this);
   }
 
   static getDerivedStateFromError(error: ErrorBoundaryError) {
@@ -36,7 +35,8 @@ class ErrorBoundary extends React.Component<
 
   render() {
     if (this.state.hasError) {
-      const Fallback = this.props.fallback ?? DefaultFallback;
+      console.log("this.state.err", this.state.err);
+      const Fallback = this.props.fallback;
       return (
         <Fallback err={this.state.err} onRetry={this.resetErrorBoundary} />
       );
