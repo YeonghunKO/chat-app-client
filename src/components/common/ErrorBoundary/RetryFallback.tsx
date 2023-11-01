@@ -1,14 +1,14 @@
-import React from "react";
 import { ErrorFallbackProps } from "./type";
-import { useRouter } from "next/router";
 import { SIGN_IN_PAGE } from "@/constant/path";
 
 const RetryFallback = ({ err, onRetry }: ErrorFallbackProps) => {
-  const router = useRouter();
-
   const handleReturnLoginPage = () => {
-    router.push(SIGN_IN_PAGE);
-    // location.reload();
+    window.history.replaceState(
+      { ...window.history.state, as: SIGN_IN_PAGE, url: SIGN_IN_PAGE },
+      "",
+      SIGN_IN_PAGE,
+    );
+    location.reload();
   };
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center gap-3">
@@ -17,12 +17,12 @@ const RetryFallback = ({ err, onRetry }: ErrorFallbackProps) => {
         에러 메세지: {err.message ? err.message : err}
       </span>
       <div className="flex gap-[10px]">
-        {/* <button
+        <button
           className="h-full w-full rounded-[10px] bg-outgoing-background p-[5px] text-[4vw]"
           onClick={handleReturnLoginPage}
         >
           {"로그인 \n 화면으로 가기"}
-        </button> */}
+        </button>
         <button
           className="h-full w-full rounded-[10px] bg-outgoing-background p-[5px] text-[4vw]"
           onClick={onRetry}
