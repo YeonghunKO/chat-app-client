@@ -19,7 +19,7 @@ const UsersList = () => {
   const [filtleredContacts, setFilteredContacts] =
     useState<(readonly [string, IUserInfo[]] | null)[]>();
 
-  const { data, isError, isSuccess, isLoading } = useGetQueryAccount<{
+  const { data } = useGetQueryAccount<{
     users: { [key: string]: IUserInfo[] };
   }>({
     url: GET_ALL_USERS,
@@ -58,81 +58,43 @@ const UsersList = () => {
 
   const isResultEmpty = filtleredContacts?.every((contact) => !contact);
 
-  if (isError) {
-    return <div>error</div>;
-  }
-
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
-
   const handleBackButton = () => {
     toggleContacts();
   };
 
-  if (isSuccess) {
-    return (
-      <div className="flex h-full flex-col">
-        <div className="flex h-[60px] items-end px-3 py-4">
-          <div className="flex  items-center gap-12 text-white">
-            <BiArrowBack
-              className=" cursor-pointer text-xl"
-              onClick={handleBackButton}
-            />
-            <span className="">New Chat</span>
-          </div>
+  return (
+    <div className="flex h-full flex-col">
+      <div className="flex h-[60px] items-end px-3 py-4">
+        <div className="flex  items-center gap-12 text-white">
+          <BiArrowBack
+            className=" cursor-pointer text-xl"
+            onClick={handleBackButton}
+          />
+          <span className="">New Chat</span>
         </div>
-        <div className="custom-scrollbar h-full flex-auto overflow-auto bg-search-input-container-background">
-          <div className=" flex h-14 items-center gap-3 px-4 py-3">
-            <div className="mt-3 flex flex-grow items-center gap-5 rounded-lg px-3 py-2">
-              <div>
-                <BiSearchAlt2 className="text-l cursor-pointer text-panel-header-icon" />
-              </div>
-              <div className="w-full">
-                <Input
-                  value={contactSearchValue}
-                  setValue={setContactSearchValue}
-                  placeholder="Search Contacts"
-                />
-              </div>
+      </div>
+      <div className="custom-scrollbar h-full flex-auto overflow-auto bg-search-input-container-background">
+        <div className=" flex h-14 items-center gap-3 px-4 py-3">
+          <div className="mt-3 flex flex-grow items-center gap-5 rounded-lg px-3 py-2">
+            <div>
+              <BiSearchAlt2 className="text-l cursor-pointer text-panel-header-icon" />
+            </div>
+            <div className="w-full">
+              <Input
+                value={contactSearchValue}
+                setValue={setContactSearchValue}
+                placeholder="Search Contacts"
+              />
             </div>
           </div>
-          {filtleredContacts?.length ? (
-            isResultEmpty ? (
-              <div className="flex h-full items-center justify-center">
-                No contact found.
-              </div>
-            ) : (
-              filtleredContacts?.map((userListInfo) => {
-                if (userListInfo) {
-                  const [initialLetter, userList] = userListInfo;
-                  if (initialLetter && userList) {
-                    return (
-                      <div
-                        key={Date.now() + initialLetter}
-                        className="py-[10px]"
-                      >
-                        <div className="pb-[5px]  pl-[10px] text-teal-light">
-                          {initialLetter}
-                        </div>
-                        {userList.map((userInfo) => {
-                          return (
-                            <ContactItem
-                              userInfo={userInfo}
-                              key={userInfo.id}
-                            />
-                          );
-                        })}
-                      </div>
-                    );
-                  }
-                }
-
-                return null;
-              })
-            )
+        </div>
+        {filtleredContacts?.length ? (
+          isResultEmpty ? (
+            <div className="flex h-full items-center justify-center">
+              No contact found.
+            </div>
           ) : (
-            originalContacts?.map((userListInfo) => {
+            filtleredContacts?.map((userListInfo) => {
               if (userListInfo) {
                 const [initialLetter, userList] = userListInfo;
                 if (initialLetter && userList) {
@@ -153,11 +115,33 @@ const UsersList = () => {
 
               return null;
             })
-          )}
-        </div>
+          )
+        ) : (
+          originalContacts?.map((userListInfo) => {
+            if (userListInfo) {
+              const [initialLetter, userList] = userListInfo;
+              if (initialLetter && userList) {
+                return (
+                  <div key={Date.now() + initialLetter} className="py-[10px]">
+                    <div className="pb-[5px]  pl-[10px] text-teal-light">
+                      {initialLetter}
+                    </div>
+                    {userList.map((userInfo) => {
+                      return (
+                        <ContactItem userInfo={userInfo} key={userInfo.id} />
+                      );
+                    })}
+                  </div>
+                );
+              }
+            }
+
+            return null;
+          })
+        )}
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default UsersList;

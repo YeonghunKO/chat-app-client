@@ -19,11 +19,7 @@ const ChatList = () => {
 
   const [filteredChatList, setFilteredChatList] = useState<any[]>();
 
-  const {
-    data: chatList,
-    isLoading,
-    isSuccess,
-  } = useGetQueryAccount<
+  const { data: chatList } = useGetQueryAccount<
     ({
       chatUser: IUserInfo;
       totalUnReadCount: number;
@@ -50,35 +46,17 @@ const ChatList = () => {
     }
   }, [filteredChatListNumbers, chatList]);
 
-  if (isLoading) {
-    return (
-      <div className=" flex h-full items-center justify-center">loading...</div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className=" flex h-full items-center justify-center">loading...</div>
+  //   );
+  // }
 
-  if (isSuccess) {
-    return (
-      <div className="custom-scrollbar h-full overflow-auto">
-        {searchingValue.length > 0 ? (
-          filteredChatList && filteredChatList?.length > 0 ? (
-            filteredChatList.map((list) => {
-              const { chatUser, ...messageInfo } = list;
-              return (
-                <ContactItem
-                  key={messageInfo.id}
-                  userInfo={chatUser}
-                  messageInfo={messageInfo}
-                  isChatting={true}
-                />
-              );
-            })
-          ) : (
-            <div className="flex h-full items-center justify-center">
-              No Messages Found
-            </div>
-          )
-        ) : (
-          chatList.map((list) => {
+  return (
+    <div className="custom-scrollbar h-full overflow-auto">
+      {searchingValue.length > 0 ? (
+        filteredChatList && filteredChatList?.length > 0 ? (
+          filteredChatList.map((list) => {
             const { chatUser, ...messageInfo } = list;
             return (
               <ContactItem
@@ -89,10 +67,26 @@ const ChatList = () => {
               />
             );
           })
-        )}
-      </div>
-    );
-  }
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            No Messages Found
+          </div>
+        )
+      ) : (
+        chatList?.map((list) => {
+          const { chatUser, ...messageInfo } = list;
+          return (
+            <ContactItem
+              key={messageInfo.id}
+              userInfo={chatUser}
+              messageInfo={messageInfo}
+              isChatting={true}
+            />
+          );
+        })
+      )}
+    </div>
+  );
 };
 
 export default ChatList;
