@@ -16,6 +16,18 @@ export const client = axios.create({
   },
 });
 
+// client.interceptors.response.use(
+//   (res) => res,
+//   (err) => {
+//     const { status } = err.response;
+//     console.log("err.response", err.response);
+//     // if (status >= 500) {
+//     //   toast.error('앗! 오류가 발생했어요.' + '\n' + '잠시 후에 다시 시도해보세요.');
+//     // }
+//     return err;
+//   },
+// );
+
 export const getFetch = async ({ url, mapper, option }: IFetch) => {
   const { data } = await client.get(url, { ...option });
 
