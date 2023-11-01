@@ -8,20 +8,6 @@ import "@/styles/globals.css";
 
 import { QueryClient, QueryClientProvider, Hydrate } from "react-query";
 
-// export const queryErrorHandler = (error: any) => {
-//   console.log("error queryErrorHandler", error);
-//   // toast(`데이터를 가져오지 못했습니다! ${error.message}`);
-// };
-
-// export const queryClient = new QueryClient({
-//   defaultOptions: {
-//     queries: {
-//       retry: 0,
-//       suspense: false,
-//     },
-//   },
-// });
-
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
     () =>

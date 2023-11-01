@@ -46,12 +46,6 @@ const ChatList = () => {
     }
   }, [filteredChatListNumbers, chatList]);
 
-  // if (isLoading) {
-  //   return (
-  //     <div className=" flex h-full items-center justify-center">loading...</div>
-  //   );
-  // }
-
   return (
     <div className="custom-scrollbar h-full overflow-auto">
       {searchingValue.length > 0 ? (
