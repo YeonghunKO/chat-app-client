@@ -49,6 +49,8 @@ const ChatHeader = () => {
     !isStartCalling && !call.callerInfo && callUser();
   };
 
+  const isOtherOnline = onlineUsers?.has(currentChatUser?.id);
+
   return (
     <div className="z-10 flex h-[60px] items-center justify-between border-l-[2px] border-l-input-background bg-panel-header-background px-4 py-2">
       <div className="flex items-center justify-center gap-6">
@@ -58,8 +60,12 @@ const ChatHeader = () => {
         />
         <div className="flex flex-col">
           <span className="text-primary-strong">{currentChatUser?.name}</span>
-          <span className="text-sm text-secondary">
-            {onlineUsers?.has(currentChatUser?.id) ? "online" : "offline"}
+          <span
+            className={`text-sm ${
+              isOtherOnline ? "text-icon-green" : "text-secondary"
+            }`}
+          >
+            {isOtherOnline ? "online" : "offline"}
           </span>
         </div>
       </div>
