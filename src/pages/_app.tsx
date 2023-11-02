@@ -15,7 +15,6 @@ export default function App({ Component, pageProps }: AppProps) {
         defaultOptions: {
           queries: {
             retry: 1,
-            // suspense: true,
             useErrorBoundary: true,
             refetchOnWindowFocus: false,
           },
