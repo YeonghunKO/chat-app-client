@@ -84,6 +84,7 @@ export const usePostMutationQueryAccount = <T = any>({
         queryClient.setQueryData(queryKey, () => fetchResult);
         onSuccess && onSuccess();
       },
+      ...(onError && { useErrorBoundary: false }),
       onError: (_error, _message, context) => {
         onError && onError(_error.response?.data.message);
         queryClient.setQueriesData(queryKey, context.previousQueris);
@@ -157,14 +158,14 @@ export const useAddTextMessageQuery = ({
           exact: true,
         });
       },
-      // useErrorBoundary: true,
-      // onError: (_error, _message, context) => {
-      //   onError && onError(_error.message);
-      //   queryClient.setQueryData(
-      //     queryKeysWithChatUser,
-      //     context?.previouseMessages,
-      //   );
-      // },
+      ...(onError && { useErrorBoundary: false }),
+      onError: (_error, _message, context) => {
+        onError && onError(_error.message);
+        queryClient.setQueryData(
+          queryKeysWithChatUser,
+          context?.previouseMessages,
+        );
+      },
     },
   );
   return mutation;
@@ -225,7 +226,7 @@ export const useAddMultiMessageQuery = ({
         }
         onSuccess && onSuccess();
       },
-
+      ...(onError && { useErrorBoundary: false }),
       onError: (_error, _message, context) => {
         onError && onError(_error.message);
         queryClient.setQueryData(
