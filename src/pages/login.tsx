@@ -15,6 +15,7 @@ import { usePostMutationQueryAccount } from "@/hooks/useQueryAccount";
 import Input from "@/components/common/Input";
 import { FcGoogle } from "react-icons/fc";
 import { useUiState } from "@/store";
+import { TOAST_TYPE } from "@/constant/type";
 
 export default function Login() {
   const router = useRouter();
@@ -30,7 +31,7 @@ export default function Login() {
     onSuccess: () => router.push(DASHBOARD),
     onError: (err: any) => {
       updateToast({
-        type: "ERROR",
+        type: TOAST_TYPE.ERROR,
         msg: err,
       });
     },
@@ -39,7 +40,7 @@ export default function Login() {
   const handleAccountLogin = async () => {
     if (!email || !password) {
       updateToast({
-        type: "ERROR",
+        type: TOAST_TYPE.ERROR,
         msg: "email and password are required",
       });
       return;
