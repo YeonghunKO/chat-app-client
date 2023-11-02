@@ -6,5 +6,6 @@ const PhotoPicker = forwardRef<
 >(({ onChangeSetImage }, ref) => {
   return <input ref={ref} type="file" hidden onChange={onChangeSetImage} />;
 });
+PhotoPicker.displayName = "PhotoPicker";
 
 export default PhotoPicker;
