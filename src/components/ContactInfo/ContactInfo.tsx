@@ -7,8 +7,12 @@ import ChatList from "./ChatList";
 import SearchBar from "./SearchBar";
 import dynamic from "next/dynamic";
 import { memo } from "react";
+import Loading from "../common/Loading";
 
-const UsersList = dynamic(() => import("./UsersList"), { ssr: false });
+const UsersList = dynamic(() => import("./UsersList"), {
+  ssr: false,
+  loading: () => <Loading />,
+});
 
 const ContactInfo = () => {
   const isContactsListVisible = useUiState((set) => set.isContactsVisible);

@@ -20,10 +20,11 @@ import { useEffect, useRef } from "react";
 import { getItem, setItem } from "@/utils/storage";
 import CallingContainer from "@/components/Calling/CallingContainer";
 import ContextProvider from "@/components/common/CallingContext";
+import Loading from "@/components/common/Loading";
 
 const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
   ssr: false,
-  loading: () => <div>...loading</div>,
+  loading: () => <Loading />,
 });
 
 export default function Home() {
@@ -55,6 +56,10 @@ export default function Home() {
     //   setCurrentChatUser(storedUser);
     // }
   }, []);
+
+  // if (typeof window !== "undefined") {
+  //   return "";
+  // }
 
   return (
     <ContextProvider>
