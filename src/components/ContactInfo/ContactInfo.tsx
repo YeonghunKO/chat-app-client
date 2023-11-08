@@ -1,3 +1,7 @@
+// settings
+import dynamic from "next/dynamic";
+import { memo } from "react";
+
 // state
 import { useUiState } from "@/store";
 
@@ -5,8 +9,6 @@ import { useUiState } from "@/store";
 import ContactHeader from "./ContactHeader";
 import ChatList from "./ChatList";
 import SearchBar from "./SearchBar";
-import dynamic from "next/dynamic";
-import { memo } from "react";
 import Loading from "../common/Loading";
 
 const UsersList = dynamic(() => import("./UsersList"), {
