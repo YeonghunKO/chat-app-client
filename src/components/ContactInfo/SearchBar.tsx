@@ -3,7 +3,7 @@ import { useQueryClient } from "react-query";
 import { IMessage, IUserInfo } from "@/type";
 
 import { useMutationQuery } from "@/hooks/useQueryAccount";
-import { BiFilter, BiSearchAlt2 } from "react-icons/bi";
+import { BiSearchAlt2 } from "react-icons/bi";
 import Input from "../common/Input";
 
 import { getFetch } from "@/lib/api";

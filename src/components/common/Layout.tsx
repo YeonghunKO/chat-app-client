@@ -1,4 +1,3 @@
-import React from "react";
 import Toast from "./Toast";
 import { ErrorBoundary } from "./ErrorBoundary";
 import RetryFallback from "./ErrorBoundary/RetryFallback";
