@@ -19,7 +19,7 @@ import SearchMessages from "@/components/ChatBox/SearchMessages";
 import { useEffect, useRef } from "react";
 import { getItem, setItem } from "@/utils/storage";
 import CallingContainer from "@/components/Calling/CallingContainer";
-import ContextProvider from "@/components/common/CallingContext";
+import CallingContextProvider from "@/components/common/CallingContext";
 import Loading from "@/components/common/Loading";
 
 const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
@@ -62,7 +62,7 @@ export default function Home() {
   // }
 
   return (
-    <ContextProvider>
+    <CallingContextProvider>
       <main className="grid h-screen max-h-screen w-screen max-w-full grid-cols-main overflow-hidden">
         <CallingContainer />
         <ContactInfo />
@@ -82,7 +82,7 @@ export default function Home() {
           <Empty />
         )}
       </main>
-    </ContextProvider>
+    </CallingContextProvider>
   );
 }
 
