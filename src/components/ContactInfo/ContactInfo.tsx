@@ -1,5 +1,4 @@
 // settings
-import dynamic from "next/dynamic";
 import { memo } from "react";
 
 // state
@@ -9,12 +8,7 @@ import { useUiState } from "@/store";
 import ContactHeader from "./ContactHeader";
 import ChatList from "./ChatList";
 import SearchBar from "./SearchBar";
-import Loading from "../common/Loading";
-
-const UsersList = dynamic(() => import("./UsersList"), {
-  ssr: false,
-  loading: () => <Loading />,
-});
+import UsersListContainer from "./UsersListContainer";
 
 const ContactInfo = () => {
   const isContactsListVisible = useUiState((set) => set.isContactsVisible);
@@ -22,9 +16,7 @@ const ContactInfo = () => {
   return (
     <aside className="z-20 flex max-h-screen flex-col bg-panel-header-background">
       {isContactsListVisible ? (
-        <>
-          <UsersList />
-        </>
+        <UsersListContainer />
       ) : (
         <>
           <ContactHeader />
