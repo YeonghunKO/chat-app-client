@@ -3,7 +3,7 @@ import { queryKeys } from "@/constant/queryKeys";
 import { getFetch, postFetch } from "@/lib/api";
 import { useSocketStore, useUserStore } from "@/store";
 import type {
-  IGetMessages,
+  TGetMessages,
   IMessage,
   IUseAddMessage,
   IUseAddMulitMessage,
@@ -27,7 +27,6 @@ export const useGetQueryAccount = <T>({
     queryFn: () => getFetch({ url, mapper }),
     ...(options && options),
   });
-
   return result;
 };
 
@@ -111,7 +110,7 @@ export const useAddTextMessageQuery = ({
   const mutation = useMutation<IMessage, AxiosError<any>, any, any>(
     (message) =>
       postFetch({
-        url: "ADD_MESSAGE",
+        url: ADD_MESSAGE,
         body: {
           from: userInfo?.id,
           to: currentChatUser?.id,
@@ -239,7 +238,7 @@ export const useAddMultiMessageQuery = ({
   return mutation;
 };
 
-export const useGetCurrentMessagesQuery = <T>(options?: IGetMessages) => {
+export const useGetCurrentMessagesQuery = <T>(options?: TGetMessages) => {
   try {
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
@@ -249,12 +248,12 @@ export const useGetCurrentMessagesQuery = <T>(options?: IGetMessages) => {
     const recieverId = currentChatUser?.id as number;
 
     const queryKeysWithChatUser = queryKeys.messages(senderId, recieverId);
-
     const result = useGetQueryAccount<T>({
       queryKey: queryKeysWithChatUser,
       url: GET_MESSAGES(senderId, recieverId),
+
       options: {
-        ...options?.options,
+        ...(options && options),
       },
     });
 

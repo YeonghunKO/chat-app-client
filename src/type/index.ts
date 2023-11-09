@@ -11,6 +11,8 @@ type TOnlineUsers = Map<number | any, TOnlineUser>;
 
 type TVoidFunc = () => void;
 
+type TGetMessages = IUseQueryOoptionType<any>;
+
 interface ISearchStore {
   isSearchingMessage: boolean;
   filteredChatList: any[];
@@ -102,10 +104,6 @@ interface IUseGetAccount {
   url: string;
 }
 
-interface IGetMessages {
-  options?: IUseQueryOoptionType<any>;
-}
-
 interface IUsePostAccount extends IUseGetAccount {
   body: { email: string };
 }
@@ -136,7 +134,7 @@ export type {
   IUserInfo,
   IUseAddMessage,
   ISocket,
-  IGetMessages,
+  TGetMessages,
   IUseGetMessagesMutation,
   TOnlineUser,
   TOnlineUsers,
