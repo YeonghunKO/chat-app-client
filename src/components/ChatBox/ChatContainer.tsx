@@ -9,7 +9,7 @@ const ChatContainer = () => {
       <div className="relative mx-10 my-6 ">
         <Suspense
           fallback={
-            <div className="h-[70dvh]">
+            <div className="h-[60dvh]">
               <Loading />
             </div>
           }
