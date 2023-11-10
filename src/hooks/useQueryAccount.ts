@@ -22,7 +22,7 @@ export const useGetQueryAccount = <T>({
   options,
   url,
 }: IUseGetAccount) => {
-  const result = useQuery<AxiosResponse<T>, AxiosError<any>, T, any>({
+  const result = useQuery<AxiosResponse<T>, any, T, any>({
     queryKey,
     queryFn: () => getFetch({ url, mapper }),
     ...(options && options),
@@ -239,28 +239,25 @@ export const useAddMultiMessageQuery = ({
 };
 
 export const useGetCurrentMessagesQuery = <T>(options?: TGetMessages) => {
-  try {
-    const queryClient = useQueryClient();
-    const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
-    const currentChatUser = useUserStore((set) => set.currentChatUser);
+  const queryClient = useQueryClient();
+  const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
+  const currentChatUser = useUserStore((set) => set.currentChatUser);
 
-    const senderId = userInfo?.id as number;
-    const recieverId = currentChatUser?.id as number;
+  const senderId = userInfo?.id as number;
+  const recieverId = currentChatUser?.id as number;
 
-    const queryKeysWithChatUser = queryKeys.messages(senderId, recieverId);
-    const result = useGetQueryAccount<T>({
-      queryKey: queryKeysWithChatUser,
-      url: GET_MESSAGES(senderId, recieverId),
+  const queryKeysWithChatUser = queryKeys.messages(senderId, recieverId);
 
-      options: {
-        ...(options && options),
-      },
-    });
+  const result = useGetQueryAccount<T>({
+    queryKey: queryKeysWithChatUser,
+    url: GET_MESSAGES(senderId, recieverId),
 
-    return result;
-  } catch (error: any) {
-    throw new Error(error);
-  }
+    options: {
+      ...(options && options),
+    },
+  });
+
+  return result;
 };
 
 export const useGetMessagesMutationByFromTo = <T extends IMessage[]>(
