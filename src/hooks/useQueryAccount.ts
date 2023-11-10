@@ -22,7 +22,7 @@ export const useGetQueryAccount = <T>({
   options,
   url,
 }: IUseGetAccount) => {
-  const result = useQuery<AxiosResponse<T>, any, T, any>({
+  const result = useQuery<AxiosResponse<T>, AxiosError<any>, T, any>({
     queryKey,
     queryFn: () => getFetch({ url, mapper }),
     ...(options && options),
