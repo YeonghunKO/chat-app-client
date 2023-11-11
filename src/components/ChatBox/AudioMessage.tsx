@@ -40,11 +40,12 @@ const AudioMessage = ({ message }: { message: IMessage }) => {
     if (!waveForm) {
       return;
     }
-
-    const audioUrl = new Audio(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/${message.message}`,
-    );
-    waveForm.load(audioUrl);
+    try {
+      const audioUrl = new Audio(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/${message.message}`,
+      );
+      waveForm.load(audioUrl);
+    } catch (error) {}
   }, [waveForm]);
 
   useEffect(() => {
