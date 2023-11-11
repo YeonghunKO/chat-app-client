@@ -101,7 +101,9 @@ const AudioMessage = ({ message }: { message: IMessage }) => {
             {calculateTime(message.createdAt)}
           </span>
           {currentChatUserId?.id !== message.senderId && (
-            <Status status={message.status} />
+            <div className="text-white">
+              <Status status={message.status} />
+            </div>
           )}
         </div>
       </div>
