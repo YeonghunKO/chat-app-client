@@ -1,3 +1,4 @@
+import { TOAST_TYPE } from "@/constant/type";
 import type {
   ISearchStore,
   ISocket,
@@ -22,9 +23,9 @@ export const useUserStore = create<IUser>((set, get) => ({
 }));
 
 export const useUiState = create<IUiState>((set, get) => ({
-  isToastVisible: false,
-  toastMessage: "",
-  toastType: "SUCESSFUL",
+  isToastVisible: true,
+  toastMessage: "오늘도 좋은 하루 되세요",
+  toastType: TOAST_TYPE.SMILE,
   isContactsVisible: false,
   toggleContactsVisible: () =>
     set({ isContactsVisible: !get().isContactsVisible }),

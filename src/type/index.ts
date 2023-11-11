@@ -2,7 +2,7 @@ import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { QueryKey, UseQueryOptions } from "react-query";
 import { Socket } from "socket.io-client";
 
-type TToastType = "WARN" | "ERROR" | "SUCESSFUL";
+type TToastType = "WARN" | "ERROR" | "SUCESSFUL" | "SMILE";
 type TMessageType = "text" | "image" | "audio";
 type TMEssageStatus = "read" | "delivered" | "sent";
 
