@@ -24,7 +24,7 @@ export const useUserStore = create<IUser>((set, get) => ({
 
 export const useUiState = create<IUiState>((set, get) => ({
   isToastVisible: true,
-  toastMessage: "오늘도 좋은 하루 되세요",
+  toastMessage: "Hope you have a great day!",
   toastType: TOAST_TYPE.SMILE,
   isContactsVisible: false,
   toggleContactsVisible: () =>
