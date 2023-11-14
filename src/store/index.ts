@@ -20,6 +20,10 @@ export const useUserStore = create<IUser>((set, get) => ({
   setOnlineUsers: (onlineUsers: TOnlineUsers) => {
     set({ onlineUsers });
   },
+  setLoggedInUserInfo: (info: IUserInfo | null | undefined) => {
+    set({ loggedInUserInfo: info });
+  },
+  loggedInUserInfo: null,
 }));
 
 export const useUiState = create<IUiState>((set, get) => ({

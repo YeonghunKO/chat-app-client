@@ -69,7 +69,9 @@ interface IUser {
   currentChatUser: IUserInfo | null;
   setCurrentChatUser: (user: IUserInfo) => void;
   setOnlineUsers: (onlineUsers: TOnlineUsers) => void;
+  setLoggedInUserInfo: (userInfo: IUserInfo | null | undefined) => void;
   onlineUsers: TOnlineUsers | null;
+  loggedInUserInfo: IUserInfo | null | undefined;
 }
 
 interface IUseMutateAccount {
