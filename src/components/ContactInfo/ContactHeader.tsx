@@ -11,8 +11,7 @@ import { useUiState } from "@/store";
 
 // business
 import { SIZE } from "@/constant/size";
-import { useQueryClient } from "react-query";
-import { queryKeys } from "@/constant/queryKeys";
+import { useGetLoggedInUserInfo } from "@/hooks/useQueryAccount";
 
 const ContactHeader = () => {
   const contextMenuOptions = [
@@ -23,9 +22,8 @@ const ContactHeader = () => {
       },
     },
   ];
-  const queryClient = useQueryClient();
 
-  const loggedInUser = queryClient.getQueryData(queryKeys.userInfo) as any;
+  const loggedInUser = useGetLoggedInUserInfo();
 
   const setContactsList = useUiState((set) => set.toggleContactsVisible);
   const [isContextMenuVisible, setContextMenuVisible] = useState(false);
@@ -48,7 +46,7 @@ const ContactHeader = () => {
       <div className="cursor-pointer">
         <AvatarPhoto
           size={SIZE.SM}
-          img={loggedInUser?.profilePicture}
+          img={loggedInUser?.profilePicture as string}
           setContextMenuCoord={setContextMenuCordinates}
           setContextMenuVisible={setContextMenuVisible}
         />

@@ -1,16 +1,16 @@
 import { UPDATE_CHAT_LIST } from "@/constant/api";
 import { queryKeys } from "@/constant/queryKeys";
-import { useGetQueryAccount } from "@/hooks/useQueryAccount";
-import { useQueryClient } from "react-query";
+import {
+  useGetLoggedInUserInfo,
+  useGetQueryAccount,
+} from "@/hooks/useQueryAccount";
 import ContactItem from "./ContactItem";
 import { IMessage, IUserInfo } from "@/type";
 import { useSearchStore } from "@/store";
 import { useEffect, useState } from "react";
 
 const ChatList = () => {
-  const queryClient = useQueryClient();
-
-  const loggedInUser = queryClient.getQueryData(queryKeys.userInfo) as any;
+  const loggedInUser = useGetLoggedInUserInfo();
 
   const { filteredChatListNumbers, searchingValue } = useSearchStore((set) => ({
     filteredChatListNumbers: set.filteredChatList,
@@ -26,7 +26,7 @@ const ChatList = () => {
     } & Omit<IMessage, "sender" | "reciever">)[]
   >({
     queryKey: queryKeys.chatLists,
-    url: UPDATE_CHAT_LIST(loggedInUser?.id),
+    url: UPDATE_CHAT_LIST(loggedInUser.id as number),
   });
 
   useEffect(() => {

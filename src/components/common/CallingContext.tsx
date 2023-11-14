@@ -8,14 +8,13 @@ import {
   useRef,
   useState,
 } from "react";
-import { useQueryClient } from "react-query";
 import Peer from "simple-peer";
 
 // business
-import { queryKeys } from "@/constant/queryKeys";
 import { useSocketStore, useUiState, useUserStore } from "@/store";
 import { IUserInfo } from "@/type";
 import { TOAST_TYPE } from "@/constant/type";
+import { useGetLoggedInUserInfo } from "@/hooks/useQueryAccount";
 
 type TVoid = () => void;
 export interface TSocketContext {
@@ -52,8 +51,7 @@ const SocketCotext = createContext<TSocketContext>({
 });
 
 const ContextProvider = ({ children }: { children: any }) => {
-  const client = useQueryClient();
-  const loggedInUser = client.getQueryData<IUserInfo>(queryKeys.userInfo);
+  const loggedInUser = useGetLoggedInUserInfo();
 
   const socket = useSocketStore((set) => set.socket);
   const currentChatUser = useUserStore((set) => set.currentChatUser);

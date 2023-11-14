@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useQueryClient } from "react-query";
-import { IMessage, IUserInfo } from "@/type";
+import { IMessage } from "@/type";
 
-import { useMutationQuery } from "@/hooks/useQueryAccount";
+import {
+  useGetLoggedInUserInfo,
+  useMutationQuery,
+} from "@/hooks/useQueryAccount";
 import { BiSearchAlt2 } from "react-icons/bi";
 import Input from "../common/Input";
 
@@ -16,8 +19,7 @@ const SearchBar = () => {
   const [value, setValue] = useState("");
   const client = useQueryClient();
 
-  const { id } = client.getQueryData(queryKeys.userInfo) as IUserInfo;
-
+  const { id } = useGetLoggedInUserInfo();
   const { setFilteredChatList, setSearchingValue } = useSearchStore((set) => ({
     setFilteredChatList: set.setFilteredChatList,
     setSearchingValue: set.setAllMessageSearchValue,

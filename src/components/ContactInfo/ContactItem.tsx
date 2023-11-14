@@ -1,14 +1,13 @@
-import { useQueryClient } from "react-query";
 import { useSocketStore, useUiState, useUserStore } from "@/store";
 
 import { IMessage, IUserInfo } from "@/type";
-import { queryKeys } from "@/constant/queryKeys";
 import { SIZE } from "@/constant/size";
 
 import { FaCamera, FaMicrophone } from "react-icons/fa";
 import AvatarPhoto from "../common/AvatarPhoto";
 import Status from "../ChatBox/Status";
 import { calculateTime } from "@/utils/calculateTime";
+import { useGetLoggedInUserInfo } from "@/hooks/useQueryAccount";
 
 const ContactItem = ({
   userInfo,
@@ -23,11 +22,10 @@ const ContactItem = ({
 }) => {
   const { name, about, profilePicture, id } = userInfo;
 
-  const queryClient = useQueryClient();
   const setCurrentChatUser = useUserStore((set) => set.setCurrentChatUser);
   const toggleContactsVisible = useUiState((set) => set.toggleContactsVisible);
   const socket = useSocketStore((set) => set.socket);
-  const loggedInUser = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
+  const loggedInUser = useGetLoggedInUserInfo();
 
   const handleContactClick = () => {
     if (socket && loggedInUser) {

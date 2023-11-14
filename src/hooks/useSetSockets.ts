@@ -1,20 +1,21 @@
 import { queryKeys } from "@/constant/queryKeys";
 import { useSocketStore, useUserStore } from "@/store";
-import { IUserInfo, TOnlineUser } from "@/type";
+import { TOnlineUser } from "@/type";
 import { useEffect } from "react";
 import { QueryClient } from "react-query";
 import { io } from "socket.io-client";
 import {
+  useGetLoggedInUserInfo,
   useGetMessagesMutationByFromTo,
   useMutationQuery,
 } from "./useQueryAccount";
 import { getFetch } from "@/lib/api";
 import { UPDATE_CHAT_LIST } from "@/constant/api";
 
-const useSetSockets = (queryClient: QueryClient) => {
+const useSetSockets = () => {
   const setSocket = useSocketStore((set) => set.setSocket);
   const socket = useSocketStore((set) => set.socket);
-  const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
+  const userInfo = useGetLoggedInUserInfo();
   const { setOnlineUsers } = useUserStore((set) => ({
     setOnlineUsers: set.setOnlineUsers,
   }));
