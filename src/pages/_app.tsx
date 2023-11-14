@@ -8,22 +8,18 @@ import "@/styles/globals.css";
 
 import { QueryClient, QueryClientProvider, Hydrate } from "react-query";
 
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      useErrorBoundary: true,
+      refetchOnWindowFocus: false,
+    },
+    mutations: {
+      useErrorBoundary: true,
+    },
+  },
+});
 export default function App({ Component, pageProps }: AppProps) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry: 1,
-            useErrorBoundary: true,
-            refetchOnWindowFocus: false,
-          },
-          mutations: {
-            useErrorBoundary: true,
-          },
-        },
-      }),
-  );
   return (
     <>
       <Head>

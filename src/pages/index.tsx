@@ -2,6 +2,7 @@
 import Cookies from "cookies";
 import { GetServerSideProps } from "next";
 import { QueryClient, dehydrate, useQueryClient } from "react-query";
+import { queryClient } from "./_app";
 
 // business
 import { COOKIE, REFRESH } from "@/constant/api";
@@ -92,8 +93,6 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
 }) => {
   const cookies = new Cookies(req, res);
 
-  const queryClient = new QueryClient();
-
   const { accessToken, refreshTokenIdx } = req.cookies;
   if (!accessToken || !refreshTokenIdx) {
     return {
@@ -103,7 +102,11 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
       },
     };
   }
-
+  console.log(
+    "decodeURIComponent(refreshTokenIdx)",
+    decodeURIComponent(refreshTokenIdx),
+  );
+  console.log("refreshTokenIdx", refreshTokenIdx);
   try {
     const result = await queryClient.fetchQuery(queryKeys.userInfo, () =>
       postFetch({
