@@ -3,10 +3,12 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 
 import Layout from "@/components/common/Layout";
+import { cookies } from "next/headers";
 
 import "@/styles/globals.css";
 
 import { QueryClient, QueryClientProvider, Hydrate } from "react-query";
+import { useUserStore } from "@/store";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,7 +21,10 @@ export const queryClient = new QueryClient({
     },
   },
 });
+
 export default function App({ Component, pageProps }: AppProps) {
+  const setLoggedInUserInfo = useUserStore((set) => set.setLoggedInUserInfo);
+  setLoggedInUserInfo(pageProps.loggedInUser);
   return (
     <>
       <Head>

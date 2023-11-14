@@ -1,7 +1,7 @@
 // setting
 import Cookies from "cookies";
 import { GetServerSideProps } from "next";
-import { QueryClient, dehydrate, useQueryClient } from "react-query";
+import { dehydrate } from "react-query";
 import { queryClient } from "./_app";
 
 // business
@@ -29,7 +29,6 @@ const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
 });
 
 export default function Home() {
-  const client = useQueryClient();
   const { currentChatUser, setCurrentChatUser } = useUserStore((set) => ({
     currentChatUser: set.currentChatUser,
     setCurrentChatUser: set.setCurrentChatUser,
@@ -39,7 +38,7 @@ export default function Home() {
 
   const isSearchingMessages = useSearchStore((set) => set.isSearchingMessage);
 
-  useSetSockets(client);
+  useSetSockets();
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -106,7 +105,7 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
     "decodeURIComponent(refreshTokenIdx)",
     decodeURIComponent(refreshTokenIdx),
   );
-  console.log("refreshTokenIdx", refreshTokenIdx);
+
   try {
     const result = await queryClient.fetchQuery(queryKeys.userInfo, () =>
       postFetch({
@@ -137,6 +136,7 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
     return {
       props: {
         dehydratedState: dehydrate(queryClient),
+        loggedInUser: result,
       },
     };
   } catch (error: any) {
