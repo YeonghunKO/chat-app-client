@@ -1,4 +1,4 @@
-import { ADD_MESSAGE, GET_MESSAGES } from "@/constant/api";
+import { ADD_MESSAGE, GET_MESSAGES, GET_USER } from "@/constant/api";
 import { queryKeys } from "@/constant/queryKeys";
 import { getFetch, postFetch } from "@/lib/api";
 import { useSocketStore, useUserStore } from "@/store";
@@ -28,6 +28,18 @@ export const useGetQueryAccount = <T>({
     ...(options && options),
   });
   return result;
+};
+
+export const useGetLoggedInUserInfo = () => {
+  const loggedInUserInfo = useUserStore(
+    (set) => set.loggedInUserInfo,
+  ) as IUserInfo;
+
+  const { data: freshLoggedInUserInfo } = useGetQueryAccount<IUserInfo>({
+    queryKey: queryKeys.userInfo,
+    url: GET_USER(loggedInUserInfo?.email as string),
+  });
+  return freshLoggedInUserInfo || loggedInUserInfo;
 };
 
 export const useMutationQuery = <T>({
@@ -100,7 +112,7 @@ export const useAddTextMessageQuery = ({
   onSuccess,
 }: IUseAddMessage) => {
   const queryClient = useQueryClient();
-  const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
+  const userInfo = useGetLoggedInUserInfo();
   const currentChatUser = useUserStore((set) => set.currentChatUser);
   const socket = useSocketStore((set) => set.socket);
   const queryKeysWithChatUser = queryKeys.messages(
@@ -177,7 +189,7 @@ export const useAddMultiMessageQuery = ({
   url,
 }: IUseAddMulitMessage) => {
   const queryClient = useQueryClient();
-  const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
+  const userInfo = useGetLoggedInUserInfo();
   const currentChatUser = useUserStore((set) => set.currentChatUser);
   const socket = useSocketStore((set) => set.socket);
   const queryKeysWithChatUser = queryKeys.messages(
@@ -240,7 +252,7 @@ export const useAddMultiMessageQuery = ({
 
 export const useGetCurrentMessagesQuery = <T>(options?: TGetMessages) => {
   const queryClient = useQueryClient();
-  const userInfo = queryClient.getQueryData<IUserInfo>(queryKeys.userInfo);
+  const userInfo = useGetLoggedInUserInfo();
   const currentChatUser = useUserStore((set) => set.currentChatUser);
 
   const senderId = userInfo?.id as number;
