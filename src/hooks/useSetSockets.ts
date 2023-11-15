@@ -2,7 +2,6 @@ import { queryKeys } from "@/constant/queryKeys";
 import { useSocketStore, useUserStore } from "@/store";
 import { TOnlineUser } from "@/type";
 import { useEffect } from "react";
-import { QueryClient } from "react-query";
 import { io } from "socket.io-client";
 import {
   useGetLoggedInUserInfo,

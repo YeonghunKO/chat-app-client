@@ -1,9 +1,7 @@
-import { useState } from "react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 
 import Layout from "@/components/common/Layout";
-import { cookies } from "next/headers";
 
 import "@/styles/globals.css";
 

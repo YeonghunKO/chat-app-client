@@ -17,7 +17,6 @@ import { useSearchStore } from "@/store";
 
 const SearchBar = () => {
   const [value, setValue] = useState("");
-  const client = useQueryClient();
 
   const { id } = useGetLoggedInUserInfo();
   const { setFilteredChatList, setSearchingValue } = useSearchStore((set) => ({
