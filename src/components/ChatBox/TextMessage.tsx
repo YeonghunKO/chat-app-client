@@ -10,7 +10,6 @@ const TextMessage = ({ message }: { message: IMessage }) => {
   return (
     <div
       id={`${message.id}`}
-      key={message.id}
       className={`mb-[2px] flex flex-col gap-[2px] overflow-hidden rounded-[10px] ${
         currentChatUserId?.id === message.senderId
           ? "mr-[25px] self-start bg-incoming-background"
