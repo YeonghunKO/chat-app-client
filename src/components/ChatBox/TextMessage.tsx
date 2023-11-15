@@ -1,6 +1,6 @@
 import { useUserStore } from "@/store";
 import { IMessage } from "@/type";
-import { calculateTime } from "@/utils/calculateTime";
+import { formatAMPM } from "@/utils/calculateTime";
 
 import Status from "./Status";
 
@@ -22,7 +22,7 @@ const TextMessage = ({ message }: { message: IMessage }) => {
       </span>
       <div className="flex gap-[2px] self-end px-[8px] py-[3px]">
         <span className="min-w-fit self-end text-[9px] text-bubble-meta">
-          {calculateTime(message.createdAt)}
+          {formatAMPM(message.createdAt)}
         </span>
         {currentChatUserId?.id !== message.senderId && (
           <Status status={message.status} />

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { useUserStore } from "@/store";
 import { IMessage } from "@/type";
-import { calculateTime } from "@/utils/calculateTime";
+import { formatAMPM } from "@/utils/calculateTime";
 
 import Status from "./Status";
 
@@ -28,7 +28,7 @@ const ImageMessage = ({ message }: { message: IMessage }) => {
       />
       <div className="absolute bottom-0 right-[-5px] flex gap-[2px] self-end rounded-tl-[16px] bg-[#5a5a5a9e] px-[8px] py-[5px]">
         <span className="min-w-fit self-end text-[9px] text-bubble-meta">
-          {calculateTime(message.createdAt)}
+          {formatAMPM(message.createdAt)}
         </span>
         {currentChatUserId?.id !== message.senderId && (
           <Status status={message.status} />

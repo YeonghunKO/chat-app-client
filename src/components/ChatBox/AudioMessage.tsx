@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 // business
 import { useUserStore } from "@/store";
 import { IMessage } from "@/type";
-import { calculateTime, formatTime } from "@/utils/calculateTime";
+import { formatAMPM, formatTime } from "@/utils/calculateTime";
 import { useWaveSurfer } from "@/hooks/useWaveSurfer";
 import { useThrottle } from "@/hooks/useThrottle";
 
@@ -99,7 +99,7 @@ const AudioMessage = ({ message }: { message: IMessage }) => {
         <div className="pl-[5px]">{formatTime(currentPlayTime)}</div>
         <div className="flex gap-[2px] self-end ">
           <span className="min-w-fit self-end">
-            {calculateTime(message.createdAt)}
+            {formatAMPM(message.createdAt)}
           </span>
           {currentChatUserId?.id !== message.senderId && (
             <div className="text-white">
