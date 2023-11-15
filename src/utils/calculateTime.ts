@@ -1,4 +1,4 @@
-export const calculateTime = (inputDateStr: Date) => {
+export const calculateTime = (inputDateStr: string) => {
   // Assuming the input date string is in UTC format
   const inputDate = new Date(inputDateStr);
 
@@ -73,7 +73,7 @@ export const formatTime = (time: number) => {
     .padStart(2, "0")}`;
 };
 
-export const formatAMPM = (date: Date) => {
+export const formatAMPM = (date: string) => {
   const formattedDate = new Date(date);
   let hours = formattedDate.getHours();
   let minutes = formattedDate.getMinutes();

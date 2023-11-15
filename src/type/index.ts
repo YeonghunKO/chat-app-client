@@ -52,7 +52,7 @@ interface IMessage {
   type: TMessageType;
   message: string;
   status: TMEssageStatus;
-  createdAt: Date;
+  createdAt: string;
 }
 
 interface IUserInfo {
