@@ -13,27 +13,40 @@ const AudioMessage = dynamic(() => import("../ChatBox/AudioMessage"), {
 });
 
 const MessagesContainer = () => {
-  const { data: messages } = useGetCurrentMessagesQuery<IMessage[]>({
+  const { data: messagesWithDate } = useGetCurrentMessagesQuery<
+    [string, IMessage[]][]
+  >({
     suspense: true,
   });
 
   return (
     <section className="w-full">
-      <div className="chat_container flex w-full flex-col gap-1 overflow-hidden">
-        {messages?.map((message) => {
-          switch (message.type) {
-            case "text":
-              return <TextMessage message={message} key={message.id} />;
-            case "image":
-              return <ImageMessage message={message} key={message.id} />;
-            case "audio":
-              return <AudioMessage message={message} key={message.id} />;
+      {messagesWithDate?.map((messagesInfo) => {
+        const [date, messages] = messagesInfo;
+        return (
+          <div
+            key={date}
+            className="chat_container flex w-full flex-col gap-1 "
+          >
+            <div className="sticky top-0 z-[999] justify-center self-center">
+              {date}
+            </div>
+            {messages.map((message: IMessage) => {
+              switch (message.type) {
+                case "text":
+                  return <TextMessage message={message} key={message.id} />;
+                case "image":
+                  return <ImageMessage message={message} key={message.id} />;
+                case "audio":
+                  return <AudioMessage message={message} key={message.id} />;
 
-            default:
-              return;
-          }
-        })}
-      </div>
+                default:
+                  return;
+              }
+            })}
+          </div>
+        );
+      })}
     </section>
   );
 };
