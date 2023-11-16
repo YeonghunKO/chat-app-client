@@ -24,11 +24,8 @@ const MessagesContainer = () => {
       {messagesWithDate?.map((messagesInfo) => {
         const [date, messages] = messagesInfo;
         return (
-          <div
-            key={date}
-            className="chat_container flex w-full flex-col gap-1 "
-          >
-            <div className="sticky top-0 z-[999] justify-center self-center">
+          <div key={date} className="chat_container flex w-full flex-col gap-1">
+            <div className="sticky top-2 z-[999] justify-center self-center rounded-lg bg-incoming-background px-4 py-2">
               {date}
             </div>
             {messages.map((message: IMessage) => {
