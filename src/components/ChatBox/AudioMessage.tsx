@@ -11,6 +11,7 @@ import { useThrottle } from "@/hooks/useThrottle";
 // components
 import { FaPauseCircle, FaPlay } from "react-icons/fa";
 import Status from "./Status";
+import Loading from "../common/Loading";
 
 const AudioMessage = ({ message }: { message: IMessage }) => {
   const currentChatUserId = useUserStore((set) => set.currentChatUser);
@@ -81,33 +82,39 @@ const AudioMessage = ({ message }: { message: IMessage }) => {
           : "ml-[25px] self-end bg-outgoing-background"
       }`}
     >
-      <div className="flex w-full gap-[10px] px-[15px] pt-[20px]">
-        <div className="flex items-center text-[30px]">
-          {!isPlaying ? (
-            <FaPlay className="cursor-pointer " onClick={handlePlayAudio} />
-          ) : (
-            <FaPauseCircle
-              className="cursor-pointer"
-              onClick={handlePauseAudio}
-            />
-          )}
-        </div>
-        <div className="w-full" ref={$waveContainer}></div>
-      </div>
-
-      <div className="flex justify-between px-[8px] pb-[3px] text-[9px] text-bubble-meta ">
-        <div className="pl-[5px]">{formatTime(currentPlayTime)}</div>
-        <div className="flex gap-[2px] self-end ">
-          <span className="min-w-fit self-end">
-            {formatAMPM(message.createdAt)}
-          </span>
-          {currentChatUserId?.id !== message.senderId && (
-            <div className="text-white">
-              <Status status={message.status} />
+      {message.message ? (
+        <>
+          <div className="flex w-full gap-[10px] px-[15px] pt-[20px]">
+            <div className="flex items-center text-[30px]">
+              {!isPlaying ? (
+                <FaPlay className="cursor-pointer " onClick={handlePlayAudio} />
+              ) : (
+                <FaPauseCircle
+                  className="cursor-pointer"
+                  onClick={handlePauseAudio}
+                />
+              )}
             </div>
-          )}
-        </div>
-      </div>
+            <div className="w-full" ref={$waveContainer}></div>
+          </div>
+
+          <div className="flex justify-between px-[8px] pb-[3px] text-[9px] text-bubble-meta ">
+            <div className="pl-[5px]">{formatTime(currentPlayTime)}</div>
+            <div className="flex gap-[2px] self-end ">
+              <span className="min-w-fit self-end">
+                {formatAMPM(message.createdAt)}
+              </span>
+              {currentChatUserId?.id !== message.senderId && (
+                <div className="text-white">
+                  <Status status={message.status} />
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };
