@@ -5,12 +5,10 @@ type IStatus = { status: TMEssageStatus };
 
 const Status = ({ status }: IStatus) => {
   return (
-    <span className="flex items-end">
-      {status === "sent" && <BsCheck className="text-[15px]" />}
-      {status === "delivered" && <BsCheckAll className="text-[15px]" />}
-      {status === "read" && (
-        <BsCheckAll className="self-end text-[15px] text-icon-ack" />
-      )}
+    <span className="flex items-end text-[15px]">
+      {status === "sent" && <BsCheck />}
+      {status === "delivered" && <BsCheckAll />}
+      {status === "read" && <BsCheckAll className="self-end text-icon-ack" />}
     </span>
   );
 };
