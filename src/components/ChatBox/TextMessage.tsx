@@ -4,9 +4,12 @@ import { formatAMPM } from "@/utils/calculateTime";
 
 import Status from "./Status";
 
-const TextMessage = ({ message }: { message: IMessage }) => {
-  const currentChatUserId = useUserStore((set) => set.currentChatUser);
+interface ITextMessage extends React.HTMLAttributes<HTMLDivElement> {
+  message: IMessage;
+}
 
+const TextMessage = ({ message, ...rest }: ITextMessage) => {
+  const currentChatUserId = useUserStore((set) => set.currentChatUser);
   return (
     <div
       id={`${message.id}`}
@@ -15,12 +18,13 @@ const TextMessage = ({ message }: { message: IMessage }) => {
           ? "mr-[25px] self-start bg-incoming-background"
           : "ml-[25px] self-end bg-outgoing-background"
       }`}
+      {...rest}
     >
       <span className="break-all px-[10px] pt-[10px] text-[15px]">
         {message.message}
       </span>
       <div className="flex gap-[2px] self-end px-[8px] py-[3px]">
-        <span className="min-w-fit self-end text-[9px] text-bubble-meta">
+        <span className="min-w-fit self-end text-[11px] text-bubble-meta">
           {formatAMPM(message.createdAt)}
         </span>
         {currentChatUserId?.id !== message.senderId && (
