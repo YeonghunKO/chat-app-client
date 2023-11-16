@@ -134,22 +134,35 @@ export const useAddTextMessageQuery = ({
       onMutate: async (newMessage) => {
         const previouseMessages = queryClient.getQueryData(
           queryKeysWithChatUser,
-        ) as IMessage[];
+        ) as [string, IMessage[]][];
 
-        const mutatedMessages = [
-          ...previouseMessages,
-          {
-            id: 0,
-            senderId: 0,
-            recieverId: 0,
-            type: "text",
-            message: newMessage,
-            status: "",
-            createdAt: Date.now(),
-          },
-        ];
+        const newMessageFormat = {
+          id: 0,
+          senderId: 0,
+          recieverId: 0,
+          type: "text",
+          message: newMessage,
+          status: "",
+          createdAt: new Date().toISOString(),
+        };
+        const newDate = new Date(newMessageFormat.createdAt)
+          .toISOString()
+          .split("T")[0];
 
-        queryClient.setQueryData(queryKeysWithChatUser, () => mutatedMessages);
+        const lastDateGroup = previouseMessages[previouseMessages.length - 1];
+        const lastDate = lastDateGroup[0];
+        const lastDateGroupMessages = lastDateGroup[1];
+
+        if (newDate === lastDate) {
+          lastDateGroupMessages.push(newMessageFormat);
+        } else {
+          previouseMessages.push([newDate, [newMessageFormat]]);
+        }
+
+        queryClient.setQueryData(
+          queryKeysWithChatUser,
+          () => previouseMessages,
+        );
         return { previouseMessages };
       },
       onSuccess: (newMessage) => {
@@ -251,7 +264,6 @@ export const useAddMultiMessageQuery = ({
 };
 
 export const useGetCurrentMessagesQuery = <T>(options?: TGetMessages) => {
-  const queryClient = useQueryClient();
   const userInfo = useGetLoggedInUserInfo();
   const currentChatUser = useUserStore((set) => set.currentChatUser);
 
@@ -263,7 +275,6 @@ export const useGetCurrentMessagesQuery = <T>(options?: TGetMessages) => {
   const result = useGetQueryAccount<T>({
     queryKey: queryKeysWithChatUser,
     url: GET_MESSAGES(senderId, recieverId),
-
     options: {
       ...(options && options),
     },
