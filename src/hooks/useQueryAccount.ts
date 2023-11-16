@@ -149,14 +149,18 @@ export const useAddTextMessageQuery = ({
           .toISOString()
           .split("T")[0];
 
-        const lastDateGroup = previouseMessages[previouseMessages.length - 1];
-        const lastDate = lastDateGroup[0];
-        const lastDateGroupMessages = lastDateGroup[1];
-
-        if (newDate === lastDate) {
-          lastDateGroupMessages.push(newMessageFormat);
-        } else {
+        if (previouseMessages.length <= 0) {
           previouseMessages.push([newDate, [newMessageFormat]]);
+        } else {
+          const lastDateGroup = previouseMessages[previouseMessages.length - 1];
+          const lastDate = lastDateGroup[0];
+          const lastDateGroupMessages = lastDateGroup[1];
+
+          if (newDate === lastDate) {
+            lastDateGroupMessages.push(newMessageFormat);
+          } else {
+            previouseMessages.push([newDate, [newMessageFormat]]);
+          }
         }
 
         queryClient.setQueryData(
