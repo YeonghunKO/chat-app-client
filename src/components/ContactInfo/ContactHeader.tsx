@@ -42,7 +42,7 @@ const ContactHeader = () => {
   };
 
   return (
-    <div className="flex h-[60px] items-center justify-between px-4 py-3">
+    <div className="flex h-[60px] items-center justify-between py-3 pl-4 pr-5">
       <div className="cursor-pointer">
         <AvatarPhoto
           size={SIZE.SM}

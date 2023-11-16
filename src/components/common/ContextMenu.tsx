@@ -52,7 +52,7 @@ const ContextMenu = ({
 
   return (
     <div
-      className="fixed z-[100] bg-dropdown-background"
+      className="fixed z-[100] w-max bg-dropdown-background"
       ref={$contextMenu}
       style={{
         boxShadow:
