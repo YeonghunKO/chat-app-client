@@ -31,7 +31,7 @@ const ImageMessage = ({ message }: { message: IMessage }) => {
           />
 
           <div className="absolute bottom-0 right-[-5px] flex gap-[2px] self-end rounded-tl-[16px] bg-[#5a5a5a9e] px-[8px] py-[5px]">
-            <span className="min-w-fit self-end text-[9px] text-bubble-meta">
+            <span className="min-w-fit self-end text-[11px] text-bubble-meta">
               {formatAMPM(message.createdAt)}
             </span>
             {currentChatUserId?.id !== message.senderId && (

@@ -101,7 +101,7 @@ const AudioMessage = ({ message }: { message: IMessage }) => {
           <div className="flex justify-between px-[8px] pb-[3px] text-[9px] text-bubble-meta ">
             <div className="pl-[5px]">{formatTime(currentPlayTime)}</div>
             <div className="flex gap-[2px] self-end ">
-              <span className="min-w-fit self-end">
+              <span className="min-w-fit self-end text-[11px]">
                 {formatAMPM(message.createdAt)}
               </span>
               {currentChatUserId?.id !== message.senderId && (
