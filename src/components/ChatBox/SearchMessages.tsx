@@ -50,9 +50,11 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
     }
   }, [searchingKeyWord, allMessages]);
 
-  const handleResultClick = (messageId: number) => () => {
+  const handleResultClick = (messageId: number, date: string) => () => {
     if (parent.current) {
-      const $chatBoxes = parent.current?.querySelector(".chat_container");
+      const $chatBoxes = parent.current?.querySelector(
+        `.chat_container_${date}`,
+      );
       if ($chatBoxes) {
         const $childForMessageId = Array.from($chatBoxes.children).find(
           (child) => child.id === String(messageId),
@@ -109,7 +111,7 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
                         <div className="flex w-full cursor-pointer flex-col transition-opacity hover:opacity-80">
                           <TextMessage
                             message={message}
-                            onClick={handleResultClick(message.id)}
+                            onClick={handleResultClick(message.id, date)}
                             key={message.id}
                           />
                         </div>
