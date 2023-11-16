@@ -4,7 +4,7 @@ import { RefObject, memo, useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Input from "../common/Input";
 import { IMessage } from "@/type";
-import { calculateTime } from "@/utils/calculateTime";
+import TextMessage from "./TextMessage";
 
 const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
   const toggleSearching = useSearchStore((set) => set.toggleIsSearchingMessage);
@@ -14,19 +14,35 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
   };
   const currentChatUser = useUserStore((set) => set.currentChatUser);
 
-  const [searchedMessages, setSearchedMessages] = useState<IMessage[]>([]);
+  const [searchedMessages, setSearchedMessages] = useState<
+    (never[] | readonly [string, IMessage[]])[]
+  >([]);
   const [searchingKeyWord, setSearchingKeyWord] = useState("");
 
-  const { data: allMessages } = useGetCurrentMessagesQuery<IMessage[]>();
+  const { data: allMessages } =
+    useGetCurrentMessagesQuery<[string, IMessage[]][]>();
 
   useEffect(() => {
     if (allMessages) {
       if (searchingKeyWord) {
-        const filteredMessages = allMessages.filter(
-          (message) =>
-            message.type === "text" &&
-            message.message.includes(searchingKeyWord),
-        );
+        const filteredMessages = allMessages.map((messageInfo) => {
+          const [date, messages] = messageInfo;
+          const filteredMessages = messages.filter((message) => {
+            const isMatchedMessage =
+              message.message?.includes(searchingKeyWord);
+            if (message.type === "text" && isMatchedMessage) {
+              return true;
+            }
+
+            return false;
+          });
+
+          if (filteredMessages.length) {
+            return [date, filteredMessages] as const;
+          }
+
+          return [];
+        });
         setSearchedMessages(filteredMessages);
       } else {
         setSearchedMessages([]);
@@ -37,7 +53,6 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
   const handleResultClick = (messageId: number) => () => {
     if (parent.current) {
       const $chatBoxes = parent.current?.querySelector(".chat_container");
-
       if ($chatBoxes) {
         const $childForMessageId = Array.from($chatBoxes.children).find(
           (child) => child.id === String(messageId),
@@ -78,24 +93,31 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
           placeholder="searching messages"
         />
       </div>
-      <div className="custom-scrollbar flex h-[80dvh] flex-col overflow-auto p-[20px] pt-[0]">
+      <div className="flex h-[80dvh] flex-col overflow-auto p-[20px] pt-[0]">
         {searchedMessages.length ? (
-          searchedMessages.map((message: IMessage) => {
+          searchedMessages.map((messageInfo) => {
+            const [date, messages] = messageInfo;
             return (
-              <div
-                onClick={handleResultClick(message.id)}
-                key={message.id}
-                className={`${
-                  message.senderId === currentChatUser?.id
-                    ? "self-start bg-incoming-background"
-                    : "self-end bg-outgoing-background"
-                } mb-[10px] w-[90%] cursor-pointer rounded-md p-[10px] transition-opacity hover:opacity-80`}
-              >
-                <p className="text-panel-header-icon">
-                  {calculateTime(message.createdAt)}
-                </p>
-                <p>{message.message}</p>
-              </div>
+              <>
+                {date ? (
+                  <div key={date} className="flex w-full flex-col gap-1">
+                    <div className="sticky top-2 z-[999] mb-4 justify-center self-center rounded-lg bg-incoming-background px-4 py-2">
+                      {date}
+                    </div>
+                    {messages?.map((message) => {
+                      return (
+                        <div className="flex w-full cursor-pointer flex-col transition-opacity hover:opacity-80">
+                          <TextMessage
+                            message={message}
+                            onClick={handleResultClick(message.id)}
+                            key={message.id}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : null}
+              </>
             );
           })
         ) : (
