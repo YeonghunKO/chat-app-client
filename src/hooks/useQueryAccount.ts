@@ -234,17 +234,49 @@ export const useAddMultiMessageQuery = ({
       onMutate: async (newMessage) => {
         const previouseMessages = queryClient.getQueryData(
           queryKeysWithChatUser,
-        );
+        ) as [string, IMessage[]][];
 
+        let type;
+
+        for (let key of newMessage.keys()) {
+          type = key;
+        }
+
+        const newMessageFormat = {
+          id: 0,
+          senderId: 0,
+          recieverId: 0,
+          type: type,
+          message: undefined,
+          status: "",
+          createdAt: new Date().toISOString(),
+        };
+
+        const newDate = new Date(newMessageFormat.createdAt)
+          .toISOString()
+          .split("T")[0];
+
+        if (previouseMessages.length <= 0) {
+          previouseMessages.push([newDate, [newMessageFormat]]);
+        } else {
+          const lastDateGroup = previouseMessages[previouseMessages.length - 1];
+          const lastDate = lastDateGroup[0];
+          const lastDateGroupMessages = lastDateGroup[1];
+
+          if (newDate === lastDate) {
+            lastDateGroupMessages.push(newMessageFormat);
+          } else {
+            previouseMessages.push([newDate, [newMessageFormat]]);
+          }
+        }
+
+        queryClient.setQueryData(
+          queryKeysWithChatUser,
+          () => previouseMessages,
+        );
         return { previouseMessages };
       },
       onSuccess: (newMessage) => {
-        queryClient.setQueryData(
-          queryKeysWithChatUser,
-          (prevMessages: IMessage[] | any) => {
-            return [...prevMessages, newMessage];
-          },
-        );
         if (socket) {
           socket.emit("send-msg", {
             from: userInfo?.id,
@@ -253,6 +285,12 @@ export const useAddMultiMessageQuery = ({
           });
         }
         onSuccess && onSuccess();
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: queryKeysWithChatUser,
+          exact: true,
+        });
       },
       ...(onError && { useErrorBoundary: false }),
       onError: (_error, _message, context) => {

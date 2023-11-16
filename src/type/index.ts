@@ -50,7 +50,7 @@ interface IMessage {
   senderId: number;
   recieverId: number;
   type: TMessageType;
-  message: string;
+  message: string | undefined;
   status: TMEssageStatus;
   createdAt: string;
 }
