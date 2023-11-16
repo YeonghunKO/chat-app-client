@@ -101,10 +101,6 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
       },
     };
   }
-  console.log(
-    "decodeURIComponent(refreshTokenIdx)",
-    decodeURIComponent(refreshTokenIdx),
-  );
 
   try {
     const result = await queryClient.fetchQuery(queryKeys.userInfo, () =>
