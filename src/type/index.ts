@@ -3,8 +3,8 @@ import { QueryKey, UseQueryOptions } from "react-query";
 import { Socket } from "socket.io-client";
 
 type TToastType = "WARN" | "ERROR" | "SUCESSFUL" | "SMILE";
-type TMessageType = "text" | "image" | "audio";
-type TMEssageStatus = "read" | "delivered" | "sent";
+type TMessageType = "text" | "image" | "audio" | string;
+type TMEssageStatus = "read" | "delivered" | "sent" | string;
 
 type TOnlineUser = { socketId: string; chatRoomId: number | undefined };
 type TOnlineUsers = Map<number | any, TOnlineUser>;
