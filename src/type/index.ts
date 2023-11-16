@@ -32,6 +32,7 @@ interface IUiState {
   toastMessage: string;
   toastType: TToastType;
   isContactsVisible: boolean;
+  isCotactsInfoVisible: boolean;
   updateToastInfo: ({
     type,
     msg,
@@ -43,6 +44,7 @@ interface IUiState {
   }) => void;
 
   toggleContactsVisible: () => void;
+  toggleContactInfoVisible: () => void;
 }
 
 interface IMessage {

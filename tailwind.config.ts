@@ -13,6 +13,8 @@ const config: Config = {
       },
       animation: {
         "fade-in-bottom": "fade-in-bottom 500ms ease-in-out ",
+        "slide-right": "slide-right 500ms ease-in-out forwards",
+        "slide-left": "slide-left 500ms ease-in-out forwards",
         "fade-out-bottom": "fade-out-bottom 500ms ease-in-out forwards",
         "shake-bottom": "shake-bottom 1000ms infinite ease-in-out",
         spinning: "spinning 2s infinite",
@@ -25,6 +27,22 @@ const config: Config = {
           "100%": {
             transform: "translateY(0px)",
             opacity: "1",
+          },
+        },
+        "slide-left": {
+          "0%": {
+            transform: "translateX(0)",
+          },
+          "100%": {
+            transform: "translateX(-40dvw)",
+          },
+        },
+        "slide-right": {
+          "0%": {
+            transform: "translateX(-40dvw)",
+          },
+          "100%": {
+            transform: "translateX(0)",
           },
         },
         "fade-out-bottom": {
