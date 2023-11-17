@@ -53,7 +53,7 @@ const Toast = () => {
   return (
     <>
       <div
-        className={`absolute bottom-[30px] left-[30px] z-[99] h-max w-max rounded-md bg-search-input-container-background p-[20px] text-white ${
+        className={`absolute bottom-[10px] left-[10px] z-[99] h-max w-max rounded-md bg-search-input-container-background p-[20px] text-white md:bottom-[30px] md:left-[30px] ${
           isToastVisible ? "animate-fade-in-bottom" : "animate-fade-out-bottom"
         }`}
       >
