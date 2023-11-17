@@ -7,7 +7,10 @@ import { IMessage } from "@/type";
 import TextMessage from "./TextMessage";
 
 const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
-  const toggleSearching = useSearchStore((set) => set.toggleIsSearchingMessage);
+  const { toggleSearching, isSearchingMessages } = useSearchStore((set) => ({
+    toggleSearching: set.toggleIsSearchingMessage,
+    isSearchingMessages: set.isSearchingMessage,
+  }));
 
   const handleCloseSearching = () => {
     toggleSearching();
@@ -70,7 +73,9 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
 
           $childForMessageId.classList.add("animate-shake-bottom");
           // 모바일일경우 활성화하기
-          // toggleSearching();
+          if (window.innerWidth < 768) {
+            toggleSearching();
+          }
           setTimeout(() => {
             $childForMessageId.classList.remove("animate-shake-bottom");
           }, 2000);
@@ -80,7 +85,14 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
   };
 
   return (
-    <div className="z-10 w-full  bg-search-input-container-background">
+    <div
+      className={`absolute ${
+        isSearchingMessages
+          ? "animate-searchMessages-slide-right"
+          : "animate-searchMessages-slide-left"
+      } right-0 top-0 z-10 h-[100dvh] w-[100dvw] bg-search-input-container-background
+      md:w-[35dvw] lg:w-[25dvw]`}
+    >
       <header className="flex h-[57px] gap-[10px] bg-panel-header-background pl-[10px] pt-[18px]">
         <IoClose
           className="cursor-pointer text-2xl text-icon-lighter"
