@@ -23,8 +23,8 @@ const ContactItem = ({
   const { name, about, profilePicture, id } = userInfo;
 
   const setCurrentChatUser = useUserStore((set) => set.setCurrentChatUser);
-  const toggleContactInfoVisible = useUiState(
-    (set) => set.toggleContactInfoVisible,
+  const toggleContactInfoClosed = useUiState(
+    (set) => set.toggleContactInfoClosed,
   );
   const socket = useSocketStore((set) => set.socket);
   const loggedInUser = useGetLoggedInUserInfo();
@@ -42,7 +42,7 @@ const ContactItem = ({
       });
     }
     setCurrentChatUser(userInfo);
-    toggleContactInfoVisible();
+    toggleContactInfoClosed();
   };
 
   return (
