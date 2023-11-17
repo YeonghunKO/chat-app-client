@@ -13,8 +13,12 @@ const config: Config = {
       },
       animation: {
         "fade-in-bottom": "fade-in-bottom 500ms ease-in-out ",
-        "slide-right": "slide-right 500ms ease-in-out forwards",
-        "slide-left": "slide-left 500ms ease-in-out forwards",
+        "contact-slide-left": "contact-slide-left 500ms ease-in-out forwards",
+        "contact-slide-right": "contact-slide-right 500ms ease-in-out forwards",
+        "searchMessages-slide-left":
+          "searchMessages-slide-left 500ms ease-in-out forwards",
+        "searchMessages-slide-right":
+          "searchMessages-slide-right 500ms ease-in-out forwards",
         "fade-out-bottom": "fade-out-bottom 500ms ease-in-out forwards",
         "shake-bottom": "shake-bottom 1000ms infinite ease-in-out",
         spinning: "spinning 2s infinite",
@@ -29,17 +33,33 @@ const config: Config = {
             opacity: "1",
           },
         },
-        "slide-left": {
+        "contact-slide-left": {
           "0%": {
             transform: "translateX(0)",
           },
           "100%": {
-            transform: "translateX(-40dvw)",
+            transform: "translateX(-100%)",
           },
         },
-        "slide-right": {
+        "contact-slide-right": {
           "0%": {
-            transform: "translateX(-40dvw)",
+            transform: "translateX(-100%)",
+          },
+          "100%": {
+            transform: "translateX(0)",
+          },
+        },
+        "searchMessages-slide-left": {
+          "0%": {
+            transform: "translateX(0)",
+          },
+          "100%": {
+            transform: "translateX(100%)",
+          },
+        },
+        "searchMessages-slide-right": {
+          "0%": {
+            transform: "translateX(100%)",
           },
           "100%": {
             transform: "translateX(0)",
