@@ -9,7 +9,7 @@ import { COOKIE, REFRESH } from "@/constant/api";
 import { SIGN_IN_PAGE } from "@/constant/path";
 import { queryKeys } from "@/constant/queryKeys";
 import { postFetch } from "@/lib/api";
-import { useSearchStore, useUserStore } from "@/store";
+import { useUiState, useUserStore } from "@/store";
 
 // components
 import ContactInfo from "@/components/ContactInfo";
@@ -22,6 +22,7 @@ import { getItem, setItem } from "@/utils/storage";
 import CallingContainer from "@/components/Calling/CallingContainer";
 import CallingContextProvider from "@/components/common/CallingContext";
 import Loading from "@/components/common/Loading";
+import { IoIosArrowForward } from "react-icons/io";
 
 const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
   ssr: false,
@@ -34,9 +35,11 @@ export default function Home() {
     setCurrentChatUser: set.setCurrentChatUser,
   }));
 
-  const $chatBox = useRef<HTMLDivElement>(null);
+  const { toggleContactInfoClosed } = useUiState((set) => ({
+    toggleContactInfoClosed: set.toggleContactInfoClosed,
+  }));
 
-  const isSearchingMessages = useSearchStore((set) => set.isSearchingMessage);
+  const $chatBox = useRef<HTMLDivElement>(null);
 
   useSetSockets();
 
@@ -61,20 +64,23 @@ export default function Home() {
   //   return "";
   // }
 
+  const handleCloseInfoButton = () => {
+    toggleContactInfoClosed(false);
+  };
+
   return (
     <CallingContextProvider>
-      <main className="grid h-screen max-h-screen w-screen max-w-full grid-cols-main overflow-hidden">
+      <main className="h-screen w-screen overflow-hidden">
+        <div
+          onClick={handleCloseInfoButton}
+          className="absolute -left-[8px] top-1/2 z-[20] cursor-pointer rounded-full bg-incoming-background p-[5px] text-[20px] text-[#ADBAC1]"
+        >
+          <IoIosArrowForward />
+        </div>
         <CallingContainer />
         <ContactInfo />
         {currentChatUser ? (
-          <section
-            className={`grid transition-all duration-500 ease-in-out ${
-              isSearchingMessages
-                ? // auto를 하면 최대한 늘어날 수 있는만큼 늘어남
-                  "grid-cols-[57%_auto]"
-                : "grid-cols-[100%_auto]"
-            }`}
-          >
+          <section>
             <ChatBox ref={$chatBox} />
             <SearchMessages parent={$chatBox} />
           </section>
