@@ -31,11 +31,16 @@ export const useUiState = create<IUiState>((set, get) => ({
   toastMessage: "Hope you have a great day!",
   toastType: TOAST_TYPE.SMILE,
   isContactsVisible: false,
-  isCotactsInfoVisible: false,
+  isContactInfoClosed: false,
   toggleContactsVisible: () =>
     set({ isContactsVisible: !get().isContactsVisible }),
-  toggleContactInfoVisible: () =>
-    set({ isCotactsInfoVisible: !get().isCotactsInfoVisible }),
+  toggleContactInfoClosed: (isVisible?: boolean) => {
+    if (isVisible) {
+      set({ isContactInfoClosed: isVisible });
+    } else {
+      set({ isContactInfoClosed: !get().isContactInfoClosed });
+    }
+  },
   updateToastInfo: ({
     type,
     msg,
