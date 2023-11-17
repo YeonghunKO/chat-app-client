@@ -9,30 +9,37 @@ import ContactHeader from "./ContactHeader";
 import ChatList from "./ChatList";
 import SearchBar from "./SearchBar";
 import UsersListContainer from "./UsersListContainer";
-import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 
 const ContactInfo = () => {
   const isContactsListVisible = useUiState((set) => set.isContactsVisible);
-  const { toggleContactInfoVisible, isContactsInfoVisible } = useUiState(
+  const { isContactInfoClosed, toggleContactInfoClosed } = useUiState(
     (set) => ({
-      toggleContactInfoVisible: set.toggleContactInfoVisible,
-      isContactsInfoVisible: set.isCotactsInfoVisible,
+      isContactInfoClosed: set.isContactInfoClosed,
+      toggleContactInfoClosed: set.toggleContactInfoClosed,
     }),
   );
+
+  const handleCloseInfoButton = () => {
+    toggleContactInfoClosed(true);
+  };
 
   return (
     <aside
       className={`absolute ${
-        isContactsInfoVisible ? "animate-slide-right" : "animate-slide-left"
-      } top-0 z-20 flex h-screen max-h-screen w-[40dvw] flex-col bg-panel-header-background`}
+        isContactInfoClosed
+          ? "animate-contact-slide-left"
+          : "animate-contact-slide-right"
+      } top-0 z-20 flex h-[100dvh] max-h-screen w-[100dvw] flex-col bg-panel-header-background md:w-[35dvw] lg:w-[25dvw]`}
     >
       <div
-        className="absolute -right-[20px] top-[15px] cursor-pointer rounded-full bg-[#111B21] p-2 text-white"
-        onClick={toggleContactInfoVisible}
+        onClick={handleCloseInfoButton}
+        className="absolute right-[8px] top-1/2 cursor-pointer rounded-full bg-transparent text-[20px]
+text-[#ADBAC1]"
       >
-        {isContactsInfoVisible ? <IoIosArrowBack /> : <IoIosArrowForward />}
+        {isContactInfoClosed ? null : <IoIosArrowBack />}
       </div>
+
       {isContactsListVisible ? (
         <UsersListContainer />
       ) : (
