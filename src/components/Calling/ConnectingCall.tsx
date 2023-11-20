@@ -7,10 +7,12 @@ const ConnectingCall = () => {
   const { call, cancelUser } = useContext(SocketCotext);
 
   return (
-    <div className="absolute left-1/2 top-1/2 z-[99] flex h-[80dvh] w-[80dvw] -translate-x-1/2 -translate-y-1/2 items-center justify-center border-2 border-outgoing-background  bg-conversation-panel-background">
-      <div className="flex h-[80%] w-[80%] flex-col items-center gap-[30px]">
+    <div className="absolute left-1/2 top-1/2 z-[99] flex h-[80dvh] w-[80dvw] -translate-x-1/2 -translate-y-1/2 items-center justify-center border-2 border-outgoing-background bg-conversation-panel-background  p-4">
+      <div className="flex h-full w-[80%] flex-col items-center gap-[30px]">
         <div className="text-center">
-          <h1 className="text-[50px]">{call.callerInfo?.name}</h1>
+          <h1 className="text-[40px] md:text-[50px]">
+            {call.callerInfo?.name}
+          </h1>
           <h2>calling</h2>
         </div>
         <div className="relative h-[70%] w-[70%] animate-shake-bottom">
