@@ -73,7 +73,7 @@ export default function Home() {
       <main className="h-screen w-screen overflow-hidden">
         <div
           onClick={handleCloseInfoButton}
-          className="absolute -left-[8px] top-1/2 z-[20] cursor-pointer rounded-full bg-incoming-background p-[5px] text-[20px] text-[#ADBAC1]"
+          className="absolute -left-[8px] top-1/2 z-[10] cursor-pointer rounded-full bg-incoming-background p-[5px] text-[20px] text-[#ADBAC1]"
         >
           <IoIosArrowForward />
         </div>
