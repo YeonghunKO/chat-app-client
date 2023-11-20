@@ -90,7 +90,7 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
         isSearchingMessages ? "!right-[0%]" : ""
       } -right-[100dvw] top-0 z-10 h-[100dvh] w-[100dvw] bg-search-input-container-background md:-right-[35%] md:w-[35dvw] lg:-right-[25%] lg:w-[25dvw]`}
     >
-      <header className="flex h-[57px] gap-[10px] bg-panel-header-background pl-[10px] pt-[18px]">
+      <header className="flex h-[60px] gap-[10px] bg-panel-header-background pl-[10px] pt-[18px]">
         <IoClose
           className="cursor-pointer text-2xl text-icon-lighter"
           onClick={handleCloseSearching}
