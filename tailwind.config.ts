@@ -16,9 +16,9 @@ const config: Config = {
         "contact-slide-left": "contact-slide-left 500ms ease-in-out forwards",
         "contact-slide-right": "contact-slide-right 500ms ease-in-out forwards",
         "searchMessages-slide-left":
-          "searchMessages-slide-left 500ms ease-in-out forwards",
+          "searchMessages-slide-left 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards",
         "searchMessages-slide-right":
-          "searchMessages-slide-right 500ms ease-in-out forwards",
+          "searchMessages-slide-right 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards",
         "fade-out-bottom": "fade-out-bottom 500ms ease-in-out forwards",
         "shake-bottom": "shake-bottom 1000ms infinite ease-in-out",
         spinning: "spinning 2s infinite",

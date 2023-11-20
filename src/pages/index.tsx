@@ -9,7 +9,7 @@ import { COOKIE, REFRESH } from "@/constant/api";
 import { SIGN_IN_PAGE } from "@/constant/path";
 import { queryKeys } from "@/constant/queryKeys";
 import { postFetch } from "@/lib/api";
-import { useUiState, useUserStore } from "@/store";
+import { useSearchStore, useUiState, useUserStore } from "@/store";
 
 // components
 import ContactInfo from "@/components/ContactInfo";
@@ -37,6 +37,10 @@ export default function Home() {
 
   const { toggleContactInfoClosed } = useUiState((set) => ({
     toggleContactInfoClosed: set.toggleContactInfoClosed,
+  }));
+
+  const { isSearchingMessages } = useSearchStore((set) => ({
+    isSearchingMessages: set.isSearchingMessage,
   }));
 
   const $chatBox = useRef<HTMLDivElement>(null);
@@ -70,7 +74,7 @@ export default function Home() {
 
   return (
     <CallingContextProvider>
-      <main className="h-screen w-screen overflow-hidden">
+      <main className="h-screen w-screen overflow-hidden md:grid">
         <div
           onClick={handleCloseInfoButton}
           className="absolute -left-[8px] top-1/2 z-[10] cursor-pointer rounded-full bg-incoming-background p-[5px] text-[20px] text-[#ADBAC1]"
@@ -80,7 +84,14 @@ export default function Home() {
         <CallingContainer />
         <ContactInfo />
         {currentChatUser ? (
-          <section>
+          <section
+            className={`duration-[500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] md:grid ${
+              isSearchingMessages
+                ? // auto를 하면 최대한 늘어날 수 있는만큼 늘어남
+                  "md:grid-cols-[65%_auto] lg:grid-cols-[75%_auto]"
+                : "md:grid-cols-[100%_auto]"
+            }`}
+          >
             <ChatBox ref={$chatBox} />
             <SearchMessages parent={$chatBox} />
           </section>
