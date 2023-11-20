@@ -52,7 +52,7 @@ const ChatHeader = () => {
   const isOtherOnline = onlineUsers?.has(currentChatUser?.id);
 
   return (
-    <div className="z-10 flex h-[60px] items-center justify-between border-l-[2px] border-l-input-background bg-panel-header-background px-4 py-2">
+    <div className="z-[1] flex h-[60px] items-center justify-between border-l-[2px] border-l-input-background bg-panel-header-background px-4 py-2">
       <div className="flex items-center justify-center gap-6">
         <AvatarPhoto
           size={SIZE.SM}
