@@ -45,8 +45,12 @@ const ChatHeader = () => {
   };
 
   const handleVideoCall = () => {
-    setIsStartCalling && setIsStartCalling(true);
-    !isStartCalling && !call.callerInfo && callUser();
+    if (!call.isRecieving) {
+      setIsStartCalling && setIsStartCalling(true);
+    }
+    if (!isStartCalling && !call.callerInfo) {
+      callUser();
+    }
   };
 
   const isOtherOnline = onlineUsers?.has(currentChatUser?.id);
