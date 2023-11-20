@@ -86,12 +86,9 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
 
   return (
     <div
-      className={`absolute ${
-        isSearchingMessages
-          ? "animate-searchMessages-slide-right"
-          : "animate-searchMessages-slide-left"
-      } right-0 top-0 z-10 h-[100dvh] w-[100dvw] bg-search-input-container-background
-      md:w-[35dvw] lg:w-[25dvw]`}
+      className={`absolute duration-[500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
+        isSearchingMessages ? "!right-[0%]" : ""
+      } -right-[100dvw] top-0 z-10 h-[100dvh] w-[100dvw] bg-search-input-container-background md:-right-[35%] md:w-[35dvw] lg:-right-[25%] lg:w-[25dvw]`}
     >
       <header className="flex h-[57px] gap-[10px] bg-panel-header-background pl-[10px] pt-[18px]">
         <IoClose
@@ -124,7 +121,7 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
                           <TextMessage
                             message={message}
                             onClick={handleResultClick(message.id, date)}
-                            key={message.id}
+                            key={`${message.id}-` + date}
                           />
                         </div>
                       );
