@@ -15,7 +15,7 @@ const ConnectingCall = () => {
           </h1>
           <h2>calling</h2>
         </div>
-        <div className="relative h-[70%] w-[70%] animate-shake-bottom">
+        <div className="relative h-[250px] w-[250px] animate-shake-bottom md:h-[320px] md:w-[320px]">
           {call.callerInfo && (
             <Image
               src={call.callerInfo.profilePicture as string}
