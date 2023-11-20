@@ -56,24 +56,20 @@ const config: Config = {
         },
 
         "shake-bottom": {
-          "0%, 100%": {
-            transform: "rotate(0deg)",
-            "transform-origin": "50% 100%",
+          "0%,100%": {
+            transform: "translateY(0)",
           },
-          "10%": {
-            transform: "rotate(4deg)",
+          "10%,30%,50%,70%": {
+            transform: "translateY(-6px)",
           },
           "20%,40%,60%": {
-            transform: "rotate(-4deg)",
-          },
-          "30%, 50%, 70%": {
-            transform: "rotate(4deg)",
+            transform: "translateY(6px)",
           },
           "80%": {
-            transform: "rotate(0deg)",
+            transform: "translateY(4.4px)",
           },
           "90%": {
-            transform: "rotate(4deg)",
+            transform: "translateY(-4.4px)",
           },
         },
         spinning: {
