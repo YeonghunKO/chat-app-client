@@ -93,25 +93,32 @@ const MessageBar = () => {
   const handleOnChangePhotoInput = async (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    if (e.target.files) {
-      const reader = new FileReader();
-      const file = e.target.files;
+    try {
+      if (e.target.files) {
+        const reader = new FileReader();
+        const file = e.target.files;
 
-      if (file[0]) {
-        reader.readAsDataURL(file[0]);
+        if (file[0]) {
+          reader.readAsDataURL(file[0]);
 
-        const image = (await resizeFile({
-          file: file[0],
-          size: 300,
-          outPut: "file",
-        })) as File;
+          const image = (await resizeFile({
+            file: file[0],
+            size: 500,
+            outPut: "file",
+          })) as File;
 
-        const formData = new FormData();
+          const formData = new FormData();
 
-        formData.append("image", image);
+          formData.append("image", image);
 
-        addImageMessage(formData);
+          addImageMessage(formData);
+        }
       }
+    } catch (error) {
+      setAlertMessage({
+        msg: "Only Image Files can be uploaded",
+        type: TOAST_TYPE.ERROR,
+      });
     }
   };
 

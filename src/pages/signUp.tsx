@@ -124,19 +124,26 @@ function SignUp() {
   };
 
   const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files as FileList;
+    try {
+      const file = e.target.files as FileList;
 
-    const reader = new FileReader();
+      const reader = new FileReader();
 
-    if (file[0]) {
-      reader.readAsDataURL(file[0]);
-      const image = await resizeFile({
-        file: file[0],
-        size: 200,
-        outPut: "base64",
+      if (file[0]) {
+        reader.readAsDataURL(file[0]);
+        const image = await resizeFile({
+          file: file[0],
+          size: 200,
+          outPut: "base64",
+        });
+
+        setNewImgSrc(image as string);
+      }
+    } catch (error) {
+      updateToast({
+        type: TOAST_TYPE.ERROR,
+        msg: "Only Image Files can be uploaded",
       });
-
-      setNewImgSrc(image as string);
     }
   };
 
