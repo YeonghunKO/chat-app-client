@@ -132,7 +132,9 @@ const ContextProvider = ({ children }: { children: any }) => {
     setIsStartCalling(true);
     setCall((prev) => ({ ...prev, callerInfo: currentChatUser }));
 
+    // offer타입의 peer는 answer과는 달리 peer.singal을 호출하지 않아도 호출이 됨.
     peer.on("signal", (data) => {
+      // data => sdp type = offer
       socket?.emit("callUser", {
         userToCall: currentChatUser?.id,
         signal: data,
@@ -152,6 +154,7 @@ const ContextProvider = ({ children }: { children: any }) => {
     socket?.on("callAccepted", (signal) => {
       setCallEnded(false);
       setIsStartCalling(false);
+      // signal => sdp type = answer ==> answerUser에서 보낸 sdp
       peer.signal(signal);
     });
 
@@ -168,6 +171,7 @@ const ContextProvider = ({ children }: { children: any }) => {
 
     connectionPeerRef.current = peer;
     peer.on("signal", (data) => {
+      // data => sdp type = answer
       socket?.emit("answerCall", { signal: data, to: call.callerInfo?.id });
     });
 
@@ -180,6 +184,9 @@ const ContextProvider = ({ children }: { children: any }) => {
       }
     });
 
+    // call.signal => sdp type = offer ==>  callUser에서 보낸 sdp
+    // callUser의 offer 타입의 peer와 달리 answer type(intiator:false)의 peer는
+    // signal함수를 호출해야 위에 peer.on("signal")이 호출이 됨.
     peer.signal(call.signal);
   };
 
