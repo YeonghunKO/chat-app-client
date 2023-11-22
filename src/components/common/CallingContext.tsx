@@ -106,7 +106,6 @@ const ContextProvider = ({ children }: { children: any }) => {
       });
 
       socket.on("callRejected", () => {
-        setIsStartCalling(false);
         setToastMsg({
           type: TOAST_TYPE.ERROR,
           msg: "Call denied",
