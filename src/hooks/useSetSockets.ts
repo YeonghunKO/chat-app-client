@@ -19,7 +19,7 @@ const useSetSockets = () => {
     setOnlineUsers: set.setOnlineUsers,
   }));
 
-  const { mutate } = useGetMessagesMutationByFromTo();
+  const { mutate: getMessages } = useGetMessagesMutationByFromTo();
   const { mutate: updateChatList } = useMutationQuery({
     queryKey: queryKeys.chatLists,
     mutationFunc: (me: number) => getFetch({ url: UPDATE_CHAT_LIST(me) }),
@@ -36,7 +36,7 @@ const useSetSockets = () => {
       socket.on(
         "update-message-read",
         ({ from, to }: { from: number; to: number; message: string }) => {
-          mutate({ from, to });
+          getMessages({ from, to });
         },
       );
 
@@ -64,7 +64,7 @@ const useSetSockets = () => {
       socket.on(
         "recieve-msg",
         ({ from, to }: { from: number; to: number; message: string }) => {
-          mutate({ from, to });
+          getMessages({ from, to });
         },
       );
     }
