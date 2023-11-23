@@ -40,14 +40,16 @@ const PhotoLibrary = ({ setShowPhotoLibrary }: IPhotoLibrary) => {
         >
           <IoClose className="h-10 w-10" />
         </div>
-        <div className="grid w-full grid-cols-3 items-center justify-center gap-16 p-20">
+        <div className="grid w-full grid-cols-3 items-center justify-center gap-16 p-20 max-md:gap-[20px] max-md:p-[20px]">
           {images.map((img, index) => (
             <div
               key={index}
               className="cursor-pointer"
               onClick={handleImageClick(img)}
             >
-              <Image src={img} alt={img} height={80} width={80} />
+              <div className="h-[100px] w-[100px] max-md:h-[20dvw] max-md:w-[20dvw]">
+                <img src={img} alt={img} />
+              </div>
             </div>
           ))}
         </div>

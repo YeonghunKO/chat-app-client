@@ -46,7 +46,7 @@ const CapturePhoto = ({ setShowCapturePhoto }: ICapturePhoto) => {
   }, []);
 
   return (
-    <div className="absolute left-1/3 top-1/4 flex h-4/6 w-2/6 flex-col items-center justify-between gap-3 rounded-lg bg-gray-900 pt-2">
+    <div className="absolute left-1/3 top-1/4 flex h-4/6 w-2/6 flex-col items-center justify-between gap-3 rounded-lg bg-gray-900 pt-2 max-md:left-auto max-md:top-[2dvh] max-md:h-[90dvh] max-md:w-[80dvw] max-md:justify-center max-md:gap-[10dvh]">
       <div className="flex w-full flex-col gap-4">
         <div
           className="flex cursor-pointer items-end justify-end pr-2 pt-2"
@@ -54,8 +54,8 @@ const CapturePhoto = ({ setShowCapturePhoto }: ICapturePhoto) => {
         >
           <IoClose className="h-10 w-10" />
         </div>
-        <div className="flex justify-center">
-          <video id="video" width="400" autoPlay ref={videoRef}></video>
+        <div className="flex h-full w-full justify-center">
+          <video id="video" autoPlay ref={videoRef}></video>
         </div>
       </div>
       <button

@@ -149,7 +149,7 @@ function SignUp() {
 
   return (
     <div className="flex h-screen w-screen items-center justify-center gap-[8dvw] bg-panel-header-background text-white">
-      <div className="flex flex-col items-center justify-center gap-[5dvh]">
+      <div className="flex flex-col items-center justify-center gap-[5dvh] max-md:hidden">
         <Image
           src="/whatsapp.gif"
           alt="whatsapp-gif"
@@ -167,7 +167,7 @@ function SignUp() {
         </button>
       </div>
 
-      <div className="flex h-screen flex-col justify-center gap-6 ">
+      <div className="flex h-screen flex-col justify-center gap-6 max-md:gap-[10px] ">
         <div className="flex items-center justify-center">
           <AvatarPhoto
             size={SIZE.XL}
@@ -209,12 +209,21 @@ function SignUp() {
 
         <div className="flex w-full items-center justify-around">
           <button
-            className="w-full rounded-lg bg-search-input-container-background p-5"
+            className="w-full rounded-lg bg-search-input-container-background p-5 max-md:p-[12px] max-md:text-[2]"
             onClick={handleCreateUser}
           >
             Create Profile
           </button>
         </div>
+        <button
+          className="hidden w-full items-center justify-center gap-7 rounded-lg bg-search-input-container-background p-5 max-md:flex max-md:gap-[10px] max-md:p-[12px]"
+          onClick={handleGoogleLogin}
+        >
+          <FcGoogle className="text-4xl" />
+          <span className="text-2xl text-white max-md:text-[15px]">
+            Sign Up With Google
+          </span>
+        </button>
       </div>
     </div>
   );
