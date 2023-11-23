@@ -167,7 +167,7 @@ function SignUp() {
         </button>
       </div>
 
-      <div className="flex h-screen flex-col justify-center gap-6 max-md:gap-[10px] ">
+      <div className="flex h-screen flex-col justify-center gap-6 max-md:w-[80dvw] max-md:gap-[10px] ">
         <div className="flex items-center justify-center">
           <AvatarPhoto
             size={SIZE.XL}

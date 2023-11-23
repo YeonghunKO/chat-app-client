@@ -29,7 +29,7 @@ const Input = ({ label, setValue, value, type = "text", ...rest }: IInput) => {
           id={label}
           value={value}
           onChange={handleChange}
-          className="h-10 w-full rounded-lg bg-input-background py-4 pl-5 pr-5 text-sm text-white focus:outline-none"
+          className="h-10 w-full rounded-lg bg-input-background py-4 pl-5 pr-5 text-sm text-white focus:outline-none max-md:h-[6dvh]"
           {...rest}
         />
       </div>
