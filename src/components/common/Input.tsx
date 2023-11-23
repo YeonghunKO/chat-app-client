@@ -15,7 +15,10 @@ const Input = ({ label, setValue, value, type = "text", ...rest }: IInput) => {
   return (
     <div className="flex w-full flex-col gap-1">
       {label && (
-        <label htmlFor={label} className="px-1 text-lg text-teal-light">
+        <label
+          htmlFor={label}
+          className="px-1 text-lg text-teal-light max-md:text-[15px]"
+        >
           {label}
         </label>
       )}

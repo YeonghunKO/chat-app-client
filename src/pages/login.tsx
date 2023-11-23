@@ -68,17 +68,12 @@ export default function Login() {
 
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center bg-panel-header-background">
-      <div className="flex h-4/5 w-screen items-center justify-center gap-6 bg-panel-header-background">
-        <div className="flex flex-col items-center justify-center gap-2 text-white">
-          <Image
-            src="/whatsapp.gif"
-            alt="whatsapp-gif"
-            height={300}
-            width={300}
-          />
-          <span className="text-7xl">WhatsApp</span>
+      <div className="flex h-4/5 w-screen items-center justify-center gap-[5dvw] bg-panel-header-background max-md:h-[90dvh] max-md:flex-col max-md:gap-[10px]">
+        <div className="flex h-[300px] w-[300px] flex-col items-center justify-center gap-2 text-white max-md:h-[30dvh] max-md:w-[30dvh]">
+          <img src="/whatsapp.gif" alt="whatsapp-gif" />
+          <span className="text-7xl max-md:hidden">WhatsApp</span>
         </div>
-        <div className="flex flex-col items-center justify-center gap-4 text-white">
+        <div className="flex flex-col items-center justify-center gap-4 text-white max-md:w-[80dvw] max-md:text-[13px]">
           <Input label="Display Email" value={email} setValue={setEmail} />
           <Input
             label="Password"
@@ -88,17 +83,17 @@ export default function Login() {
           />
 
           <button
-            className="flex w-full items-center justify-center gap-7 rounded-lg bg-search-input-container-background p-5"
+            className="flex w-full items-center justify-center gap-7 rounded-lg bg-search-input-container-background p-5 max-md:p-[13px]"
             onClick={handleAccountLogin}
           >
-            <span className="text-2xl text-white">Login an Account</span>
+            <span className="text-white">Login an Account</span>
           </button>
           <button
-            className="flex w-full items-center justify-center gap-7 rounded-lg bg-search-input-container-background p-5"
+            className="flex w-full items-center justify-center gap-7 rounded-lg bg-search-input-container-background p-5 max-md:gap-[10px] max-md:p-[13px]"
             onClick={handleGoogleLogin}
           >
-            <FcGoogle className="text-4xl" />
-            <span className="text-2xl text-white">Login With Google</span>
+            <FcGoogle className="text-4xl max-md:text-[30px]" />
+            <span className="text-white">Login With Google</span>
           </button>
         </div>
       </div>
