@@ -69,7 +69,7 @@ interface IUser {
   newUserImgSrc: string;
   setNewImgSrc: (src: string) => void;
   currentChatUser: IUserInfo | null;
-  setCurrentChatUser: (user: IUserInfo) => void;
+  setCurrentChatUser: (user: IUserInfo | null) => void;
   setOnlineUsers: (onlineUsers: TOnlineUsers) => void;
   setLoggedInUserInfo: (userInfo: IUserInfo | null | undefined) => void;
   onlineUsers: TOnlineUsers | null;

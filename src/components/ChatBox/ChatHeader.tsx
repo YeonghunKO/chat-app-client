@@ -2,7 +2,7 @@
 import { useContext, useState } from "react";
 
 // business
-import { useSearchStore, useUserStore } from "@/store";
+import { useSearchStore, useSocketStore, useUserStore } from "@/store";
 import { SIZE } from "@/constant/size";
 
 // components
@@ -12,6 +12,7 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import { IoVideocam } from "react-icons/io5";
 import ContextMenu from "../common/ContextMenu";
 import { SocketCotext } from "../common/CallingContext";
+import { useGetLoggedInUserInfo } from "@/hooks/useQueryAccount";
 
 const ChatHeader = () => {
   const contextMenuOptions = [
@@ -19,9 +20,17 @@ const ChatHeader = () => {
       name: "Exit",
       callBack: () => {
         setIsContextMenuVisible(false);
+        if (socket) {
+          socket.emit("set-onlineUsers", {
+            userId: loggedInUser.id,
+            value: { chatRoomId: null },
+          });
+        }
+        setCurrentChatUser(null);
       },
     },
   ];
+
   const { setIsStartCalling, callUser, isStartCalling, call } =
     useContext(SocketCotext);
   const { currentChatUser, onlineUsers } = useUserStore((set) => ({
@@ -34,6 +43,11 @@ const ChatHeader = () => {
   const toggleSearchMessages = useSearchStore(
     (set) => set.toggleIsSearchingMessage,
   );
+
+  const loggedInUser = useGetLoggedInUserInfo();
+
+  const socket = useSocketStore((set) => set.socket);
+  const setCurrentChatUser = useUserStore((set) => set.setCurrentChatUser);
 
   const showContextMenu = (e: React.MouseEvent<HTMLElement>) => {
     setIsContextMenuVisible(true);

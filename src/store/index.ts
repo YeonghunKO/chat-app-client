@@ -16,7 +16,8 @@ export const useUserStore = create<IUser>((set, get) => ({
   currentChatUser: null,
   onlineUsers: null,
   setNewImgSrc: (src: string) => set({ newUserImgSrc: src }),
-  setCurrentChatUser: (user: IUserInfo) => set({ currentChatUser: user }),
+  setCurrentChatUser: (user: IUserInfo | null) =>
+    set({ currentChatUser: user }),
   setOnlineUsers: (onlineUsers: TOnlineUsers) => {
     set({ onlineUsers });
   },
