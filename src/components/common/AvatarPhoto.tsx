@@ -34,7 +34,7 @@ const AvatarPhoto = ({
       {size === SIZE.XL && (
         <div className="relative z-0 cursor-pointer">
           <div
-            className="absolute left-0 top-0 flex h-60 w-60 flex-col items-center justify-center gap-2 rounded-full bg-photopicker-overlay-background text-center opacity-0 transition-opacity duration-[300] hover:opacity-100 max-md:hover:opacity-0"
+            className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-2 rounded-full bg-photopicker-overlay-background text-center opacity-0 transition-opacity duration-[300] hover:opacity-100 "
             onClick={showContextMenu}
           >
             <FaCamera className="text-2xl" />
