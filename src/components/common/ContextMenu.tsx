@@ -26,11 +26,6 @@ const ContextMenu = ({
     callback: () => setContextMenuVisible(false),
   });
 
-  const handleMenuClick =
-    (callback: () => void) => (e: React.MouseEvent<HTMLLIElement>) => {
-      callback();
-    };
-
   // prevent menu from sticking to the outside of body
   useEffect(() => {
     const getSuitableXPos = () => {
@@ -65,7 +60,7 @@ const ContextMenu = ({
         {contextMenuOptions.map(({ name, callBack }) => (
           <li
             className="cursor-pointer px-5 py-2 hover:bg-background-default-hover"
-            onClick={handleMenuClick(callBack)}
+            onClick={callBack}
             key={name}
           >
             <span className="text-white">{name}</span>
