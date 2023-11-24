@@ -7,23 +7,31 @@ import AvatarPhoto from "../common/AvatarPhoto";
 import ContextMenu from "../common/ContextMenu";
 
 // state
-import { useUiState } from "@/store";
+import { useSocketStore, useUiState } from "@/store";
 
 // business
 import { SIZE } from "@/constant/size";
 import { useGetLoggedInUserInfo } from "@/hooks/useQueryAccount";
+import { useRouter } from "next/router";
+import { SIGN_IN_PAGE } from "@/constant/path";
 
 const ContactHeader = () => {
   const contextMenuOptions = [
     {
       name: "Log Out",
-      callBack: () => {
-        setContextMenuVisible(false);
+      callBack: async () => {
+        await fetch("/api/removeCookies", {
+          method: "POST",
+        });
+        socket?.emit("logout");
+        router.push(SIGN_IN_PAGE);
       },
     },
   ];
 
   const loggedInUser = useGetLoggedInUserInfo();
+  const router = useRouter();
+  const socket = useSocketStore((set) => set.socket);
 
   const setContactsList = useUiState((set) => set.toggleContactsVisible);
   const [isContextMenuVisible, setContextMenuVisible] = useState(false);
