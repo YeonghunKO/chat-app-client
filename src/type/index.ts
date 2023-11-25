@@ -15,7 +15,7 @@ type TGetMessages = IUseQueryOoptionType<any>;
 
 interface ILocalStorage {
   currentChatUser: IUserInfo | null;
-  setCurrentChatUser: (user: IUserInfo) => void;
+  setCurrentChatUser: (user: IUserInfo | null) => void;
 }
 
 interface ISearchStore {
