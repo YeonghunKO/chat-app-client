@@ -1,5 +1,6 @@
 import { TOAST_TYPE } from "@/constant/type";
 import type {
+  ILocalStorage,
   ISearchStore,
   ISocket,
   IUiState,
@@ -10,6 +11,19 @@ import type {
 } from "@/type";
 import { Socket } from "socket.io-client";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+export const useLocalStorage = create<ILocalStorage>()(
+  persist(
+    (set, get) => ({
+      currentChatUser: null,
+      setCurrentChatUser: (user: any) => set({ currentChatUser: user }),
+    }),
+    {
+      name: "currentChatUser",
+    },
+  ),
+);
 
 export const useUserStore = create<IUser>((set, get) => ({
   newUserImgSrc: "/default_avatar.png",

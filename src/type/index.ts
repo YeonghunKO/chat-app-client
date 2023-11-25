@@ -13,6 +13,11 @@ type TVoidFunc = () => void;
 
 type TGetMessages = IUseQueryOoptionType<any>;
 
+interface ILocalStorage {
+  currentChatUser: IUserInfo | null;
+  setCurrentChatUser: (user: IUserInfo) => void;
+}
+
 interface ISearchStore {
   isSearchingMessage: boolean;
   filteredChatList: any[];
@@ -145,4 +150,5 @@ export type {
   IUseAddMulitMessage,
   ISearchStore,
   IUseMutationGetQuery,
+  ILocalStorage,
 };
