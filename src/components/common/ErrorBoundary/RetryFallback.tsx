@@ -18,13 +18,13 @@ const RetryFallback = ({ err, onRetry }: ErrorFallbackProps) => {
       </span>
       <div className="flex gap-[10px]">
         <button
-          className="h-full w-full rounded-[10px] bg-outgoing-background p-[5px] text-[4vw]"
+          className="h-full w-fit rounded-[10px] bg-outgoing-background p-[15px] text-[4vw]"
           onClick={handleReturnLoginPage}
         >
-          {"로그인 \n 화면으로 가기"}
+          로그인 화면으로
         </button>
         <button
-          className="h-full w-full rounded-[10px] bg-outgoing-background p-[5px] text-[4vw]"
+          className="h-full w-fit rounded-[10px] bg-outgoing-background p-[15px] text-[4vw]"
           onClick={onRetry}
         >
           다시 시도하기
