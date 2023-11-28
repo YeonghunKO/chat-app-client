@@ -9,13 +9,13 @@ import { MdSend } from "react-icons/md";
 import Input from "../common/Input";
 import EmojiPicker, { EmojiClickData, Theme } from "emoji-picker-react";
 import PhotoPicker from "../common/PhotoPicker";
+import { IoIosClose } from "react-icons/io";
 
 // buisiness
 import {
   useAddMultiMessageQuery,
   useAddTextMessageQuery,
 } from "@/hooks/useQueryAccount";
-import useUnmountIfClickedOutside from "@/hooks/useUnmountIfClickedOutside";
 import { useUiState } from "@/store";
 import { TOAST_TYPE } from "@/constant/type";
 import { ADD_IMAGE_MESSAGE } from "@/constant/api";
@@ -34,13 +34,6 @@ const MessageBar = () => {
 
   const $emojiPicker = useRef(null);
   const $photoPicker = useRef<HTMLInputElement>(null);
-
-  useUnmountIfClickedOutside({
-    ref: $emojiPicker,
-    callback: () => {
-      setShowEmojiPicker(false);
-    },
-  });
 
   const { mutate: addTextMessage } = useAddTextMessageQuery({
     onError: () => {
@@ -82,8 +75,12 @@ const MessageBar = () => {
     setMessage((prevMessage) => (prevMessage += emojiData.emoji));
   };
 
-  const handleEmojiModal = () => {
+  const showEmojiModal = () => {
     setShowEmojiPicker(true);
+  };
+
+  const closeEmojiModal = () => {
+    setShowEmojiPicker(false);
   };
 
   const handlePhotoPicker = () => {
@@ -134,16 +131,22 @@ const MessageBar = () => {
             <BsEmojiSmile
               className="cursor-pointer text-[20px] text-panel-header-icon"
               title="Emoji"
-              onClick={handleEmojiModal}
+              onClick={showEmojiModal}
             />
             {showEmojiPicker && (
               <div
-                className="absolute bottom-24 left-16 z-40"
+                className="absolute bottom-[3dvh] left-[1dvw] z-40"
                 ref={$emojiPicker}
               >
+                <IoIosClose
+                  onClick={closeEmojiModal}
+                  className="absolute -right-[2px] -top-[2px] z-10 cursor-pointer text-[30px] text-white"
+                />
                 <EmojiPicker
                   onEmojiClick={handleEmojiClick}
                   theme={Theme.DARK}
+                  height={500}
+                  width={300}
                 />
               </div>
             )}
