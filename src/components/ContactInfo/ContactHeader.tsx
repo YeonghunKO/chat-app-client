@@ -7,13 +7,14 @@ import AvatarPhoto from "../common/AvatarPhoto";
 import ContextMenu from "../common/ContextMenu";
 
 // state
-import { useSocketStore, useUiState } from "@/store";
+import { useLocalStorage, useSocketStore, useUiState } from "@/store";
 
 // business
 import { SIZE } from "@/constant/size";
 import { useGetLoggedInUserInfo } from "@/hooks/useQueryAccount";
 import { useRouter } from "next/router";
 import { SIGN_IN_PAGE } from "@/constant/path";
+import { useStore } from "@/hooks/useStore";
 
 const ContactHeader = () => {
   const contextMenuOptions = [
@@ -24,6 +25,7 @@ const ContactHeader = () => {
           method: "POST",
         });
         socket?.emit("logout");
+        storageStore?.setCurrentChatUser(null);
         router.push(SIGN_IN_PAGE);
       },
     },
@@ -32,6 +34,7 @@ const ContactHeader = () => {
   const loggedInUser = useGetLoggedInUserInfo();
   const router = useRouter();
   const socket = useSocketStore((set) => set.socket);
+  const storageStore = useStore(useLocalStorage, (state) => state);
 
   const setContactsList = useUiState((set) => set.toggleContactsVisible);
   const [isContextMenuVisible, setContextMenuVisible] = useState(false);
