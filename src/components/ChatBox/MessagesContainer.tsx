@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IMessage } from "@/type";
 
-import { useGetCurrentMessagesQuery } from "@/hooks/useQueryAccount";
+import {
+  useGetCurrentMessagesQuery,
+  useGetLoggedInUserInfo,
+} from "@/hooks/useQueryAccount";
 
 import TextMessage from "./TextMessage";
 
 import ImageMessage from "./ImageMessage";
 import dynamic from "next/dynamic";
+import { useLocalStorage, useSocketStore } from "@/store";
+import { useStore } from "@/hooks/useStore";
 
 const AudioMessage = dynamic(() => import("../ChatBox/AudioMessage"), {
   ssr: false,
@@ -18,6 +23,26 @@ const MessagesContainer = () => {
   >({
     suspense: true,
   });
+
+  const socket = useSocketStore((set) => set.socket);
+  const loggedInUser = useGetLoggedInUserInfo();
+  const currentChatUser = useStore(
+    useLocalStorage,
+    (set) => set.currentChatUser,
+  );
+
+  useEffect(() => {
+    if (socket && currentChatUser && loggedInUser) {
+      socket.emit("set-onlineUsers", {
+        userId: loggedInUser.id,
+        value: { chatRoomId: currentChatUser.id },
+      });
+      socket.emit("mark-read", {
+        from: loggedInUser.id,
+        to: currentChatUser.id,
+      });
+    }
+  }, [socket, currentChatUser, loggedInUser]);
 
   return (
     <section className="w-full">
