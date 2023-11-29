@@ -18,4 +18,4 @@ const ChatBox = forwardRef<HTMLDivElement, {}>(function ChatBox(props, ref) {
   );
 });
 
-export default memo(ChatBox);
+export default ChatBox;
