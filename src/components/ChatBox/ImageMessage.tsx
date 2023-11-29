@@ -31,7 +31,7 @@ const ImageMessage = ({ message }: { message: IMessage }) => {
             alt={message.message}
             width={250}
             height={250}
-            className=""
+            style={{ width: 250, height: 250 }}
           />
 
           <div className="absolute bottom-0 right-[-5px] flex gap-[2px] self-end rounded-tl-[16px] bg-[#5a5a5a9e] px-[8px] py-[5px]">
