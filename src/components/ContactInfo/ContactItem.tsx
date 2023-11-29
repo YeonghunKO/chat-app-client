@@ -1,6 +1,6 @@
-import { useSocketStore, useUiState, useUserStore } from "@/store";
+import { useLocalStorage, useSocketStore, useUiState } from "@/store";
 
-import { IMessage, IUserInfo } from "@/type";
+import { ILocalStorage, IMessage, IUserInfo } from "@/type";
 import { SIZE } from "@/constant/size";
 
 import { FaCamera, FaMicrophone } from "react-icons/fa";
@@ -8,6 +8,7 @@ import AvatarPhoto from "../common/AvatarPhoto";
 import Status from "../ChatBox/Status";
 import { calculateTime } from "@/utils/calculateTime";
 import { useGetLoggedInUserInfo } from "@/hooks/useQueryAccount";
+import { useStore } from "zustand";
 
 const ContactItem = ({
   userInfo,
@@ -22,7 +23,8 @@ const ContactItem = ({
 }) => {
   const { name, about, profilePicture, id } = userInfo;
 
-  const setCurrentChatUser = useUserStore((set) => set.setCurrentChatUser);
+  const store = useStore(useLocalStorage, (state: ILocalStorage) => state);
+
   const toggleContactInfoClosed = useUiState(
     (set) => set.toggleContactInfoClosed,
   );
@@ -41,10 +43,11 @@ const ContactItem = ({
         to: id,
       });
     }
-    setCurrentChatUser(userInfo);
+
+    store?.setCurrentChatUser(userInfo);
+
     toggleContactInfoClosed();
   };
-
   return (
     <div
       onClick={handleContactClick}

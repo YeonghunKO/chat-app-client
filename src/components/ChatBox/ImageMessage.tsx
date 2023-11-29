@@ -1,21 +1,25 @@
 import Image from "next/image";
 
-import { useUserStore } from "@/store";
-import { IMessage } from "@/type";
+import { useLocalStorage } from "@/store";
+import type { ILocalStorage, IMessage } from "@/type";
 import { formatAMPM } from "@/utils/calculateTime";
 
 import Status from "./Status";
 import Loading from "../common/Loading";
+import { useStore } from "@/hooks/useStore";
 
 const ImageMessage = ({ message }: { message: IMessage }) => {
-  const currentChatUserId = useUserStore((set) => set.currentChatUser);
+  const currentChatUser = useStore(
+    useLocalStorage,
+    (state: ILocalStorage) => state.currentChatUser,
+  );
 
   return (
     <div
       id={`${message.id}`}
       key={message.id}
       className={`relative mb-[2px] flex flex-col gap-[2px] overflow-hidden rounded-[10px] ${
-        currentChatUserId?.id === message.senderId
+        currentChatUser?.id === message.senderId
           ? "mr-[25px] self-start bg-incoming-background"
           : "ml-[25px] self-end bg-outgoing-background"
       }`}
@@ -34,7 +38,7 @@ const ImageMessage = ({ message }: { message: IMessage }) => {
             <span className="min-w-fit self-end text-[11px] text-bubble-meta">
               {formatAMPM(message.createdAt)}
             </span>
-            {currentChatUserId?.id !== message.senderId && (
+            {currentChatUser?.id !== message.senderId && (
               <Status status={message.status} />
             )}
           </div>

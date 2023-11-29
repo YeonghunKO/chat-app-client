@@ -11,10 +11,11 @@ import {
 import Peer from "simple-peer";
 
 // business
-import { useSocketStore, useUiState, useUserStore } from "@/store";
-import { IUserInfo } from "@/type";
+import { useLocalStorage, useSocketStore, useUiState } from "@/store";
+import type { ILocalStorage, IUserInfo } from "@/type";
 import { TOAST_TYPE } from "@/constant/type";
 import { useGetLoggedInUserInfo } from "@/hooks/useQueryAccount";
+import { useStore } from "@/hooks/useStore";
 
 type TVoid = () => void;
 export interface TSocketContext {
@@ -54,7 +55,10 @@ const ContextProvider = ({ children }: { children: any }) => {
   const loggedInUser = useGetLoggedInUserInfo();
 
   const socket = useSocketStore((set) => set.socket);
-  const currentChatUser = useUserStore((set) => set.currentChatUser);
+  const currentChatUser = useStore(
+    useLocalStorage,
+    (state: ILocalStorage) => state.currentChatUser,
+  );
   const setToastMsg = useUiState((set) => set.updateToastInfo);
 
   const [stream, setStream] = useState<MediaStream>();
@@ -130,7 +134,9 @@ const ContextProvider = ({ children }: { children: any }) => {
 
     connectionPeerRef.current = peer;
     setIsStartCalling(true);
-    setCall((prev) => ({ ...prev, callerInfo: currentChatUser }));
+    if (currentChatUser) {
+      setCall((prev) => ({ ...prev, callerInfo: currentChatUser }));
+    }
 
     // offer타입의 peer는 answer과는 달리 peer.singal을 호출하지 않아도 호출이 됨.
     peer.on("signal", (data) => {

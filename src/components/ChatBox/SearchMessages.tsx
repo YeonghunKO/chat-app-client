@@ -1,10 +1,11 @@
 import { useGetCurrentMessagesQuery } from "@/hooks/useQueryAccount";
-import { useSearchStore, useUserStore } from "@/store";
+import { useLocalStorage, useSearchStore } from "@/store";
 import { RefObject, memo, useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Input from "../common/Input";
-import { IMessage } from "@/type";
+import type { ILocalStorage, IMessage } from "@/type";
 import TextMessage from "./TextMessage";
+import { useStore } from "@/hooks/useStore";
 
 const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
   const { toggleSearching, isSearchingMessages } = useSearchStore((set) => ({
@@ -15,7 +16,10 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
   const handleCloseSearching = () => {
     toggleSearching();
   };
-  const currentChatUser = useUserStore((set) => set.currentChatUser);
+  const currentChatUser = useStore(
+    useLocalStorage,
+    (state: ILocalStorage) => state.currentChatUser,
+  );
 
   const [searchedMessages, setSearchedMessages] = useState<
     (never[] | readonly [string, IMessage[]])[]

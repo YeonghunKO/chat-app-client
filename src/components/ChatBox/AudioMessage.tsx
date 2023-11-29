@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 
 // business
-import { useUserStore } from "@/store";
-import { IMessage } from "@/type";
+import { useLocalStorage } from "@/store";
+import type { ILocalStorage, IMessage } from "@/type";
 import { formatAMPM, formatTime } from "@/utils/calculateTime";
 import { useWaveSurfer } from "@/hooks/useWaveSurfer";
 import { useThrottle } from "@/hooks/useThrottle";
@@ -12,9 +12,14 @@ import { useThrottle } from "@/hooks/useThrottle";
 import { FaPauseCircle, FaPlay } from "react-icons/fa";
 import Status from "./Status";
 import Loading from "../common/Loading";
+import { useStore } from "@/hooks/useStore";
 
 const AudioMessage = ({ message }: { message: IMessage }) => {
-  const currentChatUserId = useUserStore((set) => set.currentChatUser);
+  const currentChatUser = useStore(
+    useLocalStorage,
+    (state: ILocalStorage) => state.currentChatUser,
+  );
+
   const $waveContainer = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPlayTime, setCurrentPlayTime] = useState(0);
@@ -77,7 +82,7 @@ const AudioMessage = ({ message }: { message: IMessage }) => {
       id={`${message.id}`}
       key={message.id}
       className={`relative mb-[2px] flex h-[80px] w-[300px] flex-col justify-between overflow-hidden rounded-[10px]  ${
-        currentChatUserId?.id === message.senderId
+        currentChatUser?.id === message.senderId
           ? "mr-[25px] self-start bg-incoming-background"
           : "ml-[25px] self-end bg-outgoing-background"
       }`}
@@ -104,7 +109,7 @@ const AudioMessage = ({ message }: { message: IMessage }) => {
               <span className="min-w-fit self-end text-[11px]">
                 {formatAMPM(message.createdAt)}
               </span>
-              {currentChatUserId?.id !== message.senderId && (
+              {currentChatUser?.id !== message.senderId && (
                 <div className="text-white">
                   <Status status={message.status} />
                 </div>
