@@ -16,6 +16,11 @@
   }
 }
 
+.EmojiPickerReact .epr-header .epr-header-overlay {
+  padding: 5px !important;
+  margin-top: 25px !important;
+}
+
 .custom-scrollbar::-webkit-scrollbar {
   height: 8px !important;
   width: 8px;

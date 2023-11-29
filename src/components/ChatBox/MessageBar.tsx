@@ -135,14 +135,15 @@ const MessageBar = () => {
             />
             {showEmojiPicker && (
               <div
-                className="absolute bottom-[3dvh] left-[1dvw] z-40"
+                className="absolute bottom-[10dvh] left-[1dvw] z-40"
                 ref={$emojiPicker}
               >
                 <IoIosClose
                   onClick={closeEmojiModal}
-                  className="absolute -right-[2px] -top-[2px] z-10 cursor-pointer text-[30px] text-white"
+                  className="absolute right-[0px] top-[0px] z-10 cursor-pointer text-[30px] text-white"
                 />
                 <EmojiPicker
+                  skinTonesDisabled
                   onEmojiClick={handleEmojiClick}
                   theme={Theme.DARK}
                   height={500}
