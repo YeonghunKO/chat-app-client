@@ -9,7 +9,7 @@ import { COOKIE, REFRESH } from "@/constant/api";
 import { SIGN_IN_PAGE } from "@/constant/path";
 import { queryKeys } from "@/constant/queryKeys";
 import { postFetch } from "@/lib/api";
-import { useSearchStore, useUiState, useUserStore } from "@/store";
+import { useLocalStorage, useSearchStore, useUiState } from "@/store";
 
 // components
 import ContactInfo from "@/components/ContactInfo";
@@ -17,12 +17,12 @@ import useSetSockets from "@/hooks/useSetSockets";
 import dynamic from "next/dynamic";
 import ChatBox from "@/components/ChatBox";
 import SearchMessages from "@/components/ChatBox/SearchMessages";
-import { useEffect, useRef } from "react";
-import { getItem, setItem } from "@/utils/storage";
+import { useRef } from "react";
 import CallingContainer from "@/components/Calling/CallingContainer";
 import CallingContextProvider from "@/components/common/CallingContext";
 import Loading from "@/components/common/Loading";
 import { IoIosArrowForward } from "react-icons/io";
+import { useStore } from "@/hooks/useStore";
 
 const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
   ssr: false,
@@ -30,11 +30,6 @@ const Empty = dynamic(() => import("../components/ChatBox/Empty"), {
 });
 
 export default function Home() {
-  const { currentChatUser, setCurrentChatUser } = useUserStore((set) => ({
-    currentChatUser: set.currentChatUser,
-    setCurrentChatUser: set.setCurrentChatUser,
-  }));
-
   const { toggleContactInfoClosed } = useUiState((set) => ({
     toggleContactInfoClosed: set.toggleContactInfoClosed,
   }));
@@ -47,26 +42,10 @@ export default function Home() {
 
   useSetSockets();
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      setItem("currentChatUser", currentChatUser);
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [currentChatUser]);
-  useEffect(() => {
-    // const storedUser = getItem("currentChatUser");
-    // if (storedUser) {
-    //   setCurrentChatUser(storedUser);
-    // }
-  }, []);
-
-  // if (typeof window !== "undefined") {
-  //   return "";
-  // }
+  const currentChatUser = useStore(
+    useLocalStorage,
+    (state) => state.currentChatUser,
+  );
 
   const handleCloseInfoButton = () => {
     toggleContactInfoClosed(false);
