@@ -2,7 +2,12 @@
 import { useContext, useState } from "react";
 
 // business
-import { useSearchStore, useSocketStore, useUserStore } from "@/store";
+import {
+  useLocalStorage,
+  useSearchStore,
+  useSocketStore,
+  useUserStore,
+} from "@/store";
 import { SIZE } from "@/constant/size";
 
 // components
@@ -13,6 +18,7 @@ import { IoVideocam } from "react-icons/io5";
 import ContextMenu from "../common/ContextMenu";
 import { SocketCotext } from "../common/CallingContext";
 import { useGetLoggedInUserInfo } from "@/hooks/useQueryAccount";
+import { useStore } from "@/hooks/useStore";
 
 const ChatHeader = () => {
   const contextMenuOptions = [
@@ -26,15 +32,14 @@ const ChatHeader = () => {
             value: { chatRoomId: null },
           });
         }
-        setCurrentChatUser(null);
+        storageStore?.setCurrentChatUser(null);
       },
     },
   ];
 
   const { setIsStartCalling, callUser, isStartCalling, call } =
     useContext(SocketCotext);
-  const { currentChatUser, onlineUsers } = useUserStore((set) => ({
-    currentChatUser: set.currentChatUser,
+  const { onlineUsers } = useUserStore((set) => ({
     onlineUsers: set.onlineUsers,
   }));
 
@@ -47,7 +52,7 @@ const ChatHeader = () => {
   const loggedInUser = useGetLoggedInUserInfo();
 
   const socket = useSocketStore((set) => set.socket);
-  const setCurrentChatUser = useUserStore((set) => set.setCurrentChatUser);
+  const storageStore = useStore(useLocalStorage, (state) => state);
 
   const showContextMenu = (e: React.MouseEvent<HTMLElement>) => {
     setIsContextMenuVisible(true);
@@ -67,17 +72,19 @@ const ChatHeader = () => {
     }
   };
 
-  const isOtherOnline = onlineUsers?.has(currentChatUser?.id);
+  const isOtherOnline = onlineUsers?.has(storageStore?.currentChatUser?.id);
 
   return (
     <div className="z-[1] flex h-[60px] items-center justify-between border-l-[2px] border-l-input-background bg-panel-header-background px-4 py-2">
       <div className="flex items-center justify-center gap-6">
         <AvatarPhoto
           size={SIZE.SM}
-          img={currentChatUser?.profilePicture as string}
+          img={storageStore?.currentChatUser?.profilePicture as string}
         />
         <div className="flex flex-col">
-          <span className="text-primary-strong">{currentChatUser?.name}</span>
+          <span className="text-primary-strong">
+            {storageStore?.currentChatUser?.name}
+          </span>
           <span
             className={`text-sm ${
               isOtherOnline ? "text-icon-green" : "text-secondary"
