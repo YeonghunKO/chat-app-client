@@ -14,7 +14,7 @@ type TVoidFunc = () => void;
 type TGetMessages = IUseQueryOoptionType<any>;
 
 interface ILocalStorage {
-  currentChatUser: IUserInfo | null;
+  currentChatUser: IUserInfo | null | undefined;
   setCurrentChatUser: (user: IUserInfo | null) => void;
 }
 
