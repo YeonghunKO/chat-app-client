@@ -1,7 +1,7 @@
 import { ADD_MESSAGE, GET_MESSAGES, GET_USER } from "@/constant/api";
 import { queryKeys } from "@/constant/queryKeys";
 import { getFetch, postFetch } from "@/lib/api";
-import { useSocketStore, useUserStore } from "@/store";
+import { useLocalStorage, useSocketStore, useUserStore } from "@/store";
 import type {
   TGetMessages,
   IMessage,
@@ -12,9 +12,11 @@ import type {
   IUseMutateAccount,
   IUseMutationGetQuery,
   IUserInfo,
+  ILocalStorage,
 } from "@/type";
 import { AxiosError, AxiosResponse } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useStore } from "./useStore";
 
 export const useGetQueryAccount = <T>({
   mapper,
@@ -113,7 +115,12 @@ export const useAddTextMessageQuery = ({
 }: IUseAddMessage) => {
   const queryClient = useQueryClient();
   const userInfo = useGetLoggedInUserInfo();
-  const currentChatUser = useUserStore((set) => set.currentChatUser);
+
+  const currentChatUser = useStore(
+    useLocalStorage,
+    (state: ILocalStorage) => state.currentChatUser,
+  );
+
   const socket = useSocketStore((set) => set.socket);
   const queryKeysWithChatUser = queryKeys.messages(
     userInfo?.id as number,
@@ -207,7 +214,10 @@ export const useAddMultiMessageQuery = ({
 }: IUseAddMulitMessage) => {
   const queryClient = useQueryClient();
   const userInfo = useGetLoggedInUserInfo();
-  const currentChatUser = useUserStore((set) => set.currentChatUser);
+  const currentChatUser = useStore(
+    useLocalStorage,
+    (state: ILocalStorage) => state.currentChatUser,
+  );
   const socket = useSocketStore((set) => set.socket);
   const queryKeysWithChatUser = queryKeys.messages(
     userInfo?.id as number,
@@ -307,10 +317,13 @@ export const useAddMultiMessageQuery = ({
 
 export const useGetCurrentMessagesQuery = <T>(options?: TGetMessages) => {
   const userInfo = useGetLoggedInUserInfo();
-  const currentChatUser = useUserStore((set) => set.currentChatUser);
+  const storageStore = useStore(
+    useLocalStorage,
+    (state: ILocalStorage) => state,
+  );
 
-  const senderId = userInfo?.id as number;
-  const recieverId = currentChatUser?.id as number;
+  const senderId = userInfo.id as number;
+  const recieverId = storageStore?.currentChatUser?.id as number;
 
   const queryKeysWithChatUser = queryKeys.messages(senderId, recieverId);
 
@@ -319,6 +332,7 @@ export const useGetCurrentMessagesQuery = <T>(options?: TGetMessages) => {
     url: GET_MESSAGES(senderId, recieverId),
     options: {
       ...(options && options),
+      enabled: !!storageStore,
     },
   });
 
