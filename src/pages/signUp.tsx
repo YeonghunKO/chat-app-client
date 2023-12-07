@@ -5,10 +5,7 @@ import Image from "next/image";
 // components
 import Input from "@/components/common/Input";
 import AvatarPhoto from "@/components/common/AvatarPhoto";
-import ContextMenu from "@/components/common/ContextMenu";
 import PhotoPicker from "@/components/common/PhotoPicker";
-import PhotoLibrary from "@/components/common/PhotoLibrary";
-import CapturePhoto from "@/components/common/CapturePhoto";
 
 // buisiness
 
@@ -26,6 +23,11 @@ import { firebaseAuth } from "@/utils/firebaseConfig";
 import { useRouter } from "next/router";
 import { TOAST_TYPE } from "@/constant/type";
 import { resizeFile } from "@/utils/resizeImg";
+import dynamic from "next/dynamic";
+
+const ContextMenu = dynamic(() => import("../components/common/ContextMenu"));
+const PhotoLibrary = dynamic(() => import("../components/common/PhotoLibrary"));
+const CapturePhoto = dynamic(() => import("../components/common/CapturePhoto"));
 
 function SignUp() {
   const contextMenuOptions = [
