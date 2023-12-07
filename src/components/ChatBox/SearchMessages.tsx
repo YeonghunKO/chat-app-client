@@ -121,7 +121,10 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
                     </div>
                     {messages?.map((message) => {
                       return (
-                        <div className="flex w-full cursor-pointer flex-col transition-opacity hover:opacity-80">
+                        <div
+                          className="flex w-full cursor-pointer flex-col transition-opacity hover:opacity-80"
+                          key={message.id + "searching-message"}
+                        >
                           <TextMessage
                             message={message}
                             onClick={handleResultClick(message.id, date)}
