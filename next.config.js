@@ -35,6 +35,12 @@ const nextConfig = {
       },
     ];
   },
+  rewrites: () => [
+    {
+      source: "/:path*",
+      destination: "http://chat-appbackend.hopto.org:3005/:path*",
+    },
+  ],
 };
 
 module.exports = nextConfig;
