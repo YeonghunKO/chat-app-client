@@ -27,7 +27,7 @@ export default function Login() {
   const { mutate } = usePostMutationQueryAccount({
     queryKey: queryKeys.userInfo,
     url: SIGN_IN_USER,
-    onSuccess: () => router.push(DASHBOARD),
+    onSuccess: async () => await router.push(DASHBOARD),
     onError: (err: any) => {
       updateToast({
         type: TOAST_TYPE.ERROR,
