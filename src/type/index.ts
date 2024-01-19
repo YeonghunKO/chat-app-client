@@ -83,7 +83,7 @@ interface IUser {
 
 interface IUseMutateAccount {
   mapper?: (data: any) => any;
-  onSuccess?: TVoidFunc | (() => Promise<unknown>);
+  onSuccess?: TVoidFunc;
   onError?: (err: any) => void;
   queryKey: string[];
   url: string;

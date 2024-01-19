@@ -1,6 +1,6 @@
 //setting
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 //business
 import { firebaseAuth } from "@/utils/firebaseConfig";
@@ -27,7 +27,10 @@ export default function Login() {
   const { mutate } = usePostMutationQueryAccount({
     queryKey: queryKeys.userInfo,
     url: SIGN_IN_USER,
-    onSuccess: async () => await router.push(DASHBOARD),
+    onSuccess: () => {
+      console.log("successfully logged in");
+      router.push(DASHBOARD);
+    },
     onError: (err: any) => {
       updateToast({
         type: TOAST_TYPE.ERROR,

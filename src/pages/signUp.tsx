@@ -20,7 +20,7 @@ import { SIZE } from "@/constant/size";
 
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "@/utils/firebaseConfig";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { TOAST_TYPE } from "@/constant/type";
 import { resizeFile } from "@/utils/resizeImg";
 import dynamic from "next/dynamic";

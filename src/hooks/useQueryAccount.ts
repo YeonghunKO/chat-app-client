@@ -93,9 +93,9 @@ export const usePostMutationQueryAccount = <T = any>({
         };
       },
 
-      onSuccess: async (fetchResult) => {
+      onSuccess: (fetchResult) => {
         queryClient.setQueryData(queryKey, () => fetchResult);
-        onSuccess && (await onSuccess());
+        onSuccess && onSuccess();
       },
       ...(onError && { useErrorBoundary: false }),
       onError: (_error, _message, context) => {
