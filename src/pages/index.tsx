@@ -91,6 +91,8 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
 
   const { accessToken, refreshTokenIdx } = req.cookies;
   if (!accessToken || !refreshTokenIdx) {
+    console.log("redirect to login!");
+
     return {
       redirect: {
         destination: SIGN_IN_PAGE,
