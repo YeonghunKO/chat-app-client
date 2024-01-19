@@ -28,6 +28,10 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>Whatsapp</title>
         <link rel="shortcut icon" href="/favicon.png" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1 maximum-scale=1, user-scalable=0"
+        />
       </Head>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
