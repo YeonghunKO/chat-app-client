@@ -97,6 +97,15 @@ export default function Login() {
             <FcGoogle className="text-4xl max-md:text-[30px]" />
             <span className="text-white">Login With Google</span>
           </button>
+          <button
+            onClick={() => {
+              console.log("go to dashboard!");
+
+              router.push(DASHBOARD);
+            }}
+          >
+            go to dashboard!
+          </button>
         </div>
       </div>
 
