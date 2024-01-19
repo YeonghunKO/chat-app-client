@@ -87,6 +87,7 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
   res,
 }) => {
   const cookies = new Cookies(req, res);
+  console.log("cookies", cookies);
 
   const { accessToken, refreshTokenIdx } = req.cookies;
   if (!accessToken || !refreshTokenIdx) {
