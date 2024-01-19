@@ -15,8 +15,8 @@
 4. 상대방의 로그인 여부와 메시지를 읽었는지 안읽었는지 실시간으로 확인 가능합니다.
 
 ## ⏳ 진행 기간
-대략적으로 2022년 8월 01일 ~ 현재
-  - 백엔드 배포 도메인에 https를 추가하는 중에 있습니다.
+대략적으로 2023년 8월 01일 ~ 현재
+  - 백엔드 배포 도메인에 https를 추가하는 중에 있습니다. ==> https적용에 성공하였으나 cookie를 setting에 문제가 있어 nginx config를 손보는 중입니다.
 
 ## ⛏개선 사항
 _**아래는 클론코드 강의에 없는 기능이지만 필요하다고 생각해서 제 나름대로 추가한 기능들입니다.**_
@@ -29,14 +29,16 @@ _**아래는 클론코드 강의에 없는 기능이지만 필요하다고 생�
 4. 영상통화를 simple-peer 라이브러리를 이용하여 구현하였고, context api를 사용하였습니다.
     - 영상통화와 관련된, 모든 상태가 유기적으로 조화를 이루고 전역적으로 사용가능하게 되었습니다.
 6. errorboundary를 사용하여 혹시나 안잡히는 에러를 잡아 에러페이지에 띄어주는 기능을 구현했습니다.
-7. react query의 suspense와 react의 Suspense를 이용해 데이터를 불러올때 로딩바가 표시되게 하였습니다.
-8. toast를 layout에 추가하여 전역에서 사용하게 하였습니다.
+7. zego cloud라는 sdk를 inline import를 이용하여 사용하고 있었고 가독성도 매우 떨어졌습니다. simple-peer + context api를 이용하여 [CallingContext](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/common/CallingContext.tsx)안에 캡슐화하고 가독성을 개선했습니다.
+8. react query의 suspense와 react의 Suspense를 이용해 데이터를 불러올때 로딩바가 표시되게 하였습니다.
+9. toast를 layout에 추가하여 전역에서 사용하게 하였습니다.
     - 로그인 성공, 실패 / 메시지 전송 성공, 실패 와 같은 상태를 표시합니다
-9. 메시지를 날짜별로 묶고 랜더링하게 했습니다.
-10. 메시지 검색결과를 클릭하게 하고 클릭시 해당 메시지로 커서가 이동하게 했습니다.
-11. zustand + localstorage를 이용해 이전에 대화상대가 접속시 바로 표시되게 하였습니다.
-12. 일정기간이 지나면 token이 만료되면서 로그인 페이지로 리다이렉트 시켜 다시 로그인하게 하였습니다.
-13. 반응형으로 만들었습니다.
+10. 메시지를 날짜별로 묶고 랜더링하게 했습니다.
+11. 메시지 검색결과를 클릭하게 하고 클릭시 해당 메시지로 커서가 이동하게 했습니다.
+12. zustand + localstorage를 이용해 이전에 대화상대가 접속시 바로 표시되게 하였습니다.
+13. 일정기간이 지나면 token이 만료되면서 로그인 페이지로 리다이렉트 시켜 다시 로그인하게 하였습니다.
+14. 반응형으로 만들었습니다.
+    
 
 
 <br>
@@ -73,8 +75,9 @@ DATABASE_URL="postgresql://postgres:koil132123451234@db.xpdqxuuljksmrjhubmtn.sup
 3. 아래 명령어를 터미널에 입력하여 필요한 library를 설치하고, 서버를 띄웁니다.
    
 ```cmd
-npm install
-npm run start
+$ npm install
+$ redis-server // session을 추가하기 위함입니다.
+$ npm run start
 ```
 
 4. 프론트엔드 코드를 다운받습니다.
