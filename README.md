@@ -75,8 +75,9 @@ DATABASE_URL="postgresql://postgres:koil132123451234@db.xpdqxuuljksmrjhubmtn.sup
 3. 아래 명령어를 터미널에 입력하여 필요한 library를 설치하고, 서버를 띄웁니다.
    
 ```cmd
-npm install
-npm run start
+$ npm install
+$ redis-server // session을 추가하기 위함입니다.
+$ npm run start
 ```
 
 4. 프론트엔드 코드를 다운받습니다.
