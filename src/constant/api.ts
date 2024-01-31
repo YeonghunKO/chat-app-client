@@ -15,8 +15,8 @@ export const FILTERED_MESSAGE = (userId: number | null, message: string) =>
   `${MESSAGE_ROUTE}/filter-message/${userId}/${message}`;
 
 export const ADD_MESSAGE = `${MESSAGE_ROUTE}/messages`;
-export const ADD_IMAGE_MESSAGE = `${MESSAGE_ROUTE}/add-image-message`;
-export const ADD_AUDIO_MESSAGE = `${MESSAGE_ROUTE}/add-audio-message`;
+export const ADD_IMAGE_MESSAGE = `${MESSAGE_ROUTE}/image`;
+export const ADD_AUDIO_MESSAGE = `${MESSAGE_ROUTE}/audio`;
 
 export const UPDATE_CHAT_LIST = (userId: number) =>
   `${MESSAGE_ROUTE}/get-updated-chat-list/${userId}`;
