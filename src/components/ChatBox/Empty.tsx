@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Empty = () => {
   return (
-    <div className="flex h-[100vh] w-full flex-col items-center justify-center border-b-4 border-l border-conversation-border bg-panel-header-background">
+    <div className="flex h-[100dvh] w-full flex-col items-center justify-center border-b-4 border-l border-conversation-border bg-panel-header-background">
       <Image
         priority
         src="/whatsapp.gif"
