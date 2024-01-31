@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useQueryClient } from "react-query";
 import { IMessage } from "@/type";
 
 import {
