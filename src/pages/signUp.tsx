@@ -150,7 +150,7 @@ function SignUp() {
   };
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center gap-[8dvw] bg-panel-header-background text-white">
+    <div className="flex h-[100dvh] w-screen items-center justify-center gap-[8dvw] bg-panel-header-background text-white">
       <div className="flex flex-col items-center justify-center gap-[5dvh] max-md:hidden">
         <Image
           src="/whatsapp.gif"
@@ -169,7 +169,7 @@ function SignUp() {
         </button>
       </div>
 
-      <div className="flex h-screen flex-col justify-center gap-6 max-md:w-[80dvw] max-md:gap-[10px] ">
+      <div className="flex h-[100dvh] flex-col justify-center gap-6 max-md:w-[80dvw] max-md:gap-[10px] ">
         <div className="flex items-center justify-center">
           <AvatarPhoto
             size={SIZE.XL}

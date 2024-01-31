@@ -11,7 +11,7 @@ const RetryFallback = ({ err, onRetry }: ErrorFallbackProps) => {
     location.reload();
   };
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center gap-3">
+    <div className="flex h-[100dvh] w-screen flex-col items-center justify-center gap-3">
       <span className="text-[5vw]">죄송합니다. 문제가 발생했어요.</span>
       <span className="text-[3vw]">
         에러 메세지: {err.message ? err.message : err}

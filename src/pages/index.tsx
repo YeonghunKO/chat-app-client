@@ -53,7 +53,7 @@ export default function Home() {
 
   return (
     <CallingContextProvider>
-      <main className="h-screen w-screen overflow-hidden md:grid">
+      <main className="h-[100dvh] w-screen overflow-hidden md:grid">
         <div
           onClick={handleCloseInfoButton}
           className="absolute -left-[8px] top-1/2 z-[10] cursor-pointer rounded-full bg-incoming-background p-[5px] text-[20px] text-[#ADBAC1]"

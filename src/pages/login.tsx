@@ -68,7 +68,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center bg-panel-header-background">
+    <div className="flex h-[100dvh] w-screen flex-col items-center justify-center bg-panel-header-background">
       <div className="flex h-4/5 w-screen items-center justify-center gap-[5dvw] bg-panel-header-background max-md:h-[90dvh] max-md:flex-col max-md:gap-[10px]">
         <div className="flex h-[300px] w-[300px] flex-col items-center justify-center gap-2 text-white max-md:h-[30dvh] max-md:w-[30dvh]">
           <img src="/whatsapp.gif" alt="whatsapp-gif" />

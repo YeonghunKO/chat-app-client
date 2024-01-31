@@ -30,7 +30,7 @@ const ContactInfo = () => {
         isContactInfoClosed
           ? "animate-contact-slide-left"
           : "animate-contact-slide-right"
-      } top-0 z-[10] flex h-[100dvh] max-h-screen w-[100dvw] flex-col bg-panel-header-background md:w-[35dvw] lg:w-[25dvw]`}
+      } top-0 z-[10] flex h-[100dvh] max-h-[100dvh] w-[100dvw] flex-col bg-panel-header-background md:w-[35dvw] lg:w-[25dvw]`}
     >
       <div
         onClick={handleCloseInfoButton}
