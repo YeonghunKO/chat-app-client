@@ -19,7 +19,7 @@ export const ADD_IMAGE_MESSAGE = `${MESSAGE_ROUTE}/image`;
 export const ADD_AUDIO_MESSAGE = `${MESSAGE_ROUTE}/audio`;
 
 export const UPDATE_CHAT_LIST = (userId: number) =>
-  `${MESSAGE_ROUTE}/get-updated-chat-list/${userId}`;
+  `${MESSAGE_ROUTE}/chat-list/${userId}`;
 
 export const COOKIE = {
   REFRESH_IDX: "refreshTokenIdx",
