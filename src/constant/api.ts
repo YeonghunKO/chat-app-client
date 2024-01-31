@@ -14,7 +14,7 @@ export const GET_MESSAGES = (from: number, to: number) =>
 export const FILTERED_MESSAGE = (userId: number | null, message: string) =>
   `${MESSAGE_ROUTE}/filter-message/${userId}/${message}`;
 
-export const ADD_MESSAGE = `${MESSAGE_ROUTE}/messages`;
+export const ADD_MESSAGE = `${MESSAGE_ROUTE}`;
 export const ADD_IMAGE_MESSAGE = `${MESSAGE_ROUTE}/image`;
 export const ADD_AUDIO_MESSAGE = `${MESSAGE_ROUTE}/audio`;
 
