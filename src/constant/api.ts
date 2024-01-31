@@ -9,7 +9,7 @@ export const GET_USER = (email: string) => `${AUTH_ROUTE}/user/${email}`;
 export const GET_ALL_USERS = `${AUTH_ROUTE}/users`;
 
 export const GET_MESSAGES = (from: number, to: number) =>
-  `${MESSAGE_ROUTE}/messages/from/${from}/to/${to}`;
+  `${MESSAGE_ROUTE}/from/${from}/to/${to}`;
 
 export const FILTERED_MESSAGE = (userId: number | null, message: string) =>
   `${MESSAGE_ROUTE}/filter-message/${userId}/${message}`;
