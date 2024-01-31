@@ -28,7 +28,13 @@ const SearchBar = () => {
     queryKey: queryKeys.filteredMessages,
     mutationFunc: (message: string) =>
       getFetch({
-        url: FILTERED_MESSAGE(id, message),
+        url: FILTERED_MESSAGE,
+        option: {
+          params: {
+            from: id,
+            message,
+          },
+        },
         mapper: (filteredMessages: IMessage[]) => {
           const parsedChatListId = filteredMessages.reduce((acc, message) => {
             const otherUserId =
