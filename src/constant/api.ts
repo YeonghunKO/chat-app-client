@@ -1,5 +1,5 @@
-const AUTH_ROUTE = "/api/auth";
-const MESSAGE_ROUTE = "/api/message";
+const AUTH_ROUTE = "/auth";
+const MESSAGE_ROUTE = "/message";
 
 export const SIGN_IN_USER = `${AUTH_ROUTE}/sign-in`;
 export const SIGN_UP_USER = `${AUTH_ROUTE}/sign-up`;
