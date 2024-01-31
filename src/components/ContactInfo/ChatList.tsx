@@ -27,6 +27,9 @@ const ChatList = () => {
   >({
     queryKey: queryKeys.chatLists,
     url: UPDATE_CHAT_LIST(loggedInUser.id as number),
+    options: {
+      enabled: !!loggedInUser.id,
+    },
   });
 
   useEffect(() => {
