@@ -88,7 +88,7 @@ const config: Config = {
       },
       colors: {
         secondary: "#8696a0",
-        "teal-light": "#7ae3c3",
+        "teal-light": "#0091FF",
         "photopicker-overlay-background": "rgba(30,42,49,0.8)",
         "dropdown-background": "#233138",
         "dropdown-background-hover": "#182229",
