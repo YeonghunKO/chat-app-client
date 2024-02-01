@@ -9,7 +9,7 @@ export const DEFAULT_SEO = {
     description: "채팅 외 여러가지 기능이 제공되요👀",
     images: [
       {
-        url: "https://firebasestorage.googleapis.com/v0/b/whats-app-chat-84e62.appspot.com/o/fun_chat.webp?alt=media&token=ed830532-1469-4b6c-bc01-27834e82df08",
+        url: "https://firebasestorage.googleapis.com/v0/b/whats-app-chat-84e62.appspot.com/o/fun_chat.jpg?alt=media&token=4c37dc58-59e5-4e2e-aaab-abbb2c594781",
         width: 800,
         height: 400,
         alt: "chatting_default_image",
