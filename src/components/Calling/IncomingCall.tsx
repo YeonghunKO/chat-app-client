@@ -47,7 +47,7 @@ const IncomingCall = () => {
         <div className="relative h-[80px] w-[55px] rounded-sm bg-conversation-panel-background md:h-[80px] md:w-[80px]">
           <Image
             sizes="100%"
-            src="/whatsapp.gif"
+            src="/chat.gif"
             className="!relative"
             alt="calling"
             fill

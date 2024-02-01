@@ -167,7 +167,7 @@ function SignUp() {
 
       <div className="flex flex-col items-center justify-center gap-[5dvh] max-md:hidden">
         <Image
-          src="/whatsapp.gif"
+          src="/chat.gif"
           alt="whatsapp-gif"
           height={300}
           width={300}
