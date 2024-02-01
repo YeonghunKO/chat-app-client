@@ -36,7 +36,9 @@ export default function Login() {
     onError: (err: any) => {
       updateToast({
         type: TOAST_TYPE.ERROR,
-        msg: err,
+        msg: !!err
+          ? err
+          : "Something went wrong from the server. Please try again",
       });
     },
   });
