@@ -15,12 +15,14 @@ import Input from "@/components/common/Input";
 import { FcGoogle } from "react-icons/fc";
 import { useUiState } from "@/store";
 import { TOAST_TYPE } from "@/constant/type";
+import Loading from "@/components/common/Loading";
 
 export default function Login() {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const updateToast = useUiState((state) => state.updateToastInfo);
 
@@ -28,6 +30,7 @@ export default function Login() {
     queryKey: queryKeys.userInfo,
     url: SIGN_IN_USER,
     onSuccess: () => {
+      setIsLoggingIn(true);
       router.push(DASHBOARD);
     },
     onError: (err: any) => {
@@ -69,6 +72,12 @@ export default function Login() {
 
   return (
     <div className="flex h-[100dvh] w-screen flex-col items-center justify-center bg-panel-header-background">
+      {isLoggingIn ? (
+        <div className="absolute left-0 top-0 z-[10] h-[100dvh] w-screen bg-black opacity-50">
+          <Loading />
+        </div>
+      ) : null}
+
       <div className="flex h-4/5 w-screen items-center justify-center gap-[5dvw] bg-panel-header-background max-md:h-[90dvh] max-md:flex-col max-md:gap-[10px]">
         <div className="flex h-[300px] w-[300px] flex-col items-center justify-center gap-2 text-white max-md:h-[30dvh] max-md:w-[30dvh]">
           <img src="/whatsapp.gif" alt="whatsapp-gif" />

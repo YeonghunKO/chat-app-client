@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 import { TOAST_TYPE } from "@/constant/type";
 import { resizeFile } from "@/utils/resizeImg";
 import dynamic from "next/dynamic";
+import Loading from "@/components/common/Loading";
 
 const ContextMenu = dynamic(() => import("../components/common/ContextMenu"));
 const PhotoLibrary = dynamic(() => import("../components/common/PhotoLibrary"));
@@ -69,7 +70,10 @@ function SignUp() {
   const { mutate, data } = usePostMutationQueryAccount({
     queryKey: queryKeys.userInfo,
     url: SIGN_UP_USER,
-    onSuccess: () => router.push(DASHBOARD),
+    onSuccess: () => {
+      setIsLoggingIn(true);
+      router.push(DASHBOARD);
+    },
     onError: (err: any) => {
       updateToast({
         type: TOAST_TYPE.ERROR,
@@ -90,6 +94,7 @@ function SignUp() {
 
   const [showPhotoLibrary, setShowPhotoLibrary] = useState(false);
   const [showCapturePhoto, setShowCapturePhoto] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const avatarImgSrc = useUserStore((set) => set.newUserImgSrc);
   const setNewImgSrc = useUserStore((set) => set.setNewImgSrc);
@@ -103,6 +108,7 @@ function SignUp() {
 
       return;
     }
+
     mutate({
       email,
       name,
@@ -151,6 +157,12 @@ function SignUp() {
 
   return (
     <div className="flex h-[100dvh] w-screen items-center justify-center gap-[8dvw] bg-panel-header-background text-white">
+      {isLoggingIn ? (
+        <div className="absolute left-0 top-0 z-[10] h-[100dvh] w-screen bg-black opacity-50">
+          <Loading />
+        </div>
+      ) : null}
+
       <div className="flex flex-col items-center justify-center gap-[5dvh] max-md:hidden">
         <Image
           src="/whatsapp.gif"
