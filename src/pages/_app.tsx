@@ -8,6 +8,9 @@ import "@/styles/globals.css";
 import { QueryClient, QueryClientProvider, Hydrate } from "react-query";
 import { useUserStore } from "@/store";
 
+import { DefaultSeo } from "next-seo";
+import { DEFAULT_SEO } from "@/constant/defaultSEO";
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -26,13 +29,13 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Whatsapp</title>
-        <link rel="shortcut icon" href="/favicon.png" />
+        <link rel="shortcut icon" href="/chat.png" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1 maximum-scale=1, user-scalable=0"
         />
       </Head>
+      <DefaultSeo {...DEFAULT_SEO} />
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <Layout>
