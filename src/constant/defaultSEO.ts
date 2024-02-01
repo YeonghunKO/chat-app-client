@@ -10,8 +10,8 @@ export const DEFAULT_SEO = {
     images: [
       {
         url: "https://firebasestorage.googleapis.com/v0/b/whats-app-chat-84e62.appspot.com/o/fun_chat.webp?alt=media&token=ed830532-1469-4b6c-bc01-27834e82df08",
-        width: 1200,
-        height: 630,
+        width: 800,
+        height: 400,
         alt: "chatting_default_image",
       },
     ],
