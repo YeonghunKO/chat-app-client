@@ -168,17 +168,17 @@ function SignUp() {
       <div className="flex flex-col items-center justify-center gap-[5dvh] max-md:hidden">
         <Image
           src="/chat.gif"
-          alt="whatsapp-gif"
-          height={300}
-          width={300}
+          alt="chat-gif"
+          height={450}
+          width={450}
           priority
         />
-        <span className="text-7xl">WhatsApp</span>
+        <span className="text-7xl">FunChat</span>
         <button
-          className="flex w-full items-center justify-center gap-7 rounded-lg bg-search-input-container-background p-5"
+          className="flex w-[70%] items-center justify-center gap-7 rounded-lg bg-search-input-container-background p-5"
           onClick={handleGoogleLogin}
         >
-          <FcGoogle className="text-4xl" />
+          <FcGoogle className="text-3xl" />
           <span className="text-2xl text-white">Sign Up With Google</span>
         </button>
       </div>

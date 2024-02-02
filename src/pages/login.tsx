@@ -82,8 +82,8 @@ export default function Login() {
 
       <div className="flex h-4/5 w-screen items-center justify-center gap-[5dvw] bg-panel-header-background max-md:h-[90dvh] max-md:flex-col max-md:gap-[10px]">
         <div className="flex h-[400px] w-[400px] flex-col items-center justify-center gap-2 text-white max-md:h-[45dvh] max-md:w-[45dvh]">
-          <img src="/chat.gif" alt="whatsapp-gif" />
-          <span className="text-7xl max-md:hidden">WhatsApp</span>
+          <img src="/chat.gif" alt="chat-gif" />
+          <span className="text-7xl max-md:hidden">FunChat</span>
         </div>
         <div className="flex flex-col items-center justify-center gap-4 text-white max-md:w-[80dvw] max-md:text-[13px]">
           <Input label="Display Email" value={email} setValue={setEmail} />
