@@ -41,11 +41,9 @@ const useSetSockets = () => {
       );
 
       socket.on("update-chat-list-status", ({ to: me }) => {
-        console.log("m", me);
         updateChatList(me);
       });
       socket.on("update-my-chat-list-status", ({ to: me }) => {
-        console.log("m", me);
         updateChatList(me);
       });
 
