@@ -90,9 +90,9 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
 
   return (
     <div
-      className={`absolute duration-[500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
-        isSearchingMessages ? "!right-[0%]" : ""
-      } -right-[100dvw] top-0 z-10 h-[100dvh] w-[100dvw] bg-search-input-container-background md:-right-[35%] md:w-[35dvw] lg:-right-[25%] lg:w-[25dvw]`}
+      className={`duration-[500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] max-md:absolute  ${
+        isSearchingMessages ? "max-md:translate-x-[0%]" : ""
+      } top-0  z-10 h-[100dvh] w-[100dvw] bg-search-input-container-background max-md:translate-x-[100%] md:w-[35dvw] lg:w-[25dvw] `}
     >
       <header className="flex h-[60px] gap-[10px] bg-panel-header-background pl-[10px] pt-[18px]">
         <IoClose

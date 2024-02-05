@@ -64,7 +64,7 @@ export default function Home() {
         <ContactInfo />
         {currentChatUser ? (
           <section
-            className={`duration-[500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] md:grid ${
+            className={`relative flex duration-[500ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] md:grid ${
               isSearchingMessages
                 ? // auto를 하면 최대한 늘어날 수 있는만큼 늘어남
                   "md:grid-cols-[65%_auto] lg:grid-cols-[75%_auto]"
