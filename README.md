@@ -1,12 +1,26 @@
-# 📷chat app
 
-### ✏️ 이 프로젝트를 시작하게 된 동기
+<p align="center">
+<img  src="https://chat-app.live/chat.gif" alt="funchat"/>  
+</p>
 
-평소 whats app을 자주 사용하던 터라 한 번 똑같이 구현해보고 싶었습니다. 그러던 찰나 관련 서비스 [클론코딩 영상](https://youtu.be/keYFkLycaDg?si=JTZkdi4Jr7bJgZEq)을 유튜브에서 보게 되었습니다. 
+
+# 💬 FunChat
+
+## ✏️ 이 프로젝트를 시작하게 된 동기
+
+평소 whats app을 자주 사용하던 터라 저 만의 채팅과 영상통화 앱을 구현해보고 싶었습니다.
+
+그러던 찰나 관련 서비스 [클론코딩 영상](https://youtu.be/keYFkLycaDg?si=JTZkdi4Jr7bJgZEq)을 유튜브에서 보게 되었습니다.
 
 그러나, 강의자의 코드 저장소를 보니, 설계와 UI에서 개선해야할 점이 많아서 나름대로 많이 뜯어고쳤습니다.(개선사항에 관한 자세한 내용은 아래 개선사항에서 확인가능합니다)
 
 참고로, [백엔드](https://github.com/YeonghunKO/chat-app-server)코드 또한 이해하고 리팩토링하였습니다!
+
+그리고 oracle cloud에 배포하고 ssl을 추가하였습니다.
+
+# 🚀 배포 주소
+
+[FunChat](https://chat-app.live)
 
 ## 📢 주요 기능
 1. 텍스트, 음성, 이미지 파일을 실시간으로 주고 받을 수 있습니다.
@@ -16,7 +30,6 @@
 
 ## ⏳ 진행 기간
 대략적으로 2023년 8월 01일 ~ 현재
-  - 백엔드 배포 도메인에 https를 추가하는 중에 있습니다. ==> https적용에 성공하였으나 cookie를 setting에 문제가 있어 nginx config를 손보는 중입니다.
 
 ## ⛏개선 사항
 _**아래는 클론코드 강의에 없는 기능이지만 필요하다고 생각해서 제 나름대로 추가한 기능들입니다.**_
