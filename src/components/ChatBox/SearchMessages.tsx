@@ -30,30 +30,34 @@ const SearchMessages = ({ parent }: { parent: RefObject<HTMLElement> }) => {
     useGetCurrentMessagesQuery<[string, IMessage[]][]>();
 
   useEffect(() => {
-    if (allMessages) {
-      if (searchingKeyWord) {
-        const filteredMessages = allMessages.map((messageInfo) => {
-          const [date, messages] = messageInfo;
-          const filteredMessages = messages.filter((message) => {
-            const isMatchedMessage =
-              message.message?.includes(searchingKeyWord);
-            if (message.type === "text" && isMatchedMessage) {
-              return true;
-            }
+    if (!allMessages) {
+      return;
+    }
 
-            return false;
-          });
+    if (searchingKeyWord) {
+      const filteredMessages = allMessages.map((messageInfo) => {
+        const [date, messages] = messageInfo;
 
-          if (filteredMessages.length) {
-            return [date, filteredMessages] as const;
+        const filteredMessages = messages.filter((message) => {
+          const isMatchedMessage = message.message
+            ?.toLocaleLowerCase()
+            ?.includes(searchingKeyWord.toLocaleLowerCase());
+          if (message.type === "text" && isMatchedMessage) {
+            return true;
           }
 
-          return [];
+          return false;
         });
-        setSearchedMessages(filteredMessages);
-      } else {
-        setSearchedMessages([]);
-      }
+
+        if (filteredMessages.length) {
+          return [date, filteredMessages] as const;
+        }
+
+        return [];
+      });
+      setSearchedMessages(filteredMessages);
+    } else {
+      setSearchedMessages([]);
     }
   }, [searchingKeyWord, allMessages]);
 
