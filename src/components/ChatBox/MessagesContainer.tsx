@@ -13,7 +13,7 @@ import dynamic from "next/dynamic";
 import { useLocalStorage, useSocketStore } from "@/store";
 import { useStore } from "@/hooks/useStore";
 
-const AudioMessage = dynamic(() => import("../ChatBox/AudioMessage"), {
+const AudioMessage = dynamic(() => import("./AudioMessage"), {
   ssr: false,
 });
 
