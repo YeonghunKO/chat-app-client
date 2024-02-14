@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import Login from "@/pages/Login";
-import Layout from "@/components/common/Layout";
 import { customRender } from "./customRender";
 
 jest.mock("next/navigation", () => ({
