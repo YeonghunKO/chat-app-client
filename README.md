@@ -10,7 +10,7 @@
 
 평소 whats app을 자주 사용하던 터라 저 만의 채팅과 영상통화 앱을 구현해보고 싶었습니다.
 
-그러던 찰나 관련 서비스 [클론코딩 영상](https://youtu.be/keYFkLycaDg?si=JTZkdi4Jr7bJgZEq)을 유튜브에서 보게 되었습니다.
+그러던 찰나 관련 서비스 [whatsapp-clone](https://youtu.be/keYFkLycaDg?si=JTZkdi4Jr7bJgZEq)를 유튜브에서 보게 되었습니다.
 
 그러나, 강의자의 코드 저장소를 보니, 설계와 UI에서 개선해야할 점이 많아서 나름대로 많이 뜯어고쳤습니다.</br>
 (개선사항에 관한 자세한 내용은 아래 개선사항에서 확인가능합니다)
