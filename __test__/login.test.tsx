@@ -37,7 +37,7 @@ const setUp = () => {
   };
 };
 
-it.only("successfully logged in", async () => {
+it("successfully logged in", async () => {
   // arrange
   const utils = setUp();
 
@@ -51,9 +51,31 @@ it.only("successfully logged in", async () => {
 });
 
 describe("failed to log in", () => {
-  it("user doesn't exist", () => {
+  it("user doesn't exist", async () => {
+    // arrange
     const utils = setUp();
 
-    // screen.debug();
+    // act
+    await utils.changeEmailnput("none-exist@gmail.com");
+    await utils.changePassowordInput("test123");
+    await utils.submit();
+
+    // assert
+    const toastMessage = await screen.findByText("user does not exist");
+    expect(toastMessage).toBeInTheDocument();
+  });
+
+  it("user exists, but password is incorrect", async () => {
+    // arrange
+    const utils = setUp();
+
+    // act
+    await utils.changeEmailnput(MOCKED_LOGIN_USER_INFO.email);
+    await utils.changePassowordInput("wrong-password");
+    await utils.submit();
+
+    // assert
+    const toastMessage = await screen.findByText("password is incorrect");
+    expect(toastMessage).toBeInTheDocument();
   });
 });
