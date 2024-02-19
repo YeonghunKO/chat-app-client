@@ -15,24 +15,45 @@ jest.mock("next/navigation", () => ({
   },
 }));
 
-describe("Login", () => {
-  it.only("successfully logged in", async () => {
-    customRender(<Login />);
-
-    const emailInput = screen.getByRole("textbox", { name: "Display Email" });
-    const passwordInput = screen.getByLabelText("Password");
-    const submitButton = screen.getByRole("button", {
-      name: "Login an Account",
-    });
-
-    await userEvent.type(emailInput, MOCKED_LOGIN_USER_INFO.email);
-    await userEvent.type(passwordInput, MOCKED_LOGIN_USER_INFO.password);
-    await userEvent.click(submitButton);
-    expect(pushMock).toHaveBeenCalledWith(DASHBOARD);
+const setUp = () => {
+  const utils = customRender(<Login />);
+  const emailInput = screen.getByRole("textbox", { name: "Display Email" });
+  const passwordInput = screen.getByLabelText("Password");
+  const submitButton = screen.getByRole("button", {
+    name: "Login an Account",
   });
 
-  it("failed to log in", () => {
-    customRender(<Login />);
+  const changeEmailnput = async (email: string) =>
+    await userEvent.type(emailInput, email);
+  const changePassowordInput = async (password: string) =>
+    await userEvent.type(passwordInput, password);
+  const submit = async () => await userEvent.click(submitButton);
+
+  return {
+    ...utils,
+    changeEmailnput,
+    changePassowordInput,
+    submit,
+  };
+};
+
+it.only("successfully logged in", async () => {
+  // arrange
+  const utils = setUp();
+
+  // act
+  await utils.changeEmailnput(MOCKED_LOGIN_USER_INFO.email);
+  await utils.changePassowordInput(MOCKED_LOGIN_USER_INFO.password);
+  await utils.submit();
+
+  // assert
+  expect(pushMock).toHaveBeenCalledWith(DASHBOARD);
+});
+
+describe("failed to log in", () => {
+  it("user doesn't exist", () => {
+    const utils = setUp();
+
     // screen.debug();
   });
 });
