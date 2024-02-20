@@ -20,7 +20,7 @@ type PostLoginFailedRes = {
 
 type PostLoginRes = PostLoginSuccessRes | PostLoginFailedRes;
 
-const postLoginHandler = [
+export const signInHandlers = [
   rest.post<PostLoginReqBody, PathParams, PostLoginRes>(
     SIGN_IN_USER,
     (request, response, ctx) => {
@@ -67,5 +67,3 @@ const postLoginHandler = [
     },
   ),
 ];
-
-export { postLoginHandler };
