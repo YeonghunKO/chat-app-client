@@ -37,17 +37,19 @@ const setUp = () => {
   };
 };
 
-it("successfully logged in", async () => {
-  // arrange
-  const utils = setUp();
+describe("successfully logged in", () => {
+  it("login with valid user email and password", async () => {
+    // arrange
+    const utils = setUp();
 
-  // act
-  await utils.changeEmailnput(MOCKED_LOGIN_USER_INFO.email);
-  await utils.changePassowordInput(MOCKED_LOGIN_USER_INFO.password);
-  await utils.submit();
+    // act
+    await utils.changeEmailnput(MOCKED_LOGIN_USER_INFO.email);
+    await utils.changePassowordInput(MOCKED_LOGIN_USER_INFO.password);
+    await utils.submit();
 
-  // assert
-  expect(pushMock).toHaveBeenCalledWith(DASHBOARD);
+    // assert
+    expect(pushMock).toHaveBeenCalledWith(DASHBOARD);
+  });
 });
 
 describe("failed to log in", () => {
