@@ -38,15 +38,7 @@ export const MOCKED_MESSAGES = [
         status: "read",
         createdAt: "2023-12-07T01:58:39.459Z",
       },
-      {
-        id: 695,
-        senderId: 3,
-        recieverId: 7,
-        message: "uploads/images/1701914517359apple.WEBP",
-        type: "image",
-        status: "read",
-        createdAt: "2023-12-07T02:01:57.361Z",
-      },
+
       {
         id: 696,
         senderId: 3,
