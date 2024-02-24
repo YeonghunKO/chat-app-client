@@ -174,6 +174,7 @@ const MessageBar = () => {
             <MdSend
               className="cursor-pointer text-[20px] text-panel-header-icon"
               title="Send"
+              data-testid="send-message"
               onClick={handleSendMessage}
             />
           </div>

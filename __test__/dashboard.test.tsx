@@ -7,6 +7,7 @@ import {
   MOCKED_LOGGED_IN_USER_INFO,
   MOCKED_ONLINE_USERS,
 } from "@/mocks/constant";
+import userEvent from "@testing-library/user-event";
 
 const mockedUserInfo = {
   newUserImgSrc: "/default_avatar.png",
@@ -28,20 +29,38 @@ jest.mock("../src/hooks/useStore.ts", () => ({
   ...jest.requireActual("../src/hooks/useStore.ts"),
   useStore: jest.fn(() => ({
     currentChatUser: MOCKED_CURRENT_CHAT_USER,
+    ...MOCKED_CURRENT_CHAT_USER,
   })),
 }));
 
 const setUp = () => {
   const utils = customRender(<ChatBox />);
+
+  const messageInput = screen.getByPlaceholderText(/type a message/i);
+  const messageSubmitButton = screen.getByTestId("send-message");
+
+  const changeMessageInput = async (message: string) =>
+    await userEvent.type(messageInput, message);
+  const submitMessage = async () => await userEvent.click(messageSubmitButton);
+
   return {
     ...utils,
+    changeMessageInput,
+    submitMessage,
   };
 };
 
 describe("test sending text messages and wait for it to appear", () => {
-  it("should send text messages", () => {
+  it("should send text messages", async () => {
+    // arrange
     const utils = setUp();
 
-    screen.debug();
+    // act
+    await utils.changeMessageInput("new message");
+    await utils.submitMessage();
+
+    // assert
+    const newMessage = await screen.findByText(/new message/i);
+    expect(newMessage).toBeInTheDocument;
   });
 });
