@@ -52,7 +52,11 @@ const setUp = () => {
 };
 
 describe("test sending text messages and wait for it to appear", () => {
-  it("should send text messages", async () => {
+  it("successufully should send text messages and optimistically update message container)", async () => {
+    /**
+     * useAddTextMessageQuery - onSettled - invalidateQueries를 주석처리할것
+     * mocked GetMessages api를 호출하여 mocked messages로 다시 교체되어버리기 때문.
+     */
     // arrange
     const utils = setUp();
 
