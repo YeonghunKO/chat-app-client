@@ -1,7 +1,7 @@
 import Layout from "@/components/common/Layout";
 import { render } from "@testing-library/react";
 
-import { QueryClient, QueryClientProvider, Hydrate } from "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 function AllTheProviders({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient();
