@@ -17,20 +17,21 @@ const mockedUserInfo = {
   setCurrentChatUser: jest.fn(),
   setOnlineUsers: jest.fn(),
   setLoggedInUserInfo: jest.fn(),
-  ...MOCKED_LOGGED_IN_USER_INFO,
+  loggedInUserInfo: MOCKED_LOGGED_IN_USER_INFO,
+};
+
+const mockedUseStore = {
+  currentChatUser: MOCKED_CURRENT_CHAT_USER,
 };
 
 jest.mock("../src/store", () => ({
   ...jest.requireActual("../src/store"),
-  useUserStore: jest.fn((set) => mockedUserInfo),
+  useUserStore: jest.fn((callBack) => callBack(mockedUserInfo)),
 }));
 
 jest.mock("../src/hooks/useStore.ts", () => ({
   ...jest.requireActual("../src/hooks/useStore.ts"),
-  useStore: jest.fn(() => ({
-    currentChatUser: MOCKED_CURRENT_CHAT_USER,
-    ...MOCKED_CURRENT_CHAT_USER,
-  })),
+  useStore: jest.fn((storage, setCallBack) => setCallBack(mockedUseStore)),
 }));
 
 const setUp = () => {
