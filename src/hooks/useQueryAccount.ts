@@ -144,7 +144,7 @@ export const useAddTextMessageQuery = ({
         ) as [string, IMessage[]][];
 
         const newMessageFormat = {
-          id: 0,
+          id: Math.random() * Number.MAX_SAFE_INTEGER,
           senderId: 0,
           recieverId: 0,
           type: "text",
@@ -253,7 +253,7 @@ export const useAddMultiMessageQuery = ({
         }
 
         const newMessageFormat = {
-          id: 0,
+          id: Math.random() * Number.MAX_SAFE_INTEGER,
           senderId: 0,
           recieverId: 0,
           type: type,
