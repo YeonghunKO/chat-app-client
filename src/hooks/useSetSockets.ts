@@ -45,9 +45,6 @@ const useSetSockets = () => {
     socket.on("update-chat-list-status", ({ to: me }) => {
       updateChatList(me);
     });
-    socket.on("update-my-chat-list-status", ({ to: me }) => {
-      updateChatList(me);
-    });
 
     socket.on(
       "get-onlineUsers",
