@@ -32,40 +32,34 @@ const useSetSockets = () => {
   }, [userInfo]);
 
   useEffect(() => {
-    if (socket) {
-      socket.on(
-        "update-message-read",
-        ({ from, to }: { from: number; to: number; message: string }) => {
-          getMessages({ from, to });
-        },
-      );
-
-      socket.on("update-chat-list-status", ({ to: me }) => {
-        updateChatList(me);
-      });
-      socket.on("update-my-chat-list-status", ({ to: me }) => {
-        updateChatList(me);
-      });
-
-      socket.on(
-        "get-onlineUsers",
-
-        ({ onlineUsers }: { onlineUsers: string }) => {
-          const parsedOnlineUsers = new Map<number, TOnlineUser>(
-            JSON.parse(onlineUsers),
-          );
-
-          setOnlineUsers(parsedOnlineUsers);
-        },
-      );
-
-      socket.on(
-        "recieve-msg",
-        ({ from, to }: { from: number; to: number; message: string }) => {
-          getMessages({ from, to });
-        },
-      );
+    if (!socket) {
+      return;
     }
+    socket.on(
+      "get-updated-messages",
+      ({ from, to }: { from: number; to: number; message: string }) => {
+        getMessages({ from, to });
+      },
+    );
+
+    socket.on("update-chat-list-status", ({ to: me }) => {
+      updateChatList(me);
+    });
+    socket.on("update-my-chat-list-status", ({ to: me }) => {
+      updateChatList(me);
+    });
+
+    socket.on(
+      "get-onlineUsers",
+
+      ({ onlineUsers }: { onlineUsers: string }) => {
+        const parsedOnlineUsers = new Map<number, TOnlineUser>(
+          JSON.parse(onlineUsers),
+        );
+
+        setOnlineUsers(parsedOnlineUsers);
+      },
+    );
   }, [socket]);
 };
 
