@@ -35,32 +35,38 @@
 ## ⛏개선 사항
 _**아래는 클론코드 강의에 없는 기능이지만 필요하다고 생각해서 제 나름대로 추가한 기능들입니다.**_
 
-1. 강의에서는 useReducer와 useContext를 이용해서 서버와 클라이언트의 상태를 관리하고 있었습니다.
+* jest, react-testing-library를 이용해 [테스트 코드](https://github.com/YeonghunKO/chat-app-client/tree/main/__test__)를 작성하였습니다.
+    - A(arrange)A(act)A(assert) 구조로 테스트를 구분하고 주석처리하여 문서화 시켰습니다
+    - 반복된 코드를 줄이기 위해 [setUp](https://github.com/YeonghunKO/chat-app-client/blob/86f77ae77612d935faf70a310e2218398fc809a0/__test__/login.test.tsx#L18)과 [customRender](https://github.com/YeonghunKO/chat-app-client/blob/main/__test__/customRender.tsx)를 활용하였습니다.
+    - [msw를 활용하여 서버를 모킹](https://github.com/YeonghunKO/chat-app-client/blob/main/src/mocks/server.ts)하였습니다. 이로써, 서버의 상태와 관계없이 독립적으로 컴포넌트와 함수를 테스트 할 수 있게 되었습니다.
+    
+* 기존 코드에서는 useReducer와 useContext를 이용해서 서버와 클라이언트의 상태를 관리하고 있었습니다.
     - 그러나 코드가 너무 길어지고 복잡해져서 서버를 react-query , 클라이언트를 zustand로 관리하였습니다
-2. 일정기간이 지나면 token이 만료되면서 로그인 페이지로 [리다이렉트](https://github.com/YeonghunKO/chat-app-client/blob/main/src/pages/index.tsx#L85) 시켜 다시 로그인하게 하였습니다.
-3. 낙관적업데이트를 사용해 보낸 텍스트 메시지가 [바로 표시](https://github.com/YeonghunKO/chat-app-client/blob/main/src/hooks/useQueryAccount.ts#L151)되게 하였습니다.
+* 일정기간이 지나면 token이 만료되면서 로그인 페이지로 [리다이렉트](https://github.com/YeonghunKO/chat-app-client/blob/main/src/pages/index.tsx#L85) 시켜 다시 로그인하게 하였습니다.
+* 낙관적업데이트를 사용해 보낸 텍스트 메시지가 [바로 표시](https://github.com/YeonghunKO/chat-app-client/blob/main/src/hooks/useQueryAccount.ts#L151)되게 하였습니다.
     - 단, 이미지나 오디오 메시지는 서버에서 저장되고 저장된 위치의 static path가 응답으로 와야만 클라이언트에서 표시가능합니다.
     - 따라서, 이미지나 오디오의 message field를 보낸 직후엔 [`undefined`](https://github.com/YeonghunKO/chat-app-client/blob/main/src/hooks/useQueryAccount.ts#L260)로 설정합니다.(undefined일 경우 [로딩바](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/ChatBox/ImageMessage.tsx#L48)가 메시지에 표시됩니다.)
     - 서버 응답이 도착한 경우 static path로 교체하여 서버에 저장된 이미지, 오디오가 표시되게 하였습니다. 
 
-5. [useRecord](https://github.com/YeonghunKO/chat-app-client/blob/main/src/hooks/useRecord.ts), [useSetSocket](https://github.com/YeonghunKO/chat-app-client/blob/main/src/hooks/useSetSockets.ts)등 커스텀 훅을 사용해서 관심사 분리를 하였습니다.
-6. contact info , searchMessage 컴포넌트를 absolute로 관리하여 토글되도록 하였습니다.
+* [useRecord](https://github.com/YeonghunKO/chat-app-client/blob/main/src/hooks/useRecord.ts), [useSetSocket](https://github.com/YeonghunKO/chat-app-client/blob/main/src/hooks/useSetSockets.ts)등 커스텀 훅을 사용해서 관심사 분리를 하였습니다.
+* contact info , searchMessage 컴포넌트를 absolute로 관리하여 토글되도록 하였습니다.
     - 다른 ui와 독립적으로 랜더링되기 때문에 찌그러지는 현상을 해결했습니다
-7. SearchMessages에 적용된 애니메니션이 실행될때 버벅거렸습니다
+* SearchMessages에 적용된 애니메니션이 실행될때 버벅거렸습니다
    - css `transform:translateX()`를 사용하여 개선하였습니다.
    - [관련 글](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/ChatBox/SearchMessages.tsx#L95)
-8. errorboundary를 사용하여 혹시나 안잡히는 에러를 잡아 에러페이지에 띄어주는 기능을 구현했습니다.
-9. zego cloud라는 sdk를 inline import를 이용하여 사용하고 있었고 가독성도 매우 떨어졌습니다.
+* [errorboundary](https://github.com/YeonghunKO/chat-app-client/blob/86f77ae77612d935faf70a310e2218398fc809a0/src/components/common/Layout.tsx#L11)를 사용하여 혹시나 안잡히는 에러를 잡아 에러페이지에 띄어주는 기능을 구현했습니다.
+* 기존 코드에서는 , zego cloud라는 sdk를 inline import를 이용하여 사용하고 있었고 가독성도 매우 떨어졌습니다.
     - simple-peer + context api를 이용하여 [CallingContext](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/common/CallingContext.tsx)안에 캡슐화하고 가독성을 개선했습니다.
-10. react query의 suspense와 react의 Suspense를 이용해 데이터를 불러올때 로딩바가 표시되게 하였습니다.
-11. [toast](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/common/Toast.tsx)를 [layout](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/common/Layout.tsx)에 추가하여 전역에서 사용하게 하였습니다.
+* react query의 [suspense](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/ChatBox/MessagesContainer.tsx#L24)와 react의 [Suspense](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/ChatBox/ChatContainer.tsx#L9)를 이용해 데이터를 불러올때 로딩바가 표시되게 하였습니다.
+* [toast](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/common/Toast.tsx)를 [layout](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/common/Layout.tsx)에 추가하여 전역에서 사용하게 하였습니다.
     - 로그인 성공, 실패 / 메시지 전송 성공, 실패 와 같은 상태를 표시합니다
-12. 메시지를 날짜별로 묶고 랜더링하게 했습니다.
-13. 메시지 검색결과를 클릭하게 하고 클릭시 해당 메시지로 커서가 이동하게 했습니다.
-14. zustand + localstorage를 이용해 이전에 대화상대가 접속시 바로 표시되게 하였습니다.
-15. open graph를 추가하였습니다.
-16. 반응형으로 만들었습니다.
-    
+* 메시지를 날짜별로 묶고 랜더링하게 했습니다.
+  - 프론트에서 메시지를 가공하지 않고, 백엔드에서 [날짜별로 메세지가 묶이게 로직을짜고](https://github.com/YeonghunKO/chat-app-server/blob/80b9bd1b6b2a0abd9cfd89008a064aa0ee480419/controller/MessageController.ts#L80) 넘겨주게 코드를 수정했습니다. 이로써 프론트에서는 넘겨받은 데이터를 그대로 표시하기만 하면 됩니다.
+* 메시지 검색결과를 클릭하게 하고 클릭시 해당 메시지로 커서가 이동하게 했습니다.
+* [zustand + localstorage](https://github.com/YeonghunKO/chat-app-client/blob/86f77ae77612d935faf70a310e2218398fc809a0/src/store/index.ts#L16)를 이용해 이전에 대화상대가 접속시 바로 표시되게 하였습니다.
+* [open graph](https://github.com/YeonghunKO/chat-app-client/blob/main/src/pages/_app.tsx#L38)를 추가하였습니다.
+* 반응형으로 만들었습니다.
+
 ## 👁‍🗨 주요기능 데모
 
 |   Dashboard - 메시지 검색     | 
