@@ -13,7 +13,7 @@
 그러던 찰나 관련 서비스 [whatsapp-clone](https://youtu.be/keYFkLycaDg?si=JTZkdi4Jr7bJgZEq)를 유튜브에서 보게 되었습니다.
 
 그러나, 강의자의 코드 저장소를 보니, 설계와 UI에서 개선해야할 점이 많아서 나름대로 많이 뜯어고쳤습니다.</br>
-(개선사항에 관한 자세한 내용은 아래 개선사항에서 확인가능합니다)
+(개선사항에 관한 자세한 내용은 아래 개선사항에서 확인가능합니다.)
 
 참고로, [백엔드](https://github.com/YeonghunKO/chat-app-server)코드 또한 리팩토링하였습니다!
 
@@ -36,12 +36,12 @@
 _**아래는 기존코드에 문제점이 있다고 판단되어 개선하거나 새롭게 추가한 사항들입니다.**_
 
 * jest, react-testing-library를 이용해 [테스트 코드](https://github.com/YeonghunKO/chat-app-client/tree/main/__test__)를 작성하였습니다.
-    - A(arrange)A(act)A(assert) 구조로 테스트를 구분하고 주석처리하여 문서화 시켰습니다
+    - A(arrange)A(act)A(assert) 구조로 테스트를 구분하고 주석처리하여 문서화 시켰습니다.
     - 반복된 코드를 줄이기 위해 [setUp](https://github.com/YeonghunKO/chat-app-client/blob/86f77ae77612d935faf70a310e2218398fc809a0/__test__/login.test.tsx#L18)과 [customRender](https://github.com/YeonghunKO/chat-app-client/blob/main/__test__/customRender.tsx)를 활용하였습니다.
     - [msw를 활용하여 서버를 모킹](https://github.com/YeonghunKO/chat-app-client/blob/main/src/mocks/server.ts)하였습니다. 이로써, 서버의 상태와 관계없이 독립적으로 컴포넌트와 함수를 테스트 할 수 있게 되었습니다.
     
 * 기존 코드에서는 useReducer와 useContext를 이용해서 서버와 클라이언트의 상태를 관리하고 있었습니다.
-    - 그러나 코드가 너무 길어지고 복잡해져서 서버를 react-query , 클라이언트를 zustand로 관리하였습니다
+    - 그러나 코드가 너무 길어지고 복잡해져서 서버를 react-query , 클라이언트를 zustand로 관리하였습니다.
     - react-query를 사용한 이유는 서버 상태를 효율적으로 관리하기 위해 상당히 유용한 api가 많아서 였습니다.
     - zustand를 사용한 이유는, provider를 선언하지 않아도 되고, boiler plate가 적어서였습니다.
 * 일정기간이 지나면 token이 만료되면서 로그인 페이지로 [리다이렉트](https://github.com/YeonghunKO/chat-app-client/blob/main/src/pages/index.tsx#L139) 시켜 다시 로그인하게 하였습니다.
@@ -52,8 +52,8 @@ _**아래는 기존코드에 문제점이 있다고 판단되어 개선하거나
 
 * [useRecord](https://github.com/YeonghunKO/chat-app-client/blob/main/src/hooks/useRecord.ts), [useSetSocket](https://github.com/YeonghunKO/chat-app-client/blob/main/src/hooks/useSetSockets.ts)등 커스텀 훅을 사용해서 관심사 분리를 하였습니다.
 * contact info , searchMessage 컴포넌트를 absolute로 관리하여 토글되도록 하였습니다.
-    - 다른 ui와 독립적으로 랜더링되기 때문에 찌그러지는 현상을 해결했습니다
-* SearchMessages에 적용된 애니메니션이 실행될때 버벅거렸습니다
+    - 다른 ui와 독립적으로 랜더링되기 때문에 찌그러지는 현상을 해결했습니다.
+* SearchMessages에 적용된 애니메니션이 실행될때 버벅거렸습니다.
    - css `transform:translateX()`를 사용하여 개선하였습니다.
    - [관련 글](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/ChatBox/SearchMessages.tsx#L95)
 * [errorboundary](https://github.com/YeonghunKO/chat-app-client/blob/86f77ae77612d935faf70a310e2218398fc809a0/src/components/common/Layout.tsx#L11)를 사용하여 혹시나 안잡히는 에러를 잡아 에러페이지에 띄어주는 기능을 구현했습니다.
@@ -61,7 +61,7 @@ _**아래는 기존코드에 문제점이 있다고 판단되어 개선하거나
     - simple-peer + context api를 이용하여 [CallingContext](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/common/CallingContext.tsx)안에 캡슐화하고 가독성을 개선했습니다.
 * react query의 [suspense](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/ChatBox/MessagesContainer.tsx#L24)와 react의 [Suspense](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/ChatBox/ChatContainer.tsx#L9)를 이용해 데이터를 불러올때 로딩바가 표시되게 하였습니다.
 * [toast](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/common/Toast.tsx)를 [layout](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/common/Layout.tsx)에 추가하여 전역에서 사용하게 하였습니다.
-    - 로그인 성공, 실패 / 메시지 전송 성공, 실패 와 같은 상태를 표시합니다
+    - 로그인 성공, 실패 / 메시지 전송 성공, 실패 와 같은 상태를 표시합니다.
 * 메시지를 날짜별로 묶고 랜더링하게 했습니다.
   - 프론트에서 메시지를 가공하지 않고, 백엔드에서 [날짜별로 메세지가 묶이게 로직을짜고](https://github.com/YeonghunKO/chat-app-server/blob/80b9bd1b6b2a0abd9cfd89008a064aa0ee480419/controller/MessageController.ts#L80) 넘겨주게 코드를 수정했습니다. 이로써 프론트에서는 넘겨받은 데이터를 그대로 표시하기만 하면 됩니다.
 * 메시지 검색결과를 클릭하게 하고 클릭시 해당 메시지로 커서가 이동하게 했습니다.
