@@ -33,7 +33,7 @@
 대략적으로 2023년 8월 01일 ~ 현재
 
 ## ⛏개선 사항
-_**아래는 기존코드의 문제점이 있다고 판단되어 개선하거나 새롭게 추가한 사항들입니다.**_
+_**아래는 기존코드에 문제점이 있다고 판단되어 개선하거나 새롭게 추가한 사항들입니다.**_
 
 * jest, react-testing-library를 이용해 [테스트 코드](https://github.com/YeonghunKO/chat-app-client/tree/main/__test__)를 작성하였습니다.
     - A(arrange)A(act)A(assert) 구조로 테스트를 구분하고 주석처리하여 문서화 시켰습니다
