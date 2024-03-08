@@ -42,7 +42,7 @@ _**아래는 클론코드 강의에 없는 기능이지만 필요하다고 생�
     
 * 기존 코드에서는 useReducer와 useContext를 이용해서 서버와 클라이언트의 상태를 관리하고 있었습니다.
     - 그러나 코드가 너무 길어지고 복잡해져서 서버를 react-query , 클라이언트를 zustand로 관리하였습니다
-* 일정기간이 지나면 token이 만료되면서 로그인 페이지로 [리다이렉트](https://github.com/YeonghunKO/chat-app-client/blob/main/src/pages/index.tsx#L85) 시켜 다시 로그인하게 하였습니다.
+* 일정기간이 지나면 token이 만료되면서 로그인 페이지로 [리다이렉트](https://github.com/YeonghunKO/chat-app-client/blob/main/src/pages/index.tsx#L139) 시켜 다시 로그인하게 하였습니다.
 * 낙관적업데이트를 사용해 보낸 텍스트 메시지가 [바로 표시](https://github.com/YeonghunKO/chat-app-client/blob/main/src/hooks/useQueryAccount.ts#L151)되게 하였습니다.
     - 단, 이미지나 오디오 메시지는 서버에서 저장되고 저장된 위치의 static path가 응답으로 와야만 클라이언트에서 표시가능합니다.
     - 따라서, 이미지나 오디오의 message field를 보낸 직후엔 [`undefined`](https://github.com/YeonghunKO/chat-app-client/blob/main/src/hooks/useQueryAccount.ts#L260)로 설정합니다.(undefined일 경우 [로딩바](https://github.com/YeonghunKO/chat-app-client/blob/main/src/components/ChatBox/ImageMessage.tsx#L48)가 메시지에 표시됩니다.)
