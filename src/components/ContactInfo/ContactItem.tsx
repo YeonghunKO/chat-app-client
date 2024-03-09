@@ -58,7 +58,7 @@ const ContactItem = ({
       </div>
       <div className="w-[80%] border-b-[1px] border-b-conversation-border">
         <h2 className="flex items-center justify-between ">
-          <span>{name}</span>
+          <span className="text-white">{name}</span>
 
           <span className="pr-[17px] text-[13px] text-secondary">
             {isChatting && messageInfo
