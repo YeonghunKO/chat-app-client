@@ -36,6 +36,7 @@
 _**아래는 기존코드에 문제점이 있다고 판단되어 개선하거나 새롭게 추가한 사항들입니다.**_
 
 * jest, react-testing-library를 이용해 [테스트 코드](https://github.com/YeonghunKO/chat-app-client/tree/main/__test__)를 작성하였습니다.
+    - 컴포넌트를 리팩토링해야하거나, 새로운 기능을 추가하고 나면 항상 원래 의도한대로 잘 작동하는지 수동으로 체크해야했습니다. 그러나, 테스트 코드를 작성하면 수동테스트가 자동화되면서 불필요한 작업을 최소화할 수 있게 되었습니다.
     - A(arrange)A(act)A(assert) 구조로 테스트를 구분하고 주석처리하여 문서화 시켰습니다.
     - 반복된 코드를 줄이기 위해 [setUp](https://github.com/YeonghunKO/chat-app-client/blob/86f77ae77612d935faf70a310e2218398fc809a0/__test__/login.test.tsx#L18)과 [customRender](https://github.com/YeonghunKO/chat-app-client/blob/main/__test__/customRender.tsx)를 활용하였습니다.
     - [msw를 활용하여 서버를 모킹](https://github.com/YeonghunKO/chat-app-client/blob/main/src/mocks/server.ts)하였습니다. 이로써, 서버의 상태와 관계없이 독립적으로 컴포넌트와 함수를 테스트 할 수 있게 되었습니다.
